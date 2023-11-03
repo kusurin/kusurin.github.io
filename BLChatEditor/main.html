@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLChatEditor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/darcula.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/css-hint.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/show-hint.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/search/search.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/search/searchcursor.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/search/jump-to-line.min.js"></script>
+    <link href="./css/app.ff413747.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 10px;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+
+        .el-textarea__inner {
+            display: block;
+        }
+
+        #example-container {
+            height: unset !important;
+        }
+
+        yt-live-chat-renderer[background-mode="light"] {
+            background-image:
+                linear-gradient(45deg, #dbdbdb 25%, transparent 0, transparent 75%, #dbdbdb 0),
+                linear-gradient(45deg, #dbdbdb 25%, transparent 0, transparent 75%, #dbdbdb 0) !important;
+            background-color: #fff !important;
+            background-position: 0 0, 15px 15px !important;
+            background-size: 30px 30px !important;
+        }
+
+        yt-live-chat-renderer[background-mode="dark"] {
+            background-image:
+                linear-gradient(45deg, #535353 25%, transparent 0, transparent 75%, #535353 0),
+                linear-gradient(45deg, #535353 25%, transparent 0, transparent 75%, #535353 0) !important;
+            background-color: #898989 !important;
+            background-position: 0 0, 15px 15px !important;
+            background-size: 30px 30px !important;
+        }
+
+        .danmaku {
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-v-5926b782="" id="example-container" class="">
+        <div data-v-5926b782="" id="fakebody">
+            <yt-live-chat-renderer id="danmaku-container" hide-timestamps background-mode="light"
+                onclick="renderer_background_change()">
+                <yt-live-chat-text-message-renderer medal-level="5" author-type="" privilegetype="0"
+                    class="style-scope yt-live-chat-item-list-renderer danmaku">
+                    <div id="card" class="style-scope yt-live-chat-text-message-renderer">
+                        <yt-img-shadow loaded="" class="no-transition style-scope yt-live-chat-text-message-renderer"
+                            id="author-photo">
+                            <img id="img" alt="" height="24" width="24" src="./img/author-photo.png"
+                                class="style-scope yt-img-shadow"></yt-img-shadow>
+                        <div id="content" class="style-scope yt-live-chat-text-message-renderer">
+                            <yt-live-chat-author-chip class="style-scope yt-live-chat-text-message-renderer">
+                                <span id="timestamp" class="style-scope yt-live-chat-text-message-renderer">23:45</span>
+                                <span id="author-name" dir="auto" type=""
+                                    class="style-scope yt-live-chat-author-chip">用y户j昵g称<span id="chip-badges"
+                                        class="style-scope yt-live-chat-author-chip"></span></span>
+                                <span id="chat-medal"
+                                    class="style-scope yt-live-chat-author-chip"><yt-live-chat-author-medal-renderer
+                                        medal-name="玲喵" medal-nevel="5" class="style-scope yt-live-chat-author-chip">
+                                        <div id="medal-card" class="style-scope yt-live-chat-author-medal-renderer">
+                                            <div id="medal-name" class="style-scope yt-live-chat-author-medal-renderer">
+                                                粉y丝j牌
+                                            </div>
+                                            <div id="medal-level"
+                                                class="style-scope yt-live-chat-author-medal-renderer">5
+                                            </div>
+                                        </div>
+                                    </yt-live-chat-author-medal-renderer></span>
+                                <span id="chat-badges"
+                                    class="style-scope yt-live-chat-author-chip"><yt-live-chat-author-badge-renderer
+                                        type="member" class="style-scope yt-live-chat-author-chip">
+                                        <div id="image"
+                                            class="el-tooltip style-scope yt-live-chat-author-badge-renderer"
+                                            aria-describedby="el-tooltip-2410" tabindex="0"><img
+                                                src="./img/guard-level-3.png" alt="舰长"
+                                                class="style-scope yt-live-chat-author-badge-renderer"><!----></div>
+                                    </yt-live-chat-author-badge-renderer></span>
+                            </yt-live-chat-author-chip>
+                            <div id="image-and-message" class="style-scope yt-live-chat-text-message-renderer"><span
+                                    id="message" display="block"
+                                    class="style-scope yt-live-chat-text-message-renderer">弹幕内容yjg弹幕内容</span>
+                            </div>
+                        </div>
+                    </div>
+                </yt-live-chat-text-message-renderer>
+                <yt-live-chat-paid-message-renderer allow-animations="" giftname="superchat" price="100"
+                    price-level="100"
+                    class="style-scope yt-live-chat-item-list-renderer style-scope yt-live-chat-item-list-renderer danmaku">
+                    <div id="card" class="style-scope yt-live-chat-paid-message-renderer">
+                        <div id="header" class="style-scope yt-live-chat-paid-message-renderer"><yt-img-shadow
+                                height="40" width="40" loaded=""
+                                class="no-transition style-scope yt-live-chat-paid-message-renderer"
+                                id="author-photo"><img id="img" alt="" height="40" width="40"
+                                    src="./img/author-photo.png" class="style-scope yt-img-shadow"></yt-img-shadow>
+                            <div id="header-content" class="style-scope yt-live-chat-paid-message-renderer">
+                                <div id="header-content-primary-column"
+                                    class="style-scope yt-live-chat-paid-message-renderer">
+                                    <div id="author-name" class="style-scope yt-live-chat-paid-message-renderer">用y户j昵g称
+                                    </div>
+                                    <div id="purchase-amount" class="style-scope yt-live-chat-paid-message-renderer">
+                                        CN¥1000
+                                    </div>
+                                </div><span id="timestamp"
+                                    class="style-scope yt-live-chat-paid-message-renderer">23:45</span>
+                            </div>
+                        </div>
+                        <div id="content" class="style-scope yt-live-chat-paid-message-renderer">
+                            <div id="message" dir="auto" class="style-scope yt-live-chat-paid-message-renderer">
+                                弹幕内容yjg弹幕内容</div>
+                        </div>
+                    </div>
+                </yt-live-chat-paid-message-renderer>
+                <yt-live-chat-membership-item-renderer show-only-header="" privilegetype="3"
+                    class="style-scope yt-live-chat-item-list-renderer style-scope yt-live-chat-item-list-renderer danmaku">
+                    <div id="card" class="style-scope yt-live-chat-membership-item-renderer">
+                        <div id="header" class="style-scope yt-live-chat-membership-item-renderer"><yt-img-shadow
+                                height="40" width="40" loaded=""
+                                class="no-transition style-scope yt-live-chat-membership-item-renderer"
+                                id="author-photo"><img id="img" alt="" height="40" width="40"
+                                    src="./img/author-photo.png" class="style-scope yt-img-shadow"></yt-img-shadow>
+                            <div id="header-content" class="style-scope yt-live-chat-membership-item-renderer">
+                                <div id="header-content-primary-column"
+                                    class="style-scope yt-live-chat-membership-item-renderer">
+                                    <div id="header-content-inner-column"
+                                        class="style-scope yt-live-chat-membership-item-renderer">
+                                        <yt-live-chat-author-chip
+                                            class="style-scope yt-live-chat-membership-item-renderer"><span
+                                                id="author-name" dir="auto" type=""
+                                                class="style-scope yt-live-chat-author-chip member">用y户j昵g称<span
+                                                    id="chip-badges"
+                                                    class="style-scope yt-live-chat-author-chip"></span></span><span
+                                                id="chat-badges"
+                                                class="style-scope yt-live-chat-author-chip"><yt-live-chat-author-badge-renderer
+                                                    type="member" class="style-scope yt-live-chat-author-chip">
+                                                    <div id="image"
+                                                        class="el-tooltip style-scope yt-live-chat-author-badge-renderer"
+                                                        aria-describedby="el-tooltip-8867" tabindex="0"><img
+                                                            src="./img/guard-level-3.png" alt="舰长"
+                                                            class="style-scope yt-live-chat-author-badge-renderer"><!---->
+                                                    </div>
+                                                </yt-live-chat-author-badge-renderer></span></yt-live-chat-author-chip>
+                                    </div>
+                                    <div id="header-subtext" class="style-scope yt-live-chat-membership-item-renderer">
+                                        新会员
+                                    </div>
+                                </div>
+                                <div id="timestamp" class="style-scope yt-live-chat-membership-item-renderer">23:45
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </yt-live-chat-membership-item-renderer>
+            </yt-live-chat-renderer>
+        </div>
+    </div>
+    <script>
+        function renderer_background_change() {
+            var renderer = document.getElementsByTagName("yt-live-chat-renderer")[0];
+
+            var background_chain = { "light": "dark", "dark": "light" };
+
+            renderer.setAttribute("background-mode", background_chain[renderer.getAttribute("background-mode")])
+        }
+    </script>
+    <div id="css-input">
+        <label>danmaku</label>
+        <select id="danmaku_selector" onchange="danmaku_change()">
+            <option value="all" selected="TRUE">all</option>
+            <option value="yt-live-chat-text-message-renderer">yt-live-chat-text-message-renderer
+            </option>
+            <option value="yt-live-chat-paid-message-renderer">yt-live-chat-paid-message-renderer</option>
+            <option value="yt-live-chat-membership-item-renderer">yt-live-chat-membership-item-renderer</option>
+        </select>
+        <script>
+            function danmaku_change() {
+                var selector = document.getElementById("danmaku_selector");
+
+                if (selector.value != 'all') {
+                    Array.from(document.getElementsByClassName("danmaku")).forEach(element => {
+                        element.style.display = "none";
+                    });
+
+                    document.getElementsByTagName(selector.value)[0].style.display = "block";
+                }
+
+                else if (selector.value == 'all') {
+                    Array.from(document.getElementsByClassName("danmaku")).forEach(element => {
+                        element.style.display = "block";
+                    });
+                }
+            }
+        </script>
+        <button onclick="navigator.clipboard.writeText(document.getElementById('editstyle').innerText)">copy</button>
+        <button
+            onclick="editor.setValue(document.getElementById('default-style').getAttribute('value'))">import</button>
+        <textarea autocomplete="off" rows="20" class="el-textarea__inner"></textarea>
+        <script>
+            function highlight_textarea() {
+                var head = document.getElementsByTagName('head')[0];
+                // 建立新style
+                var edit_style = document.createElement('style');
+                edit_style.id = 'editstyle';
+                head.appendChild(edit_style);
+                // 替换textarea
+                let inputbox = document.getElementsByTagName('textarea')[0];
+
+                window.editor = CodeMirror.fromTextArea(inputbox, {
+                    mode: "text/css", //css
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    theme: 'darcula',
+                    dragDrop: false,
+                    indentUnit: 4
+                });
+                var style_store = localStorage.getItem('style_store');
+                function load_last_style() {
+                    editor.setValue(style_store);
+                }
+                setTimeout(load_last_style, 1000)
+                editor.setSize(null, '50vh');
+                // 更新style
+                var newstyle;
+
+                var updateStyle = function () {
+                    newstyle = editor.getValue();
+                    edit_style.innerHTML = newstyle;
+                    localStorage.setItem('style_store', editor.getValue());
+                }
+
+                updateStyle();
+                // 延迟操作块执行
+                var timer;
+                document.onkeydown = function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(updateStyle, 500);
+                }
+
+                editor.on("inputRead", function (instance) {
+                    if (instance.state.completionActive) {
+                        return;
+                    }
+                    var cur = instance.getCursor();
+                    var token = instance.getTokenAt(cur);
+                    if (token.type && token.type != "comment") {
+                        CodeMirror.commands.autocomplete(instance);
+                    }
+                })
+            }
+            window.addEventListener('load', highlight_textarea, false);
+        </script>
+    </div>
+    <div id="atrri-input">
+
+    </div>
+</body>
+<input id="default-style" style="display: none;" value="/* 普通 start */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) {
+    margin: 25px 30px !important;
+    padding: 0px 0px 0px 150px !important;
+    overflow: visible !important;
+}
+
+/* 普通-card */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #card {
+    width: 100% !important;
+}
+
+/* 普通--昵称+文字 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content {
+    position: relative !important;
+    width: 100% !important;
+
+    border: 0px !important;
+    border-radius: 0px;
+
+    margin: 0px 0px 0px 0px !important;
+    padding: 22px 45px 16px 20px !important;
+
+    background-color: #fff !important;
+}
+
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content::before {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    content: &quot;&quot;;
+    display: block;
+    height: 37px;
+    width: 44px;
+    background:rgba(0,0,0,0.5) no-repeat;
+    z-index: 1000;
+}
+
+/* 普通--昵称总体 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) yt-live-chat-author-chip {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    max-width: calc(100% - 40px) !important;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+    background: rgba(255,0,0,0.5) !important;
+}
+
+/* 普通--昵称 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name {
+    font: bold 26px / 1em &quot;思源黑体 CN&quot; !important;
+    color: #fff !important;
+
+    padding: 4px 10px 6px 30px !important;
+
+    background: transparent !important;
+
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    z-index: 100;
+}
+
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name::before {
+    display: inline-block !important;
+    position: absolute !important;
+    top: 11px;
+    left: 7px;
+    content: &quot;&quot;;
+    height: 16px;
+    width: 20px;
+    background:rgba(255,0,0,0.5);
+    z-index: 101;
+}
+
+/* 普通-弹幕外层 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) :is(#image-and-message, #message) {
+    overflow: visible !important;
+    font: bold 35px / 1.1em &quot;思源黑体 CN&quot; !important;
+}
+
+/* 普通--文字 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #message {
+    color: #323870 !important;
+    font: bold 35px / 1.1em &quot;思源黑体 CN&quot; !important;
+}
+
+/* 普通--头像总体 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+    height: 100px !important;
+    width: 100px !important;
+    overflow: visible !important;
+    z-index: 120;
+}
+
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo::before {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    content: &quot;&quot;;
+    height: 110px;
+    width: 110px;
+    background: rgba(0,0,255,0.5);
+    z-index: 100;
+}
+
+/* 普通--头像img */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo img {
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 11px !important;
+}
+/* 普通 end */
+
+
+/*上舰-总体最外层*/
+yt-live-chat-membership-item-renderer {
+    margin: 25px 30px !important;
+    overflow: visible !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+/*上舰-总体最外层-内一层*/
+yt-live-chat-membership-item-renderer #card {
+    overflow: visible !important;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+    height: 100px;
+
+    background-color: rgba(255,255,255,0.5) !important;
+}
+
+yt-live-chat-membership-item-renderer #card::before {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    content: &quot;&quot;;
+    height: 50px;
+    width: 100px;
+    background: rgba(0,0,0,0.5);
+    z-index: 80;
+}
+
+/*上舰-总体最外层-内二层,这是包着头像和（昵称+new member）的那一层*/
+yt-live-chat-membership-item-renderer #header {
+    background-color: transparent !important;
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    padding: 0px !important;
+}
+
+/* 上舰-头像框总体 */
+yt-live-chat-membership-item-renderer yt-img-shadow {
+    position: absolute !important;
+    bottom: 4px !important;
+    right: 15px !important;
+    height: 100px !important;
+    width: 100px !important;
+    overflow: visible !important;
+
+    margin: 0px !important;
+
+    z-index: 110;
+}
+
+yt-live-chat-membership-item-renderer yt-img-shadow::before {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    content: &quot;&quot;;
+    height: 110px;
+    width: 110px;
+    background:rgba(0,0,255,0.5);
+    z-index: 120;
+}
+
+
+/* 上舰-头像框总体----img标签 */
+yt-live-chat-membership-item-renderer yt-img-shadow img {
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+}
+
+yt-live-chat-membership-item-renderer #header-content {
+    width: 100% !important;
+    display: block !important;
+
+    height: 100px;
+    overflow: hidden;
+}
+
+yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
+    width: calc(100% - 270px) !important;
+    position: relative;
+    top: 9px;
+    left: 150px;
+
+    padding: 3px 0px 5px 0px;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+    background-color: rgba(255, 255, 255, 0.2);
+
+    display: flex !important;
+    justify-content: center !important;
+
+    white-space: nowrap !important;
+    font: bold 37px / 1em &quot;思源黑体 CN&quot; !important;
+}
+
+/* 上舰-昵称 */
+yt-live-chat-membership-item-renderer #author-name {
+    font: inherit !important;
+    color: #fff !important;
+
+    max-width: calc(100% - 190px) !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+
+    z-index: 120;
+}
+
+yt-live-chat-membership-item-renderer yt-live-chat-author-chip::before {
+    content: &quot;欢迎&quot;;
+    padding: 0px 10px !important;
+}
+
+yt-live-chat-membership-item-renderer yt-live-chat-author-chip::after {
+    content: &quot;上舰&quot;;
+    padding: 0px 10px !important;
+}
+
+yt-live-chat-membership-item-renderer #header-subtext {
+    display: none;
+}
+/* 上舰-end */
+
+
+/* 礼物 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) {
+    margin: 25px 30px !important;
+    overflow: visible !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #card {
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+/* 礼物-上半部分 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header {
+    margin: 0px !important;
+
+    height: 45px !important;
+
+    width: 100% !important;
+    border-width: 0px !important;
+    border-radius: 0px;
+
+    background-color: rgba(255,0,0,0.5) !important;
+
+    padding: 0px !important;
+}
+
+/* 礼物-头像总体 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo {
+    position: absolute !important;
+    top: 5px !important;
+    left: 22px !important;
+    height: 100px !important;
+    width: 100px !important;
+    overflow: visible !important;
+    z-index: 110;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo::before {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    content: &quot;&quot;;
+    height: 110px;
+    width: 110px;
+    background: rgba(0,0,255,0.5);
+    z-index: 120;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo img {
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+}
+
+/* 礼物-昵称+钱 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header-content {
+    width: 100% !important;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header-content-primary-column {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-direction: row !important;
+
+    max-width: calc(100% - 200px) !important;
+
+    margin: 0px 20px 0px 170px !important;
+    z-index: 10;
+}
+
+/* 礼物-昵称 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
+    position: relative !important;
+
+    font: bold 26px / 1em &quot;思源黑体 CN&quot; !important;
+    color: #fff !important;
+
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    padding: 3px 7px 2px 35px !important;
+    z-index: 200 !important;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name::before {
+    position: absolute !important;
+    left: 5px;
+    top: 3px;
+    content: &quot;&quot;;
+    background: rgba(255,0,0,0.5);
+    width: 27px;
+    height: 27px;
+}
+
+/* 礼物-钱 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #purchase-amount {
+    position: relative !important;
+    top: 5px !important;
+
+    font: bold 15px / 1.2em &quot;思源黑体 CN&quot; !important;
+    color: #fff !important;
+}
+
+/* 礼物-下半部分 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #content {
+    padding: 10px 50px 10px 150px;
+    position: relative !important;
+
+    border-radius: 0px !important;
+    border: 0px !important;
+
+    background-color: #fff;
+
+    z-index: -100;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #content::before {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    content: &quot;&quot;;
+    height: 34px;
+    width: 42px;
+    background: rgba(0,0,0,0.5);
+    z-index: 120;
+}
+
+/* 礼物-下半部分-文字 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #message {
+    font: bold 36px / 1.1em &quot;思源黑体 CN&quot; !important;
+    color: #000 !important;
+
+    padding: 0px 10px 0px 20px !important;
+}
+
+/* 当留言为空时,不要隐藏 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
+    display: block !important;
+    min-height: 40px !important;
+}
+/* 礼物-end */
+
+/* 其他样式-start */
+
+#example-container {
+    width: 800px
+}
+
+main div[style=&quot;padding-left: 10px; padding-right: 10px;&quot;]:first-child {
+    width: 600px !important;
+}
+
+
+/* b站表情包 */
+yt-live-chat-text-message-renderer #image-and-message .emoji {
+    width: 100px !important;
+    height: auto !important;
+    padding-top: 2px;
+}
+
+/* 自定义表情包 */
+yt-live-chat-text-message-renderer #image-and-message .image {
+    display: inline-block !important;
+    margin: 0px 5px !important;
+    padding-top: 15px;
+}
+/* 背景为透明 */
+body,
+yt-live-chat-renderer {
+    background-color: transparent !important;
+}
+
+/*隐藏滚轮*/
+yt-live-chat-renderer ::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* super chat背景透明 */
+yt-live-chat-ticker-renderer {
+    background-color: transparent !important;
+}
+
+/* 去掉昵称旁的勋章文字 */
+yt-live-chat-author-medal-renderer:not([is-fan-group]),
+#medal-card,
+#medal-name {
+    display: none !important;
+}
+
+/* 去掉昵称旁的勋章图标 */
+#medal-level,
+#chat-badges {
+    display: none !important;
+}
+
+yt-live-chat-ticker-renderer {
+    display: none !important;
+}">
+
+</html>

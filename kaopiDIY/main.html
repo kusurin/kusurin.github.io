@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>铸铸</title>
+    <style>
+        * {
+            font-family: 江城圆体, "Trebuchet MS";
+            font-weight: bold;
+        }
+
+        html {
+            font-size: 10pt;
+            display: flex;
+            justify-content: center;
+            background-color: #70238f;
+        }
+
+        body {
+
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background-color: #e7cae3;
+            padding: 15pt;
+            border: 10pt #ec23d5 solid;
+        }
+
+        button {
+            border: 4px #70238f solid;
+            border-radius: 5px;
+            background: #e7cae3;
+            font-size: 1.5rem;
+        }
+
+        button:active {
+            transform: scale(95%, 95%);
+            filter: brightness(0.8);
+        }
+
+        #canvas-container-outer {}
+
+        #canvas-container-inner {}
+
+        #paintarea {}
+
+        .canvas_opt {
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+        }
+
+        .canvas_label {
+            color: blue;
+            margin: 0px 5px;
+        }
+
+        .ghostinput,
+        #canvas-size-inner,
+        #canvas-scale-inner {
+            font-size: 1.5rem;
+            position: relative;
+            padding: 0px 0px 0px 10px;
+            width: 140pt;
+            background: #fae8f7;
+        }
+
+        #canvas-scale-inner {
+            padding: 0px !important;
+            width: calc(140pt + 10px);
+        }
+
+        #controlarea {
+            width: 300px;
+        }
+
+        .text-control-span {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            padding: 2px;
+        }
+
+        .text-control {
+            --pm-size: 10pt;
+            background-color: #e7cae3 !important;
+            border: calc(var(--pm-size) * 0.4) solid #70238f;
+            border-radius: 0;
+            box-sizing: border-box;
+            width: calc(var(--pm-size) * 2.6);
+            height: calc(var(--pm-size) * 2.6);
+            padding: 0pt;
+            margin: 0pt;
+            outline: calc(var(--pm-size) * 0.2) solid #e7cae3;
+            outline-offset: calc(0.5pt - var(--pm-size) * 0.6);
+        }
+
+
+        .text-control.plus {
+            background: linear-gradient(transparent 40%, #ec23d5 40%, #ec23d5 60%, transparent 60%) center center / 100% 100% no-repeat, linear-gradient(90deg, transparent 40%, #ec23d5 40%, #ec23d5 60%, transparent 60%) center center / 100% 100% no-repeat;
+        }
+
+        .text-control.minus {
+            background: linear-gradient(transparent 40%, #ec23d5 40%, #ec23d5 60%, transparent 60%) center center / 100% 100% no-repeat;
+        }
+
+        .inbar.text {
+            border: 3pt #ec23d5 solid;
+            background-color: #e7cae3;
+            border-radius: 5pt;
+            padding: 10pt 10pt;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .inbar.text:first-child {}
+
+        .text-input {
+            font-size: 1.5rem;
+            border: none;
+            width: 100%;
+            background: #fae8f7;
+        }
+
+        #jiangyuan_b {
+            display: none;
+
+            position: fixed;
+            top: calc(25vh - 35px);
+            left: calc(50vw - 88px);
+            --shake-size: 5px;
+            -webkit-animation: vibrate-1 1s linear infinite both;
+            animation: vibrate-1 1s linear infinite both;
+        }
+
+        #jiangyuan_b::before {
+            position: absolute;
+            left: 70%;
+            top: -20%;
+            display: block;
+            content: "💗";
+            width: auto;
+            height: auto;
+            z-index: -1;
+            animation: shake-bl 1s cubic-bezier(0.455, 0.030, 0.515, 0.955) infinite both;
+        }
+
+        @keyframes vibrate-1 {
+            0% {
+                transform: translate(0) scale(1);
+            }
+
+            20% {
+                transform: translate(calc(0px - var(--shake-size)), var(--shake-size)) scale(0.9);
+            }
+
+            40% {
+                transform: translate(calc(0px - var(--shake-size)), calc(0px - var(--shake-size))) scale(1);
+            }
+
+            60% {
+                transform: translate(var(--shake-size), var(--shake-size)) scale(1);
+            }
+
+            80% {
+                transform: translate(var(--shake-size), calc(0px - var(--shake-size))) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0) scale(1);
+            }
+        }
+
+        @keyframes shake-bl {
+
+            0%,
+            100% {
+                transform: scale(300%)rotate(15deg) rotate(0deg);
+                transform-origin: 0 100%;
+            }
+
+            10% {
+                transform: scale(300%)rotate(15deg) rotate(2deg);
+            }
+
+            20%,
+            40%,
+            60% {
+                transform: scale(300%)rotate(15deg) rotate(-4deg);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: scale(300%)rotate(15deg) rotate(4deg);
+            }
+
+            80% {
+                transform: scale(300%)rotate(15deg) rotate(-2deg);
+            }
+
+            90% {
+                transform: scale(300%)rotate(15deg) rotate(2deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="headtitle">
+    </div>
+
+    <div id="canvas-container-outer">
+        <div id="canvas-container-inner">
+            <canvas id="paintarea" style="width:300px;height:300px;">
+
+            </canvas>
+        </div>
+        <div id="canvas-size" class="canvas_opt">
+            <span id="size-label" class="canvas_label">size(px)</span><span id="canvas-size-outer"><input type="text"
+                    class="ghostinput" style="width: 0 !important;padding: 0!important;border: none!important;"><input
+                    type="text" list="default-size" id="canvas-size-inner" value="300*300"></span>
+            <datalist id="default-size">
+                <option value="300*300">
+                <option value="400*400">
+                <option value="600*600">
+                <option value="800*800">
+                <option value="depend on img">
+            </datalist>
+        </div>
+        <!--
+    <div id="canvas-scale" class="canvas_opt">
+      <span id="scale-label" class="canvas_label">scale</span><input id="canvas-scale-inner" type="range" min="0"
+        max="200" value="100" list="defaul-scale"></span>
+    </div>
+-->
+    </div>
+
+    <div id="controlarea">
+        <div id="texts">
+            <div class="inbar text" id="default-text">
+                <span class="text-control-span">
+                    <button class="text-control plus" onclick="text_box_append()"></button>
+                    <button class="text-control minus" onclick="text_box_dele()"></button>
+                </span>
+                <label class="text-id">default-text</label>
+                <input type="text" class="text-input input-box" value="suki!">
+                <label>font-size</label>
+                <input type="number" class="text-input font-size" value="20">
+                <label>font-family</label>
+                <select class="text-input font-select" onclick="show_jy_b()" onblur="hide_jy_b()">
+                    <option value="Arial" selected="TRUE">Arial</option>
+                    <option value="Helvetica">Helvetica</option>
+                </select>
+                <label>z-index</label>
+                <input type="number" class="text-input z-index" value="0">
+            </div>
+            <button id="jiangyuan_b" onclick="jy_dl()">💗download💗<br>my cute font</button>
+
+            <script>
+                var box_num = 1;
+
+                function font_append(font_name) {
+                    let font_select = document.getElementsByClassName("font-select");
+                    [].forEach.call(font_select, function (node) {
+                        let new_font = document.createElement('option');
+                        new_font.value = font_name;
+                        new_font.innerHTML = font_name;
+                        node.appendChild(new_font);
+                    });
+                }
+
+                function jy_dl() {
+                    let head = document.getElementsByTagName('head')[0];
+                    let jy_dl = document.createElement('style');
+                    jy_dl.id = "jy-dl";
+                    jy_dl.innerHTML = '@font-face \{ font-family: 江城圆体\; src:url(\"./fonts/江城圆体 600W.ttf\")}';
+                    head.appendChild(jy_dl);
+
+                    font_append("江城圆体");
+                }
+
+                function show_jy_b() {
+                    let jy_b = document.getElementById("jiangyuan_b");
+                    if (!document.getElementById("jy-dl"))
+                        jy_b.style.display = "block";
+                }
+                function hide_jy_b() {
+                    let jy_b = document.getElementById("jiangyuan_b");
+                    setTimeout(function () { jy_b.style.display = "none" }, 100);
+                }
+
+                function text_box_append(e) {
+                    let obj = event.target || window.event.srcElement;
+
+                    let boxs = document.getElementsByClassName("inbar text");
+
+                    let new_box = document.createElement("div");
+                    new_box.className = "inbar text";
+                    new_box.id = "text" + box_num;
+                    box_num += 1;
+                    new_box.innerHTML = document.getElementById("default-text").innerHTML;
+                    new_box.getElementsByClassName("text-id")[0].innerHTML = new_box.id;
+                    new_box.getElementsByClassName("input-box")[0].value = "";
+                    new_box.getElementsByClassName("z-index")[0].value = Number(obj.parentNode.parentNode.getElementsByClassName("z-index")[0].value) + 1;
+
+                    document.getElementById("texts").insertBefore(new_box, obj.parentNode.parentNode.nextSibling);
+                }
+
+                function text_box_dele(e) {
+                    let obj = event.target || window.event.srcElement;
+                    if (obj.parentNode.parentNode.getElementsByClassName("text-id")[0].innerHTML == "default-text") return;
+                    obj.parentNode.parentNode.remove();
+                }
+            </script>
+            <button id="upfont_b" onclick="upfont.click()">upload custom font</button>
+            <input type="file" name="upfont" id="upfont" style="display: none;" accept=".ttf,.otf,.woff"
+                onchange="font_upload()">
+            <script>
+                function font_upload(e) {
+                    let obj = event.target || window.event.srcElement;
+                    let fileObj = new FileReader();
+                    if (obj.files[0] != null) {
+                        let upfile = obj.files[0];
+                        fileObj.readAsDataURL(upfile);
+                        fileObj.onload = function () {
+                            let head = document.getElementsByTagName('head')[0];
+                            let new_font = document.createElement('style');
+                            let font_name = obj.value.match(/.+(?=\.)/)[0].match(/[^\\]+$/)[0];
+                            var reg_space = new RegExp("[ ]", "g");
+                            font_name = font_name.replace(reg_space, "");
+                            new_font.className = "heyDontUnfoldIt-" + font_name;
+                            new_font.innerHTML = '@font-face \{ font-family:' + font_name + '\; src: url(' + fileObj.result + ')}';
+                            head.appendChild(new_font);
+
+                            font_append(font_name);
+
+                            let apply = document.createElement('style');
+                            apply.innerHTML = '*{ font-family:' + font_name + ';}';
+                            head.appendChild(apply);
+                        }
+                    }
+                }
+            </script>
+        </div>
+
+        <div class="inbar back" id="back-image">
+            <div id="default">
+            </div>
+            <div id="custom">
+                <div>
+                    <img id="img-display" style="display: none;width: 300px;height: auto;">
+                </div>
+                <button id="custom-switch" onclick="upimg.click()">activate custom img</button>
+                <input type="file" name="upimg" id="upimg" style="display: none;" accept=".png,.jpg,.webp"
+                    onchange="img_upload()">
+            </div>
+            <script>
+                var imgs = [];
+
+                function img_upload(e) {
+                    var img_name;
+                    var img_src
+
+                    let obj = event.target || window.event.srcElement;
+                    let fileObj = new FileReader();
+                    if (obj.files[0] != null) {
+                        let upfile = obj.files[0];
+                        fileObj.readAsDataURL(upfile);
+                        fileObj.onload = function () {
+                            img_name = obj.value.match(/.+(?=\.)/)[0].match(/[^\\]+$/)[0];
+                            let reg_space = new RegExp("[ ]", "g");
+                            img_name = img_name.replace(reg_space, "");
+                            img_src = fileObj.result;
+
+                            imgs[0] = { name: img_name, src: img_src };
+
+                            let img_display = document.getElementById("img-display");
+                            img_display.name = img_name;
+                            img_display.src = img_src;
+                            img_display.style.display = "block";
+                        }
+                    }
+
+                }
+            </script>
+        </div>
+        <div id="hidden-ele" style="display: none;">
+            <!--
+      <select name="font-select-hidden" id="font-select-hidden">
+        <option value="Arial">Arial</option>
+        <option value="Helvetica">Helvetica</option>
+      </select>
+-->
+        </div>
+    </div>
+
+    <script>
+        var size = document.getElementById('canvas-size-inner');
+        var ghost = document.getElementById('ghostinput');
+        var canvas = document.getElementById('paintarea');
+        var canvas_inner = document.getElementById('canvas-container-inner');
+        var custom_scale = document.getElementById('canvas-scale-inner');
+
+        function size_update() {
+            var canvas_width, canvas_height;
+
+            if (/.*(?=\*)/.test(size.value) && /(?<=\*).*/.test(size.value)) {
+                canvas_width = size.value.match(/.*(?=\*)/)[0];
+                canvas_height = size.value.match(/(?<=\*).*/)[0];
+            }
+
+            if (/^[0-9]*$/.test(canvas_height) && /^[0-9]*$/.test(canvas_height)) {
+                canvas.style.width = canvas_width + 'px';
+                canvas.style.height = canvas_height + 'px';
+                //canvas.style.transform = 'scale(' + 300 / canvas_width * custom_scale.value / 100 + ')';
+                //canvas.style.margin = (-canvas_height * (1 - 300 / canvas_width * custom_scale.value / 100)) / 2 + 'px ' + (-canvas_width + 300 * custom_scale.value / 100) / 2 + 'px';
+                //if (custom_scale < 100)
+                //  canvas.style.paddingLeft = (300 - 300 * custom_scale.value / 100) / 2 + 'px';
+                canvas.style.transform = 'scale(' + 300 / canvas_width * 1 + ')';
+                canvas.style.margin = (-canvas_height * (1 - 300 / canvas_width * 1)) / 2 + 'px ' + (-canvas_width + 300 * 1) / 2 + 'px';
+                return;
+            }
+            if (/depend on img/.test(size.value)) {
+                canvas.style.width = '42px';
+                canvas.style.height = '42px';
+                return;
+            }
+            size.value = '小朋友不可以这样'
+        };
+        size.onchange = size_update;
+
+        /*
+        custom_scale.onchange = function () {
+          if (custom_scale.value >= 90 && custom_scale.value <= 110)
+            custom_scale.value = 100;
+          size_update();
+        }
+        */
+
+        size.onclick = function () {
+            size.value = '';
+            ghost.focus();
+            size.focus();
+        };
+
+
+
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'red';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);;
+        }
+    </script>
+</body>
+
+</html>
