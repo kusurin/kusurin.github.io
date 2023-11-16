@@ -273,6 +273,51 @@
     </div>
 </body>
 <input id="default-style" style="display: none;" value="/* 普通 start */
+/* b站表情包 */
+yt-live-chat-text-message-renderer #image-and-message .emoji {
+    display: inline-block !important;
+    width: 100px !important;
+    height: auto !important;
+}
+/* 自定义表情包 */
+yt-live-chat-text-message-renderer #image-and-message .image {
+    display: inline-block !important;
+    margin: 0px 5px !important;
+}
+
+/* 其他样式-start */
+/* 背景为透明 */
+body,
+yt-live-chat-renderer {
+    background: transparent !important;
+}
+
+/*隐藏滚轮*/
+yt-live-chat-renderer ::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* super chat背景透明 */
+yt-live-chat-ticker-renderer {
+    background: transparent !important;
+}
+
+/* 去掉昵称旁的勋章文字 */
+yt-live-chat-author-medal-renderer:not([is-fan-group]),
+#chip-badges {
+    display: none !important;
+}
+
+/* 去掉昵称旁的勋章图标 */
+#chat-medal,
+#chat-badges {
+    display: none !important;
+}
+
+yt-live-chat-ticker-renderer {
+    display: none !important;
+}
+
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) {
     margin: 25px 30px !important;
     padding: 0px 0px 0px 150px !important;
@@ -295,7 +340,7 @@
     margin: 0px 0px 0px 0px !important;
     padding: 22px 45px 16px 20px !important;
 
-    background-color: #fff !important;
+    background: #fff !important;
 }
 
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content::before {
@@ -337,7 +382,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    z-index: 100;
+    z-index: 2000;
 }
 
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name::before {
@@ -353,9 +398,11 @@
 }
 
 /* 普通-弹幕外层 */
-:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) :is(#image-and-message, #message) {
+:is(yt-live-chat-text-message-renderer #image-and-message, yt-live-chat-interact-message-renderer #message) {
+    display: block;
     overflow: visible !important;
-    font: bold 35px / 1.1em &quot;思源黑体 CN&quot; !important;
+    position: relative;
+    z-index: 1000;
 }
 
 /* 普通--文字 */
@@ -372,7 +419,7 @@
     height: 100px !important;
     width: 100px !important;
     overflow: visible !important;
-    z-index: 120;
+    z-index: 3000;
 }
 
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo::before {
@@ -410,7 +457,7 @@ yt-live-chat-membership-item-renderer #card {
     border-radius: 0px !important;
     height: 100px;
 
-    background-color: rgba(255,255,255,0.5) !important;
+    background: rgba(255,255,255,0.5) !important;
 }
 
 yt-live-chat-membership-item-renderer #card::before {
@@ -426,7 +473,7 @@ yt-live-chat-membership-item-renderer #card::before {
 
 /*上舰-总体最外层-内二层,这是包着头像和（昵称+new member）的那一层*/
 yt-live-chat-membership-item-renderer #header {
-    background-color: transparent !important;
+    background: transparent !important;
     position: relative !important;
     display: block !important;
     width: 100% !important;
@@ -484,7 +531,7 @@ yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
 
     border: 0px !important;
     border-radius: 0px !important;
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
 
     display: flex !important;
     justify-content: center !important;
@@ -544,7 +591,7 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #header {
     border-width: 0px !important;
     border-radius: 0px;
 
-    background-color: rgba(255,0,0,0.5) !important;
+    background: rgba(255,0,0,0.5) !important;
 
     padding: 0px !important;
 }
@@ -636,7 +683,7 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #content {
     border-radius: 0px !important;
     border: 0px !important;
 
-    background-color: #fff;
+    background: #fff;
 
     z-index: -100;
 }
@@ -672,56 +719,4 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
 #example-container {
     width: 800px
 }
-
-main div[style=&quot;padding-left: 10px; padding-right: 10px;&quot;]:first-child {
-    width: 600px !important;
-}
-
-
-/* b站表情包 */
-yt-live-chat-text-message-renderer #image-and-message .emoji {
-    width: 100px !important;
-    height: auto !important;
-    padding-top: 2px;
-}
-
-/* 自定义表情包 */
-yt-live-chat-text-message-renderer #image-and-message .image {
-    display: inline-block !important;
-    margin: 0px 5px !important;
-    padding-top: 15px;
-}
-/* 背景为透明 */
-body,
-yt-live-chat-renderer {
-    background-color: transparent !important;
-}
-
-/*隐藏滚轮*/
-yt-live-chat-renderer ::-webkit-scrollbar {
-    display: none !important;
-}
-
-/* super chat背景透明 */
-yt-live-chat-ticker-renderer {
-    background-color: transparent !important;
-}
-
-/* 去掉昵称旁的勋章文字 */
-yt-live-chat-author-medal-renderer:not([is-fan-group]),
-#medal-card,
-#medal-name {
-    display: none !important;
-}
-
-/* 去掉昵称旁的勋章图标 */
-#medal-level,
-#chat-badges {
-    display: none !important;
-}
-
-yt-live-chat-ticker-renderer {
-    display: none !important;
-}">
-
 </html>
