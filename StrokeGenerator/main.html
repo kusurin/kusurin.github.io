@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrokeGenerator</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="demo">
+            <div :style="{'font-size':text.size+'px','color':text.color,'text-shadow':generateCSS}">{{demoText}}</div>
+            <input v-model="demoText" type="text">
+        </div>
+        <div id="config">
+            <input v-model="stroke.color" type="text">
+            <input v-model="stroke.size" type="number">px
+            <br>
+            <input v-model="text.color" type="text">
+            <input v-model="text.size" type="number">px
+        </div>
+        <textarea v-text="generateCSS" readonly></textarea>
+        <br>
+        <button @click="getCSS">copy</button>
+    </div>
+</body>
+
+<script>
+    const { createApp, computed } = Vue
+
+    const app = createApp({
+        data() {
+            return {
+                demoText: '示例文本 Demo Text',
+                stroke: { color: '#000', size: '3' },
+                text: { color: '#fff', size: '30' }
+            }
+        },
+        computed: {
+            generateCSS() {
+                let css = '';
+                let max = 24
+                for (let i = 0; i < max; i++) {
+                    offsetx = Number(this.stroke.size) * Math.cos(2 * Math.PI * i / 20).toFixed(3)
+                    offsety = Number(this.stroke.size) * Math.sin(2 * Math.PI * i / 20).toFixed(3)
+                    css += offsetx.toString().slice(0, offsetx.toString().indexOf('.') + 5) + "px " + offsety.toString().slice(0, offsety.toString().indexOf('.') + 5) + "px " + this.stroke.color + ', '
+                }
+                return css.slice(0, -2)
+            }
+        },
+        methods: {
+            getCSS() {
+                console.log('click')
+                navigator.clipboard.writeText('text-shadow: '+this.generateCSS+';')
+            }
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>
