@@ -209,7 +209,7 @@
                 }
             }
         </script>
-        <button onclick="navigator.clipboard.writeText(document.getElementById('editstyle').innerText)">copy</button>
+        <button onclick="navigator.clipboard.writeText(editor.getValue())">copy</button>
         <button
             onclick="editor.setValue(document.getElementById('default-style').getAttribute('value'))">import</button>
         <textarea autocomplete="off" rows="20" class="el-textarea__inner"></textarea>
