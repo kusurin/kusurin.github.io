@@ -370,7 +370,8 @@ yt-live-chat-ticker-renderer {
 
 /* 普通--昵称 */
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name {
-    font: bold 26px / 1em &quot;思源黑体 CN&quot; !important;
+    font-size:26px;
+    line-height:1em;
     color: #fff !important;
 
     padding: 4px 10px 6px 30px !important;
@@ -408,7 +409,8 @@ yt-live-chat-text-message-renderer #image-and-message, yt-live-chat-interact-mes
 /* 普通--文字 */
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #message {
     color: #323870 !important;
-    font: bold 35px / 1.1em &quot;思源黑体 CN&quot; !important;
+    font-size:35px;
+    line-height:1.1em;
 }
 
 /* 普通--头像总体 */
@@ -542,7 +544,6 @@ yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
 /* 上舰-昵称 */
 yt-live-chat-membership-item-renderer #author-name {
     font-size:37px;
-    font-weight:bold;
     line-height:1em;
     color: #fff !important;
 
@@ -637,7 +638,6 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
     position: relative !important;
 
     font-size:26px;
-    font-weight:bold;
     line-height:1em;
     color: #fff !important;
 
@@ -665,7 +665,6 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #purchase-amount {
     top: 5px !important;
 
     font-size:15px;
-    font-weight:bold;
     line-height:1.2em;
     color: #fff !important;
 }
@@ -697,7 +696,6 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #content::before {
 /* 礼物-下半部分-文字 */
 yt-live-chat-paid-message-renderer:not([show-only-header]) #message {
     font-size:36px;
-    font-weight:bold;
     line-height:1.1em;
     color: #000 !important;
 
@@ -714,6 +712,7 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
 /* 其他样式-start */
 .yt-live-chat-item-list-renderer * {
     font-family: &quot;思源黑体 CN&quot; !important;
+    font-weight:bold;
 }
 
 #example-container {
