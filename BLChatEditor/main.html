@@ -537,12 +537,13 @@ yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
     justify-content: center !important;
 
     white-space: nowrap !important;
-    font: bold 37px / 1em &quot;思源黑体 CN&quot; !important;
 }
 
 /* 上舰-昵称 */
 yt-live-chat-membership-item-renderer #author-name {
-    font: inherit !important;
+    font-size:37px;
+    font-weight:bold;
+    line-height:1em;
     color: #fff !important;
 
     max-width: calc(100% - 190px) !important;
@@ -551,16 +552,6 @@ yt-live-chat-membership-item-renderer #author-name {
     text-overflow: ellipsis !important;
 
     z-index: 120;
-}
-
-yt-live-chat-membership-item-renderer yt-live-chat-author-chip::before {
-    content: &quot;欢迎&quot;;
-    padding: 0px 10px !important;
-}
-
-yt-live-chat-membership-item-renderer yt-live-chat-author-chip::after {
-    content: &quot;上舰&quot;;
-    padding: 0px 10px !important;
 }
 
 yt-live-chat-membership-item-renderer #header-subtext {
@@ -645,7 +636,9 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #header-content-prima
 yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
     position: relative !important;
 
-    font: bold 26px / 1em &quot;思源黑体 CN&quot; !important;
+    font-size:26px;
+    font-weight:bold;
+    line-height:1em;
     color: #fff !important;
 
     white-space: nowrap !important;
@@ -671,7 +664,9 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #purchase-amount {
     position: relative !important;
     top: 5px !important;
 
-    font: bold 15px / 1.2em &quot;思源黑体 CN&quot; !important;
+    font-size:15px;
+    font-weight:bold;
+    line-height:1.2em;
     color: #fff !important;
 }
 
@@ -701,7 +696,9 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #content::before {
 
 /* 礼物-下半部分-文字 */
 yt-live-chat-paid-message-renderer:not([show-only-header]) #message {
-    font: bold 36px / 1.1em &quot;思源黑体 CN&quot; !important;
+    font-size:36px;
+    font-weight:bold;
+    line-height:1.1em;
     color: #000 !important;
 
     padding: 0px 10px 0px 20px !important;
@@ -715,6 +712,9 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
 /* 礼物-end */
 
 /* 其他样式-start */
+.yt-live-chat-item-list-renderer * {
+    font-family: &quot;思源黑体 CN&quot; !important;
+}
 
 #example-container {
     width: 800px
