@@ -1,0 +1,15 @@
+:root {
+    --body-margin-lr: 10px;
+}
+
+* {
+    font-family: "sans-serif";
+}
+
+html {
+    font-size: 15px;
+}
+
+body {
+    margin: 0 max(calc(50% - 500px), var(--body-margin-lr));
+}
