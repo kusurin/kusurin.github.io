@@ -181,8 +181,9 @@
 
     document.getElementsByTagName('header')[0].onload = submenu_fill();
 
+    var temperature = getTemperature();
+
     Array.from(document.getElementsByClassName('quote')).forEach(element => {
-        let temperature = getTemperature();
         if (temperature > 30)
             element.innerText = '夏';
         else if (temperature < 15)
