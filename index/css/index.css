@@ -13,3 +13,11 @@ html {
 body {
     margin: 0 max(calc(50% - 500px), var(--body-margin-lr));
 }
+
+.quote::before {
+    content: "ふわぁ～あ…やっぱり";
+}
+
+.quote::after {
+    content: "は眠くなるよね～";
+}

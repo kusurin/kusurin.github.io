@@ -10,6 +10,8 @@
     <link href="./index/css/index.css" rel="stylesheet">
     <link href="./index/css/header.css" rel="stylesheet">
     <link href="./index/css/vblog.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="./index/js/weather.js"></script>
 </head>
 
 <body>
@@ -81,8 +83,7 @@
                                     </a>
                                 </li>
                                 <li class="top-submenu-item-container">
-                                    <a href="/blog/tags/%E6%9D%82%E8%B0%88/"
-                                        class="top-submenu-item">
+                                    <a href="/blog/tags/%E6%9D%82%E8%B0%88/" class="top-submenu-item">
                                         <div class="top-submenu-content-container">
                                             <div class="top-submenu-item-heading">杂谈</div>
                                             <p class="top-submenu-item-description">色々な事</p>
@@ -103,7 +104,8 @@
                                                     <embed
                                                         src="./index/img/ykkz_complete_black.svg"></embed></span>kusurin
                                             </div>
-                                            <p class="top-submenu-item-description">ふわぁ～あ…やっぱり夏は眠くなるよね～</p>
+                                            <p class="top-submenu-item-description">
+                                                <span class="quote"></span>
                                         </div>
                                     </a>
                                 </li>
@@ -145,6 +147,7 @@
                     </div>
                     <div class="header-content">
                         <div class="nick">くすりん</div>
+                        <div><span class="quote"></span></div>
                         <div class="date">2023/10/05 12:00</div>
                     </div>
                 </div>
@@ -177,6 +180,21 @@
     }
 
     document.getElementsByTagName('header')[0].onload = submenu_fill();
+
+    Array.from(document.getElementsByClassName('quote')).forEach(element => {
+        let temperature = getTemperature();
+        if (temperature > 30)
+            element.innerText = '夏';
+        else if (temperature < 15)
+            element.innerText = '冬';
+        else {
+            let date = new Date();
+            if (date.getMonth() > 7)
+                element.innerText = '秋';
+            else
+                element.innerText = '春';
+        }
+    });
 </script>
 
 </html>

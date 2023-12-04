@@ -9,7 +9,6 @@
     flex-direction: row;
     justify-content: left;
     align-items: center;
-    ;
 }
 
 .vblog .head {
@@ -17,6 +16,7 @@
     display: block;
     width: 4rem;
     height: 4rem;
+    flex-shrink: 0;
 }
 
 .vblog .head img {
@@ -27,17 +27,22 @@
 
 .vblog .header .header-content {
     margin-left: 1rem;
+    padding-left: 0.5rem;
 }
 
 .vblog .header .nick {
     font-size: 2rem;
     font-weight: bold;
+    margin-left: -0.5rem;
+    color: #000;
 }
 
-.vblog .header .date {
+.vblog .header div {
     font-size: 1rem;
-    margin-left: 0.5rem;
     color: #606060;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vblog .main {
