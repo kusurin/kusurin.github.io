@@ -189,21 +189,21 @@
 
     document.getElementsByTagName('header')[0].onload = submenu_fill();
 
-    var temperature = getTemperature();
-
-    Array.from(document.getElementsByClassName('quote')).forEach(element => {
-        if (temperature > 30)
-            element.innerText = '夏';
-        else if (temperature < 15)
-            element.innerText = '冬';
-        else {
-            let date = new Date();
-            if (date.getMonth() > 7)
-                element.innerText = '秋';
-            else
-                element.innerText = '春';
-        }
-    });
+    $.when(getTemperature()).done(function (temperature) {
+        Array.from(document.getElementsByClassName('quote')).forEach(element => {
+            if (temperature > 30)
+                element.innerText = '夏';
+            else if (temperature < 15 && temperature)
+                element.innerText = '冬';
+            else {
+                let date = new Date();
+                if (date.getMonth() > 7)
+                    element.innerText = '秋';
+                else
+                    element.innerText = '春';
+            }
+        });
+    })
 </script>
 
 </html>
