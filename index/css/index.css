@@ -21,3 +21,25 @@ body {
 .quote::after {
     content: "は眠くなるよね～";
 }
+
+@-webkit-keyframes season-change {
+    0% {
+        content: "春は眠くなるよね～";
+    }
+    25% {
+        content: "夏は眠くなるよね～";
+    }
+    50% {
+        content: "秋は眠くなるよね～";
+    }
+    75% {
+        content: "冬は眠くなるよね～";
+    }
+    100% {
+        content: "春は眠くなるよね～";
+    }
+}
+
+.quote:empty::after {
+    animation: season-change 4s linear infinite both;
+}
