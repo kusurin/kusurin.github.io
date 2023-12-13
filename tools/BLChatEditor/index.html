@@ -272,7 +272,22 @@
 
     </div>
 </body>
-<input id="default-style" style="display: none;" value="/* b站表情包 */
+<input id="default-style" style="display: none;" value="
+@font-face {
+    font-family: '';
+    font-weight: bold;
+    src: url('');
+}
+
+#items * {
+    font-family: '' !important;
+    font-weight: bold !important;
+    line-height: 1.1em !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* b站表情包 */
 yt-live-chat-text-message-renderer #image-and-message .emoji {
     display: inline-block !important;
     width: 100px !important;
@@ -710,10 +725,6 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
 /* 礼物-end */
 
 /* 其他样式-start */
-.yt-live-chat-item-list-renderer * {
-    font-family: &quot;思源黑体 CN&quot; !important;
-    font-weight:bold;
-}
 
 #example-container {
     width: 800px
