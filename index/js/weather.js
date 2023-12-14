@@ -1,5 +1,4 @@
 function getTemperature() {
-    var weather;
     var defer = $.Deferred();
     $.ajax({
         type: 'GET',
