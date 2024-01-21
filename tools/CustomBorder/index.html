@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomBorder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="demo"></div>
+</body>
+<script type="text/babel">
+    const strokeLinecapDefault = ["round", "square", "butt"]
+
+    const inputStyle = {display: "grid", gridTemplateColumns: "1fr 1.6fr",width:"fit-content"}
+
+    class Demo extends React.Component {
+        constructor(props) {
+            super(props)
+
+            this.state = { demoStyle: {} }
+
+            this.setStyle = this.setStyle.bind(this)
+        }
+
+        setStyle() {
+            const { borderWidth } = this.refs
+            const { borderRadius } = this.refs
+            const { borderColor } = this.refs
+            const { patchLenth } = this.refs
+            const { patchMargin } = this.refs
+            const { patchShape } = this.refs
+
+            let newStyleUnit = ["\"data:image/svg+xml,%3csvg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'%3e%3crect ", " width='100%' height='100%' rx='borderRadius' ry='borderRadius' fill='none' stroke='%23borderColor' stroke-width='borderWidth' stroke-dasharray='patchLenth%2c patchMargin' stroke-linecap='patchShape'/%3e%3c/svg%3e\"",]
+
+            let newStyle = "url(" + newStyleUnit[0] + "x='borderHWidth' y='borderHWidth'" + newStyleUnit[1] + ") left top / calc(100% - borderWidthpx) calc(100% - borderWidthpx) no-repeat, url(" + newStyleUnit[0] + "x='borderHWidth' y='-borderHWidth'" + newStyleUnit[1] + ") left bottom / calc(100% - borderWidthpx) calc(100% - borderWidthpx) no-repeat, url(" + newStyleUnit[0] + "x='-borderHWidth' y='borderHWidth'" + newStyleUnit[1] + ") right top / calc(100% - borderWidthpx) calc(100% - borderWidthpx) no-repeat, url(" + newStyleUnit[0] + "x='-borderHWidth' y='-borderHWidth'" + newStyleUnit[1] + ") right bottom / calc(100% - borderWidthpx) calc(100% - borderWidthpx) no-repeat #808080"
+
+            let options = [{ attr: "borderWidth", value: borderWidth.value }, { attr: "borderRadius", value: borderRadius.value - borderWidth.value / 2 }, { attr: "borderColor", value: borderColor.value }, { attr: "patchLenth", value: patchLenth.value }, { attr: "patchMargin", value: patchMargin.value }, { attr: "patchShape", value: patchShape.value }]
+            options.forEach(option => {
+                let reg = option.attr
+                newStyle = newStyle.replaceAll(reg, option.value)
+            })
+            newStyle = newStyle.replaceAll("borderHWidth", borderWidth.value / 2)
+
+            let fullDemoStyle = { background: newStyle, borderRadius: "0", padding: "50px", width: "fit-content", resize: "horizontal", overflow: "hidden", fontSize: "25px" }
+
+            if (patchShape.value == "round") {
+                fullDemoStyle.borderRadius = (Number(borderRadius.value) > Number(borderWidth.value) / 2) ? Number(borderRadius.value) : Number(borderWidth.value) / 2
+            }
+            else {
+                fullDemoStyle.borderRadius = borderRadius.value + "px"
+            }
+
+            this.setState({ demoStyle: fullDemoStyle })
+        }
+
+        render() {
+            return (
+                <div>
+                    <div style={this.state.demoStyle}>
+                        A quick fox jumps over a lazy dog.Two quick foxes jumps over two lazy dogs.
+                    </div>
+                    <div style={inputStyle}>
+                        <span>border Width</span><span><input ref="borderWidth" defaultValue="20" onChange={this.setStyle} />px</span>
+                        <span>border Radius</span><span><input ref="borderRadius" defaultValue="0" onChange={this.setStyle} />px</span>
+                        <span>border Color</span><span>#<input ref="borderColor" defaultValue="000000" onChange={this.setStyle} /></span>
+                        <span>patch Lenth</span><span><input ref="patchLenth" defaultValue="50" onChange={this.setStyle} />px</span>
+                        <span>patch Margin</span><span><input ref="patchMargin" defaultValue="40" onChange={this.setStyle} />px</span>
+                        <span>patch Shape</span><span><select ref="patchShape" defaultValue="round" onChange={this.setStyle}>
+                            {strokeLinecapDefault.map((item, index) => {
+                                return <option value={item} >{item}</option>
+                            })}
+                        </select></span>
+                    </div>
+                </div>
+            )
+        }
+
+        componentDidMount() {
+            this.setStyle()
+        }
+    }
+    ReactDOM.render(<Demo />, document.getElementById("demo"))
+</script>
+
+</html>
