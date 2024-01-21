@@ -15,11 +15,13 @@
             <input v-model="demoText" type="text">
         </div>
         <div id="config">
-            <input v-model="stroke.color" type="text">
+            stroke<br><input v-model="stroke.color" type="text">
             <input v-model="stroke.size" type="number">px
             <br>
-            <input v-model="text.color" type="text">
+            text<br><input v-model="text.color" type="text">
             <input v-model="text.size" type="number">px
+            <br>
+            directions<br><input v-model="directions">
         </div>
         <textarea v-text="generateCSS" readonly></textarea>
         <br>
@@ -35,16 +37,16 @@
             return {
                 demoText: '示例文本 Demo Text',
                 stroke: { color: '#000', size: '3' },
-                text: { color: '#fff', size: '30' }
+                text: { color: '#fff', size: '30' },
+                directions: 32
             }
         },
         computed: {
             generateCSS() {
                 let css = '';
-                let max = 24
-                for (let i = 0; i < max; i++) {
-                    offsetx = Number(this.stroke.size) * Math.cos(2 * Math.PI * i / 20).toFixed(3)
-                    offsety = Number(this.stroke.size) * Math.sin(2 * Math.PI * i / 20).toFixed(3)
+                for (let i = 0; i < this.directions; i++) {
+                    offsetx = Number(this.stroke.size) * Math.cos(2 * Math.PI * i / this.directions).toFixed(3)
+                    offsety = Number(this.stroke.size) * Math.sin(2 * Math.PI * i / this.directions).toFixed(3)
                     css += offsetx.toString().slice(0, offsetx.toString().indexOf('.') + 5) + "px " + offsety.toString().slice(0, offsety.toString().indexOf('.') + 5) + "px " + this.stroke.color + ', '
                 }
                 return css.slice(0, -2)
