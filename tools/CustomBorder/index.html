@@ -16,7 +16,7 @@
 <script type="text/babel">
     const strokeLinecapDefault = ["round", "square", "butt"]
 
-    const inputStyle = {display: "grid", gridTemplateColumns: "1fr 1.6fr",width:"fit-content"}
+    const inputStyle = { display: "grid", gridTemplateColumns: "1fr 1.6fr", width: "fit-content" }
 
     class Demo extends React.Component {
         constructor(props) {
@@ -25,6 +25,7 @@
             this.state = { demoStyle: {} }
 
             this.setStyle = this.setStyle.bind(this)
+            this.copyBorder = this.copyBorder.bind(this)
         }
 
         setStyle() {
@@ -58,6 +59,11 @@
             this.setState({ demoStyle: fullDemoStyle })
         }
 
+        copyBorder(){
+            const { out } = this.refs
+            navigator.clipboard.writeText(out.value)
+        }
+
         render() {
             return (
                 <div>
@@ -76,6 +82,8 @@
                             })}
                         </select></span>
                     </div>
+                    <button onClick={this.copyBorder} style={{display:"block"}}>copy</button>
+                    <textarea ref="out" readonly value={("background: " + this.state.demoStyle.background).slice(0,-8)} style={{ width: "80vw", height: "30vh" }}></textarea>
                 </div>
             )
         }
