@@ -498,7 +498,7 @@ yt-live-chat-membership-item-renderer #header {
 }
 
 /* 上舰-头像框总体 */
-yt-live-chat-membership-item-renderer yt-img-shadow {
+yt-live-chat-membership-item-renderer #author-photo {
     position: absolute !important;
     bottom: 4px !important;
     right: 15px !important;
@@ -511,7 +511,7 @@ yt-live-chat-membership-item-renderer yt-img-shadow {
     z-index: 110;
 }
 
-yt-live-chat-membership-item-renderer yt-img-shadow::before {
+yt-live-chat-membership-item-renderer #author-photo::before {
     position: absolute;
     top: -5px;
     left: -5px;
@@ -524,7 +524,7 @@ yt-live-chat-membership-item-renderer yt-img-shadow::before {
 
 
 /* 上舰-头像框总体----img标签 */
-yt-live-chat-membership-item-renderer yt-img-shadow img {
+yt-live-chat-membership-item-renderer #author-photo img {
     height: 100% !important;
     width: 100% !important;
     border-radius: 10px !important;
@@ -629,6 +629,7 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo img {
     height: 100% !important;
     width: 100% !important;
     border-radius: 12px !important;
+    overflow: hidden !important;
 }
 
 /* 礼物-昵称+钱 */
