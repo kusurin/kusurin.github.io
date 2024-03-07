@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrokeGenerator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.11/vue.global.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="banlist">
+            <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
+                <v-btn variant="tonal">{{ballClass}}</v-btn>
+                <v-btn variant="tonal" v-for="ball in ballFilter(ballClass)" v-bind="{name:ball.name}">
+                    <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.command}}</v-tooltip>
+                </v-btn>
+            </div>
+            <div id="orbit">
+            </div>
+        </div>
+    </div>
+
+    <div id="playground">
+    </div>
+
+    <div id="option">
+    </div>
+    </div>
+</body>
+
+<script>
+    const { createApp, computed } = Vue
+    const { createVuetify } = Vuetify
+
+    const vuetify = createVuetify()
+
+    var balls_colle = [
+        { name: "SOS", command: "udru", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
+        { name: "支援", command: "udrlu", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
+        { name: "重新补给", command: "ddur", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
+        { name: "“飞鹰”500KG炸弹", command: "urddd", class: "飞鹰系列", icon: "" },
+        { name: "轨道炮攻击", command: "ruddr", class: "轨道轰炸系列", icon: "" },
+        { name: "撕裂者核弹", command: "rulrdud", class: "轨道轰炸系列", icon: "" }
+    ]
+
+    const app = createApp({
+        data() {
+            return {
+                balls: balls_colle
+            }
+        },
+        computed: {
+            getBallClasses() {
+                let classes = []
+                Array.from(this.balls).forEach(ball => {
+                    if (!classes.includes(ball.class))
+                        classes.push(ball.class)
+                })
+                return classes
+            },
+            ballFilter() {
+                return function (filter_name) {
+                    return this.balls.filter(ball => ball.class == filter_name)
+                }
+            }
+        },
+        methods: {
+        }
+    })
+    app.use(vuetify).mount('#app')
+</script>
+
+</html>
