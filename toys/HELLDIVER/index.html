@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.11/vue.global.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -15,42 +16,49 @@
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
                 <v-btn variant="tonal">{{ballClass}}</v-btn>
-                <v-btn variant="tonal" v-for="ball in ballFilter(ballClass)" v-bind="{name:ball.name}">
-                    <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.command}}</v-tooltip>
-                </v-btn>
-            </div>
-            <div id="orbit">
+                <div v-bind="{class:balls}">
+                    <v-btn variant="tonal" v-for="ball in ballFilter(ballClass)" v-bind="{name:ball.name,class:'ball'}">
+                        <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon}">
+                        </v-img>
+                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.command}}</v-tooltip>
+                    </v-btn>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="playground">
-    </div>
+        <div id="playground">
+            <div id="ballplay">
+                <v-btn variant="tonal" @click="setCommandsNow">
+                    Play {{commandsNow}}
+                </v-btn>
+            </div>
+        </div>
 
-    <div id="option">
-    </div>
+        <div id="option">
+        </div>
     </div>
 </body>
 
 <script>
-    const { createApp, computed } = Vue
+    const { createApp, computed, onMounted } = Vue
     const { createVuetify } = Vuetify
 
     const vuetify = createVuetify()
 
     var balls_colle = [
-        { name: "SOS", command: "udru", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
-        { name: "支援", command: "udrlu", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
-        { name: "重新补给", command: "ddur", class: "固定战略", icon: "https://kusurin.icu/index/img/ykkz_complete_black.svg" },
-        { name: "“飞鹰”500KG炸弹", command: "urddd", class: "飞鹰系列", icon: "" },
-        { name: "轨道炮攻击", command: "ruddr", class: "轨道轰炸系列", icon: "" },
-        { name: "撕裂者核弹", command: "rulrdud", class: "轨道轰炸系列", icon: "" }
+        { name: "SOS", command: "udru", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "支援", command: "udrlu", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "重新补给", command: "ddur", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "“飞鹰”500KG炸弹", command: "urddd", class: "飞鹰系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
+        { name: "轨道炮攻击", command: "ruddr", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
+        { name: "撕裂者核弹", command: "rulrdud", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" }
     ]
 
     const app = createApp({
         data() {
             return {
-                balls: balls_colle
+                balls: balls_colle,
+                commandsNow: ""
             }
         },
         computed: {
@@ -69,6 +77,12 @@
             }
         },
         methods: {
+            getNewCommandsNow() {
+                
+            },
+            setCommandsNow() {
+                this.commandsNow=this.balls[Math.floor(Math.random()*this.balls.length)].name
+            }
         }
     })
     app.use(vuetify).mount('#app')

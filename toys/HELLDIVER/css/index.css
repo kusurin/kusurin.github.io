@@ -1,0 +1,34 @@
+#app {
+    display: flex;
+    flex-direction: row;
+}
+
+#banlist {
+    width: min-content;
+}
+
+#banlist .ball {
+    display: block;
+    width: unset;
+    height: unset;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    min-width: unset;
+}
+
+#banlist .ball .v-btn__content {
+    display: block;
+}
+
+#banlist .ball img {
+    width: 100%;
+    height: 100%;
+}
+
+#playground {
+    background: #0009;
+    flex-grow: 2;
+
+    height: 80vh;
+}
