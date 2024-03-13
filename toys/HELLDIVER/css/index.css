@@ -42,6 +42,7 @@
 #ballplay .ball-container {
     width: 50px;
     height: 50px;
+    position: relative;
 }
 
 #ballplay .ball-container .ball-icon {
