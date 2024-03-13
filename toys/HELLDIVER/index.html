@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HELLDIVER Practice</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.11/vue.global.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.5.8/dist/vuetify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.5.9/vuetify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.5.9/vuetify.min.js"></script>
     <link rel="stylesheet" href="./css/index.css">
 </head>
 
@@ -17,20 +17,29 @@
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
                 <v-btn variant="tonal">{{ballClass}}</v-btn>
                 <div v-bind="{class:balls}">
-                    <v-btn variant="tonal" v-for="ball in ballFilter(ballClass)" v-bind="{name:ball.name,class:'ball'}">
-                        <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon}">
+                    <v-btn variant="tonal" v-for="ball in ballFilterByClass(ballClass)"
+                        v-bind="{name:ball.name,class:'ball',available:ball.available}"
+                        @click="switchAvailableBalls($event)">
+                        <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.command}}</v-tooltip>
+                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.commands}}{{ball.available==true?'√':'×'}}</v-tooltip>
                     </v-btn>
                 </div>
             </div>
         </div>
 
         <div id="playground">
+            <v-btn variant="tonal" @click="setPlayBalls">
+                Press any key to Play
+            </v-btn>
             <div id="ballplay">
-                <v-btn variant="tonal" @click="setCommandsNow">
-                    Play {{commandsNow}}
-                </v-btn>
+                <div v-for="ball in playBalls" v-bind="{class:'ball-container',playing:ball.playing}">
+                    <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
+                    </v-img>
+                </div>
+            </div>
+            <div id="commandsplay">
+                <span v-for="command in playingCommands" v-bind="{finished:command.finished}">{{command.command}}</span>
             </div>
         </div>
 
@@ -46,19 +55,20 @@
     const vuetify = createVuetify()
 
     var balls_colle = [
-        { name: "SOS", command: "udru", class: "固定战略", icon: "./img/rion6.png" },
-        { name: "支援", command: "udrlu", class: "固定战略", icon: "./img/rion6.png" },
-        { name: "重新补给", command: "ddur", class: "固定战略", icon: "./img/rion6.png" },
-        { name: "“飞鹰”500KG炸弹", command: "urddd", class: "飞鹰系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
-        { name: "轨道炮攻击", command: "ruddr", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
-        { name: "撕裂者核弹", command: "rulrdud", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" }
+        { name: "SOS", commands: "udru", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "支援", commands: "udrlu", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "重新补给", commands: "ddur", class: "固定战略", icon: "./img/rion6.png" },
+        { name: "“飞鹰”500KG炸弹", commands: "urddd", class: "飞鹰系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
+        { name: "轨道炮攻击", commands: "ruddr", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" },
+        { name: "撕裂者核弹", commands: "rulrdud", class: "轨道轰炸系列", icon: "https://pic1.zhimg.com/v2-c289d7bf23c58b54ef2d9a3d06d8b7e7_xl.jpg?source=32738c0c" }
     ]
 
     const app = createApp({
         data() {
             return {
                 balls: balls_colle,
-                commandsNow: ""
+                playBalls: [],
+                playingCommands: []
             }
         },
         computed: {
@@ -70,19 +80,87 @@
                 })
                 return classes
             },
-            ballFilter() {
+            ballFilterByClass() {
                 return function (filter_name) {
                     return this.balls.filter(ball => ball.class == filter_name)
                 }
+            },
+            playingBall() {
+                return this.playBalls.filter(ball => ball.playing == true)[0]
             }
         },
         methods: {
-            getNewCommandsNow() {
-                
+            switchAvailableBalls(event) {
+                this.balls.filter(ball => ball.name == event.target.parentNode.parentNode.parentNode.getAttribute("name")).forEach(ball => {
+                    ball.available = ball.available == true ? false : true
+                })
             },
-            setCommandsNow() {
-                this.commandsNow=this.balls[Math.floor(Math.random()*this.balls.length)].name
+            setPlayingCommands(ball) {
+                if (ball == null)
+                    return
+                let commands = Array.from(ball.commands)
+                commands.forEach((command, index) => {
+                    commandObj = { command: command, finished: false }
+                    commands[index] = commandObj
+                })
+                this.playingCommands = commands
+            },
+            setPlayBalls() {
+                let availableBalls = this.balls.filter(ball => ball.available == true)
+                if (availableBalls.length == 0)
+                    return
+                availableBalls.forEach(ball => {
+                    ball.playing = false
+                    let times = [2]
+                    times.forEach(time => {
+                        if (Math.random() * time > 1) {
+                            let ballcopy = Object.assign({}, ball) //深拷贝
+                            availableBalls.push(ballcopy)
+                        }
+                    })
+                })
+                availableBalls.forEach((ball, index) => {
+                    if (Math.random() > 0.5) {
+                        let swapball = availableBalls[index]
+                        availableBalls[index] = availableBalls[0]
+                        availableBalls[0] = swapball
+                    }
+                })
+                let playballs = availableBalls.filter(ball => Math.random() > 0.5).slice(0, Math.random() * 5 + 1 + 3)
+                if (playballs.length == 0)
+                    playballs[0] = availableBalls[0]
+                playballs[0].playing = true
+                this.setPlayingCommands(playballs[0])
+                this.playBalls = playballs
+            },
+            commandInput(event) {
+                if (this.playingCommands.length == 0)
+                    return
+                let input = ''
+                switch (event.code) {
+                    case 'ArrowUp': case 'KeyU': input = 'u'; break;
+                    case 'ArrowRight': case 'KeyD': input = 'r'; break;
+                    case 'ArrowDown': case 'KeyS': input = 'd'; break;
+                    case 'ArrowLeft': case 'KeyA': input = 'l'; break;
+                }
+                let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
+                if (input == playingcommand.command) {
+                    playingcommand.finished = true
+                }
+                if (this.playingCommands.filter(command => command.finished == false).length == 0) {
+                    for(let index = 0;index<this.playBalls.length-1;index=index +1){
+                        if (this.playBalls[index].playing == true) {
+                            this.playBalls[index].playing = false
+                            this.playBalls[index + 1].playing = true
+                            this.setPlayingCommands(this.playBalls[index + 1])
+                            break
+                        }
+                    }
+                }
             }
+        },
+        mounted() {
+            window.addEventListener('keydown', this.commandInput)
         }
     })
     app.use(vuetify).mount('#app')

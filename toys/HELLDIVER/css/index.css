@@ -3,25 +3,31 @@
     flex-direction: row;
 }
 
+.v-btn__content {
+    text-transform: none;
+}
+
 #banlist {
     width: min-content;
 }
 
 #banlist .ball {
     display: block;
-    width: unset;
-    height: unset;
     padding: 0;
     width: 50px;
     height: 50px;
     min-width: unset;
 }
 
+#banlist .ball:not([available="true"]) {
+    filter: grayscale(100%);
+}
+
 #banlist .ball .v-btn__content {
     display: block;
 }
 
-#banlist .ball img {
+.ball-icon {
     width: 100%;
     height: 100%;
 }
@@ -31,4 +37,23 @@
     flex-grow: 2;
 
     height: 80vh;
+}
+
+#ballplay .ball-container {
+    width: 50px;
+    height: 50px;
+}
+
+#ballplay .ball-container .ball-icon {
+    transition: ease-in-out;
+}
+
+#ballplay .ball-container[playing="true"] .ball-icon {
+    outline: #ff6600 4px dashed;
+    outline-offset: -4px;
+    transform: scale(1.1);
+}
+
+#commandsplay span[finished="true"] {
+    color:red;
 }
