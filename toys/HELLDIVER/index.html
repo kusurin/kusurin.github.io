@@ -17,7 +17,7 @@
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
                 <v-btn variant="tonal">{{ballClass}}</v-btn>
-                <div v-bind="{class:balls}">
+                <div v-bind="{class:'balls'}">
                     <v-btn variant="tonal" v-for="ball in ballFilterByClass(ballClass)"
                         v-bind="{name:ball.name,class:'ball',available:ball.available}"
                         @click="switchAvailableBalls($event)">
