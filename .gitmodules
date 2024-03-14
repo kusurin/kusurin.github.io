@@ -1,0 +1,3 @@
+[submodule "toys/HELLDIVER/img/icons"]
+	path = toys/HELLDIVER/img/icons
+	url = https://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg.git
