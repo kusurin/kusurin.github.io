@@ -37,20 +37,26 @@ html {
 }
 
 #playground {
-    background: #0009;
     flex-grow: 2;
 
     height: 80vh;
+}
+
+#ballplay {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #ballplay .ball-container {
     width: 50px;
     height: 50px;
     position: relative;
+    margin: 5px;
 }
 
 #ballplay .ball-container .ball-icon {
-    transition: ease-in-out;
+    transition: 0.1s ease-in-out;
 }
 
 #ballplay .ball-container[playing="true"] .ball-icon {
@@ -59,11 +65,17 @@ html {
     transform: scale(1.1);
 }
 
+#commandsplay {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 #commandsplay span {
     display: inline-block;
     width: 1rem;
     height: 1rem;
-    margin: 0.1rem;
+    margin: 0.15rem;
     font-size: 0.5rem;
     text-align: center;
     color: transparent;
