@@ -38,8 +38,10 @@ html {
 
 #playground {
     flex-grow: 2;
-
-    height: 80vh;
+    height: fit-content;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #ccc;
 }
 
 #ballplay {
@@ -63,6 +65,11 @@ html {
     outline: #ff6600 4px dashed;
     outline-offset: -4px;
     transform: scale(1.1);
+}
+
+#playingball {
+    width: fit-content;
+    margin: auto;
 }
 
 #commandsplay {
