@@ -45,7 +45,7 @@ var balls_colle = [
     { name: "FX-12 防护罩生成中继器", commands: "ddlrlr", class: "支援建筑、载具", icon: "./img/icons/Bridge/Shield Generator Relay.svg" },
     { name: "E/M-105防御墙", commands: "drr", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "E/GL-6 战壕墙", commands: "dru", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
-    { name: "E/MG-101 重机枪部署支架", commands: "durru", class: "支援建筑、载具", icon: "./img/icons/Bridge/HMG Emplacement" },
+    { name: "E/MG-101 重机枪部署支架", commands: "durru", class: "支援建筑、载具", icon: "./img/icons/Bridge/HMG Emplacement.svg" },
     { name: "MS-220导弹发射井", commands: "durdd", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "侦察车", commands: "ldrdr", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "轻型装甲车（M5 APC）", commands: "ldrdllr", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
@@ -77,5 +77,5 @@ var balls_colle = [
     { name: "LIFT-850 喷射背包", commands: "duudu", class: "支援装备", icon: "./img/icons/Hanger/Jump Pack.svg" },
     { name: "医疗背包", commands: "druld", class: "支援装备", icon: "./img/no-resource.svg" },
     { name: "位移背包", commands: "dlrdlr", class: "支援装备", icon: "./img/no-resource.svg" },
-    { name: "AX/AR-3 保护犬", commands: "dulurd", class: "支援装备", icon: "./img/icon/Robotics Workshop/Guard Dog.svg" },
+    { name: "AX/AR-3 保护犬", commands: "dulurd", class: "支援装备", icon: "./img/icons/Robotics Workshop/Guard Dog.svg" },
     { name: "AX/LAS-5 护卫犬漫游车", commands: "dulurr", class: "支援装备", icon: "./img/icons/Engineering Bay/Guard Dog Rover.svg" }]
