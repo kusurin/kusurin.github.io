@@ -144,6 +144,9 @@
                 if (input == playingcommand.command) {
                     playingcommand.finished = true
                 }
+                else this.playingCommands.forEach(command => {
+                    command.finished=false
+                })
                 if (this.playingCommands.filter(command => command.finished == false).length == 0) {
                     for(let index = 0;index<this.playBalls.length-1;index=index +1){
                         if (this.playBalls[index].playing == true) {
