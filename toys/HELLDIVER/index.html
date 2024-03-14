@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div id="commandsplay">
-                <span v-for="command in playingCommands" v-bind="{finished:command.finished}">{{command.command}}</span>
+                <span v-for="command in playingCommands" v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
         </div>
 
@@ -84,9 +84,6 @@
                 return function (filter_name) {
                     return this.balls.filter(ball => ball.class == filter_name)
                 }
-            },
-            playingBall() {
-                return this.playBalls.filter(ball => ball.playing == true)[0]
             }
         },
         methods: {
