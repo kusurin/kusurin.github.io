@@ -22,7 +22,8 @@
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.commands}}{{ball.available==true?'√':'×'}}</v-tooltip>
+                        <v-tooltip activator="parent"
+                            location="end">{{ball.name}}{{ball.commands}}{{ball.available==true?'√':'×'}}</v-tooltip>
                     </v-btn>
                 </div>
             </div>
@@ -39,7 +40,8 @@
                 </div>
             </div>
             <div id="commandsplay">
-                <span v-for="command in playingCommands" v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
+                <span v-for="command in playingCommands"
+                    v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
         </div>
 
@@ -145,10 +147,10 @@
                     playingcommand.finished = true
                 }
                 else this.playingCommands.forEach(command => {
-                    command.finished=false
+                    command.finished = false
                 })
                 if (this.playingCommands.filter(command => command.finished == false).length == 0) {
-                    for(let index = 0;index<this.playBalls.length-1;index=index +1){
+                    for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
                         if (this.playBalls[index].playing == true) {
                             this.playBalls[index].playing = false
                             this.playBalls[index + 1].playing = true
