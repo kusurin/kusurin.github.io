@@ -149,9 +149,10 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
-                if (this.playingCommands.length == 0) //input when game doesn't start
+                if (this.playingCommands.length == 0) { //input when game doesn't start
                     this.setPlayBalls()
                     return
+                }
 
                 if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
                     this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
