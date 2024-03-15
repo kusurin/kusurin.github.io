@@ -24,11 +24,11 @@
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
                         <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.available==true?'√':'×'}}
-                            <span
-                                v-bind="{class:'time_avg'}"
+                            <span v-bind="{class:'time_avg'}"
                                 v-if="ball.time != undefined">{{(Array.from(ball.time).reduce((ante, post) => { return
                                 ante + post; }) / ball.time.length).toFixed(2)}}s</span>
-                            </v-tooltip>
+                            <div class="commandsplay"><span v-for="command in Array.from(ball.commands)" v-bind="{command:command}">{{command}}</span></div>
+                        </v-tooltip>
                     </v-btn>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             </div>
             <div id="playingball">{{playBalls.length ==0?'': playBalls.filter(ball => ball.playing == true)[0].name}}
             </div>
-            <div id="commandsplay">
+            <div class="commandsplay">
                 <span v-for="command in playingCommands"
                     v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
