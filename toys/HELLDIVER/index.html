@@ -23,8 +23,12 @@
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent"
-                            location="end">{{ball.name}}{{ball.commands}}{{ball.available==true?'√':'×'}}</v-tooltip>
+                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.available==true?'√':'×'}}
+                            <span
+                                v-bind="{class:'time_avg'}"
+                                v-if="ball.time != undefined">{{(Array.from(ball.time).reduce((ante, post) => { return
+                                ante + post; }) / ball.time.length).toFixed(2)}}s</span>
+                            </v-tooltip>
                     </v-btn>
                 </div>
             </div>
@@ -36,6 +40,8 @@
             </v-btn>
             <div id="ballplay">
                 <div v-for="ball in playBalls" v-bind="{class:'ball-container',playing:ball.playing}">
+                    <div v-bind="{class:'timer'}" v-if="ball.time_end != null">{{(ball.time_end -
+                        ball.time_start).toFixed(2)}}s</div>
                     <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                     </v-img>
                 </div>
@@ -46,6 +52,9 @@
                 <span v-for="command in playingCommands"
                     v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
+            <div v-bind="{id:'kps'}"
+                v-if=" playBalls[0] != null && playBalls.slice(-1)[0].playing == true && playingCommands.slice(-1)[0].finished == true">
+                {{kps.toFixed(2)}} key/s</div>
         </div>
 
         <div id="option">
@@ -80,6 +89,14 @@
                 return function (filter_name) {
                     return this.balls.filter(ball => ball.class == filter_name)
                 }
+            },
+            kps() {
+                let time_totol = 0, command_totol = 0
+                this.playBalls.forEach(ball => {
+                    time_totol += ball.time_end - ball.time_start
+                    command_totol += ball.commands.length
+                })
+                return command_totol / time_totol
             }
         },
         methods: {
@@ -104,6 +121,10 @@
                     return
                 availableBalls.forEach(ball => {
                     ball.playing = false
+
+                    ball.time_start = null  //for timer
+                    ball.time_end = null
+
                     let times = [2]
                     times.forEach(time => {
                         if (Math.random() * time > 1) {
@@ -127,8 +148,12 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
-                if (this.playingCommands.length == 0)
+                if (this.playingCommands.length == 0) //input when game doesn't start
                     return
+
+                if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
+                    this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
+
                 let input = ''
                 switch (event.code) {
                     case 'ArrowUp': case 'KeyW': input = 'u'; break;
@@ -136,6 +161,7 @@
                     case 'ArrowDown': case 'KeyS': input = 'd'; break;
                     case 'ArrowLeft': case 'KeyA': input = 'l'; break;
                 }
+
                 let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
                 if (input == playingcommand.command) {
                     playingcommand.finished = true
@@ -144,14 +170,27 @@
                     command.finished = false
                 })
                 if (this.playingCommands.filter(command => command.finished == false).length == 0) {
+
+                    this.playBalls.filter(ball => ball.playing == true)[0].time_end = (new Date()).getTime() / 1000.0 //timer
+
                     for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
                         if (this.playBalls[index].playing == true) {
                             this.playBalls[index].playing = false
                             this.playBalls[index + 1].playing = true
+                            this.playBalls[index + 1].time_start = (new Date()).getTime() / 1000.0
                             this.setPlayingCommands(this.playBalls[index + 1])
                             break
                         }
                     }
+                }
+
+                if (this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) { //input when game finishes
+                    this.playBalls.forEach(playBall => {
+                        if (playBall.time == undefined)
+                            playBall.time = []
+                        playBall.time.push(playBall.time_end - playBall.time_start)
+                    })
+                    return
                 }
             }
         },
