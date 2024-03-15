@@ -27,7 +27,8 @@
                             <span v-bind="{class:'time_avg'}"
                                 v-if="ball.time != undefined">{{(Array.from(ball.time).reduce((ante, post) => { return
                                 ante + post; }) / ball.time.length).toFixed(2)}}s</span>
-                            <div class="commandsplay"><span v-for="command in Array.from(ball.commands)" v-bind="{command:command}">{{command}}</span></div>
+                            <div class="commandsplay"><span v-for="command in Array.from(ball.commands)"
+                                    v-bind="{command:command}">{{command}}</span></div>
                         </v-tooltip>
                     </v-btn>
                 </div>
@@ -149,6 +150,7 @@
             },
             commandInput(event) {
                 if (this.playingCommands.length == 0) //input when game doesn't start
+                    this.setPlayBalls()
                     return
 
                 if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
@@ -163,23 +165,26 @@
                 }
 
                 let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
-                if (input == playingcommand.command) {
-                    playingcommand.finished = true
-                }
-                else this.playingCommands.forEach(command => {
-                    command.finished = false
-                })
-                if (this.playingCommands.filter(command => command.finished == false).length == 0) {
 
-                    this.playBalls.filter(ball => ball.playing == true)[0].time_end = (new Date()).getTime() / 1000.0 //timer
+                if (!(this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true)) {
+                    if (input == playingcommand.command) {
+                        playingcommand.finished = true
+                    }
+                    else this.playingCommands.forEach(command => {
+                        command.finished = false
+                    })
+                    if (this.playingCommands.filter(command => command.finished == false).length == 0) {
 
-                    for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
-                        if (this.playBalls[index].playing == true) {
-                            this.playBalls[index].playing = false
-                            this.playBalls[index + 1].playing = true
-                            this.playBalls[index + 1].time_start = (new Date()).getTime() / 1000.0
-                            this.setPlayingCommands(this.playBalls[index + 1])
-                            break
+                        this.playBalls.filter(ball => ball.playing == true)[0].time_end = (new Date()).getTime() / 1000.0 //timer
+
+                        for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
+                            if (this.playBalls[index].playing == true) {
+                                this.playBalls[index].playing = false
+                                this.playBalls[index + 1].playing = true
+                                this.playBalls[index + 1].time_start = (new Date()).getTime() / 1000.0
+                                this.setPlayingCommands(this.playBalls[index + 1])
+                                break
+                            }
                         }
                     }
                 }
