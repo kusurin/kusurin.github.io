@@ -60,6 +60,14 @@
 
         <div id="option">
         </div>
+        <div id="simpad" class="commandsplay">
+            <span command=""></span>
+            <span command="u" @click="function() {commandInput({code:'ArrowUp'})}">u</span>
+            <span command=""></span>
+            <span command="l" @click="function() {commandInput({code:'ArrowLeft'})}">l</span>
+            <span command="d" @click="function() {commandInput({code:'ArrowDown'})}">d</span>
+            <span command="r" @click="function() {commandInput({code:'ArrowRight'})}">r</span>
+        </div>
     </div>
 </body>
 

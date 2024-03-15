@@ -1,5 +1,6 @@
 html {
     font-size: 20pt;
+    overflow: hidden;
 }
 
 #app {
@@ -14,7 +15,7 @@ html {
 #banlist {
     width: min-content;
     max-height: 90vh;
-    overflow:auto
+    overflow: auto
 }
 
 #banlist .balls {
@@ -146,10 +147,41 @@ html {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 8 6 L 8 2 L 5.33 2 L 5.33 -0 L 0 4 L 5.33 8 L 5.33 6 Z' fill='%23e6e6df'/%3E%3C/svg%3E");
 }
 
-#kps  {
+.commandsplay span[command=""]::before {
+    background-image: none;
+}
+
+#kps {
     font-size: 0.7rem;
     color: green;
     position: absolute;
     right: 1rem;
     bottom: 1rem;
+}
+
+#simpad {
+    position: fixed;
+    right: 5vw;
+    bottom: 5vh;
+    display: grid;
+    grid-template:
+        "a b c"
+        "d e f" / 1fr 1fr 1fr;
+}
+
+#simpad span:not([command=""]) {
+    width: 3rem;
+    height: 3rem;
+    --border-width: 0.2rem;
+    border: #333 var(--border-width) solid;
+    background: #808080;
+    border-radius: var(--border-width);
+}
+
+#simpad span::before {
+    left: var(--border-width);
+    top: var(--border-width);
+    width: calc(100% - 2 * var(--border-width));
+    height: calc(100% - 2 * var(--border-width));
+    filter: none;
 }
