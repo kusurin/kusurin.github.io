@@ -168,7 +168,7 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
-                if (event.target.tagName == "INPUT")
+                if (event.target != undefined && event.target.tagName == "INPUT")
                     return
                 let input = ''
                 switch (event.code) {
