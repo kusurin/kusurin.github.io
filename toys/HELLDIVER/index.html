@@ -172,11 +172,15 @@
                     return
                 let input = ''
                 switch (event.code) {
-                    case 'ArrowUp': case this.inputSet.Up: input = 'u'; break;
-                    case 'ArrowRight': case this.inputSet.Right: input = 'r'; break;
-                    case 'ArrowDown': case this.inputSet.Down: input = 'd'; break;
-                    case 'ArrowLeft': case this.inputSet.Left: input = 'l'; break;
-                    case this.inputSet.Start: this.setPlayBalls();
+                    case 'ArrowUp': input = 'u'; break;
+                    case 'ArrowRight': input = 'r'; break;
+                    case 'ArrowDown': input = 'd'; break;
+                    case 'ArrowLeft': input = 'l'; break;
+                    case this.inputSet.Up: input = 'u'; break;
+                    case this.inputSet.Right: input = 'r'; break;
+                    case this.inputSet.Down: input = 'd'; break;
+                    case this.inputSet.Left: input = 'l'; break;
+                    case this.inputSet.Start: this.setPlayBalls(); return;
                     default: return;
                 }
 
