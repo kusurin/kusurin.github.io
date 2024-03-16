@@ -178,7 +178,15 @@ html {
     border-radius: var(--border-width);
 }
 
-#simpad span::before {
+#simpad span:active {
+    filter: brightness(50%);
+}
+
+#simpad span[command=""] {
+    visibility: hidden;
+}
+
+#simpad span:not([command=""])::before {
     left: var(--border-width);
     top: var(--border-width);
     width: calc(100% - 2 * var(--border-width));
