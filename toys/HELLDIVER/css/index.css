@@ -106,7 +106,7 @@ html {
     justify-content: center;
 }
 
-.commandsplay span {
+.commandsplay span[command] {
     display: inline-block;
     width: 1rem;
     height: 1rem;
@@ -118,7 +118,7 @@ html {
     z-index: 0;
 }
 
-.commandsplay span::before {
+.commandsplay span[command]::before {
     content: "";
     position: absolute;
     left: 0;
@@ -131,7 +131,7 @@ html {
     z-index: -1;
 }
 
-.commandsplay span[finished="true"]::before {
+.commandsplay span[command][finished="true"]::before {
     filter: brightness(60%) drop-shadow(0.1rem 0.1rem 0.1rem #000a);
 }
 
@@ -163,13 +163,54 @@ html {
     position: fixed;
     right: 5vw;
     bottom: 5vh;
+
+    display: grid;
+    grid-template:
+        "a a"
+        "b c" / auto 1fr;
+}
+
+#simpad .option {
+    grid-area: a;
+    margin-bottom: 1rem;
     display: grid;
     grid-template:
         "a b c"
         "d e f" / 1fr 1fr 1fr;
+    gap: 0.5rem;
+    transform: scale(0.8);
 }
 
-#simpad span:not([command=""]) {
+#simpad .option .v-input__details {
+    display: none;
+}
+
+#simpad .start-key {
+    grid-area: b;
+    margin-right: 1rem;
+    display: grid;
+    align-items: end;
+}
+
+#simpad .start-key span {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 2.6rem;
+}
+
+#simpad .start-key span::before {
+    background-image: none;
+}
+
+#simpad .key-play {
+    grid-area: c;
+    display: grid;
+    grid-template:
+        "a b c"
+        "d e f";
+}
+
+#simpad span[command]:not([command=""]) {
     width: 3rem;
     height: 3rem;
     --border-width: 0.2rem;
@@ -178,7 +219,7 @@ html {
     border-radius: var(--border-width);
 }
 
-#simpad span:active {
+#simpad span[command]:active {
     filter: brightness(50%);
 }
 
@@ -186,7 +227,7 @@ html {
     visibility: hidden;
 }
 
-#simpad span:not([command=""])::before {
+#simpad span[command]:not([command=""])::before {
     left: var(--border-width);
     top: var(--border-width);
     width: calc(100% - 2 * var(--border-width));

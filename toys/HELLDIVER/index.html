@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>HELLDIVER Practice</title>
     <link href="./img/helldiver.ico" rel="icon">
     <!-- thanks for icon from https://helldivers-ii.fandom.com/wiki/Helldivers_II_Wiki -->
@@ -38,9 +39,6 @@
         </div>
 
         <div id="playground">
-            <v-btn variant="tonal" @click="setPlayBalls">
-                Press any key to Play
-            </v-btn>
             <div id="ballplay">
                 <div v-for="ball in playBalls" v-bind="{class:'ball-container',playing:ball.playing}">
                     <div v-bind="{class:'timer'}" v-if="ball.time_end != null">{{(ball.time_end -
@@ -60,15 +58,27 @@
                 {{kps.toFixed(2)}} key/s</div>
         </div>
 
-        <div id="option">
-        </div>
         <div id="simpad" class="commandsplay">
-            <span command=""></span>
-            <span command="u" @click="function() {commandInput({code:'ArrowUp'})}"  tabindex="1">u</span>
-            <span command=""></span>
-            <span command="l" @click="function() {commandInput({code:'ArrowLeft'})}"  tabindex="2">l</span>
-            <span command="d" @click="function() {commandInput({code:'ArrowDown'})}"  tabindex="3">d</span>
-            <span command="r" @click="function() {commandInput({code:'ArrowRight'})}"  tabindex="4">r</span>
+            <div class="option">
+                <v-tooltip activator="parent" location="top">选择设置项后，按下要设置的按键</v-tooltip>
+                <v-text-field label="Start" v-model="inputSet.Start" @keydown="setInput($event)"></v-text-field>
+                <v-text-field label="Up" v-model="inputSet.Up" @keydown="setInput($event)"></v-text-field>
+                <v-text-field label="U" style="opacity:0;"></v-text-field>
+                <v-text-field label="Left" v-model="inputSet.Left" @keydown="setInput($event)"></v-text-field>
+                <v-text-field label="Down" v-model="inputSet.Down" @keydown="setInput($event)"></v-text-field>
+                <v-text-field label="Right" v-model="inputSet.Right" @keydown="setInput($event)"></v-text-field>
+            </div>
+            <div class="start-key" @click="setPlayBalls">
+                <span command="start" @click="setPlayBalls" tabindex="0">start</span>
+            </div>
+            <div class="key-play">
+                <span command=""></span>
+                <span command="u" @click="function() {commandInput({code:'ArrowUp'})}" tabindex="1">u</span>
+                <span command=""></span>
+                <span command="l" @click="function() {commandInput({code:'ArrowLeft'})}" tabindex="2">l</span>
+                <span command="d" @click="function() {commandInput({code:'ArrowDown'})}" tabindex="3">d</span>
+                <span command="r" @click="function() {commandInput({code:'ArrowRight'})}" tabindex="4">r</span>
+            </div>
         </div>
     </div>
 </body>
@@ -84,7 +94,8 @@
             return {
                 balls: balls_colle,
                 playBalls: [],
-                playingCommands: []
+                playingCommands: [],
+                inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" }
             }
         },
         computed: {
@@ -159,21 +170,20 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
-                if (this.playingCommands.length == 0) { //input when game doesn't start
-                    this.setPlayBalls()
+                if (event.target.tagName == "INPUT")
                     return
+                let input = ''
+                switch (event.code) {
+                    case 'ArrowUp': case this.inputSet.Up: input = 'u'; break;
+                    case 'ArrowRight': case this.inputSet.Right: input = 'r'; break;
+                    case 'ArrowDown': case this.inputSet.Down: input = 'd'; break;
+                    case 'ArrowLeft': case this.inputSet.Left: input = 'l'; break;
+                    case this.inputSet.Start: this.setPlayBalls();
+                    default: return;
                 }
 
                 if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
                     this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
-
-                let input = ''
-                switch (event.code) {
-                    case 'ArrowUp': case 'KeyW': input = 'u'; break;
-                    case 'ArrowRight': case 'KeyD': input = 'r'; break;
-                    case 'ArrowDown': case 'KeyS': input = 'd'; break;
-                    case 'ArrowLeft': case 'KeyA': input = 'l'; break;
-                }
 
                 let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
 
@@ -205,9 +215,14 @@
                         if (playBall.time == undefined)
                             playBall.time = []
                         playBall.time.push(playBall.time_end - playBall.time_start)
+                        this.balls.filter(ball => ball.name == playBall.name)[0].time = playBall.time
                     })
                     return
                 }
+            },
+            setInput(event) {
+                event.preventDefault()
+                this.inputSet[event.target.parentNode.childNodes[0].innerText] = event.code
             }
         },
         mounted() {
