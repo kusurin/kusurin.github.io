@@ -67,15 +67,15 @@
                 <v-text-field label="Right" v-model="inputSet.Right" @keydown="setInput($event)"></v-text-field>
             </div>
             <div class="start-key" @click="setPlayBalls">
-                <span command="start" @click="setPlayBalls" tabindex="0">start</span>
+                <span command="start" @click="simpadClick($event,inputSet.Start)" tabindex="0">start</span>
             </div>
             <div class="key-play">
                 <span command=""></span>
-                <span command="u" @click="function() {commandInput({code:'ArrowUp'})}" tabindex="1">u</span>
+                <span command="u" @click="simpadClick($event,'ArrowUp')" tabindex="1">u</span>
                 <span command=""></span>
-                <span command="l" @click="function() {commandInput({code:'ArrowLeft'})}" tabindex="2">l</span>
-                <span command="d" @click="function() {commandInput({code:'ArrowDown'})}" tabindex="3">d</span>
-                <span command="r" @click="function() {commandInput({code:'ArrowRight'})}" tabindex="4">r</span>
+                <span command="l" @click="simpadClick($event,'ArrowLeft')" tabindex="2">l</span>
+                <span command="d" @click="simpadClick($event,'ArrowDown')" tabindex="3">d</span>
+                <span command="r" @click="simpadClick($event,'ArrowRight')" tabindex="4">r</span>
             </div>
         </div>
     </div>
@@ -221,6 +221,10 @@
                     })
                     return
                 }
+            },
+            simpadClick(event,key) {
+                event.preventDefault()
+                this.commandInput({code:key})
             },
             setInput(event) {
                 event.preventDefault()
