@@ -50,7 +50,7 @@ var balls_colle = [
     { name: "侦察车", commands: "ldrdr", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "轻型装甲车（M5 APC）", commands: "ldrdllr", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "爱国者外骨骼机甲（EXO44踏步者）", commands: "ldruldd", class: "支援建筑、载具", icon: "./img/icons/Robotics Workshop/Patriot Exosuit.svg" },
-    { name: "解放者外骨骼机甲（EXO48黑曜石）", commands: "ldruldu", class: "支援建筑、载具", icon: "./img/icons/Robotics Workshop/Patriot Exosuit.svg" },
+    { name: "解放者外骨骼机甲（EXO48黑曜石）", commands: "ldruldu", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
     { name: "超级地球部队支援", commands: "ldrrdu", class: "支援建筑、载具", icon: "./img/no-resource.svg" },
 
     { name: "M-105 盟友", commands: "dlduul", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Stalwart.svg" },
@@ -69,7 +69,7 @@ var balls_colle = [
     { name: "FAF-14 飞矛", commands: "ddudd", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Spear.svg" },
     { name: "LAS-98 激光大炮", commands: "dldul", class: "武器装备", icon: "./img/icons/Engineering Bay/Laser Cannon.svg" },
     { name: "LAS-99 类星体加农炮", commands: "uldur", class: "武器装备", icon: "./img/no-resource.svg" },
-    { name: "ARC-3 电弧发射器", commands: "dludu", class: "武器装备", icon: "./img/icons/Engineering Bay/Arc Thrower.svg" },
+    { name: "ARC-3 电弧发射器", commands: "drdull", class: "武器装备", icon: "./img/icons/Engineering Bay/Arc Thrower.svg" },
 
     { name: "B-1 补给背包", commands: "dlduud", class: "支援装备", icon: "./img/icons/Engineering Bay/Supply Pack.svg" },
     { name: "SH-20 防弹护盾背包", commands: "dlddul", class: "支援装备", icon: "./img/icons/Engineering Bay/Ballistic Shield Backpack.svg" },
