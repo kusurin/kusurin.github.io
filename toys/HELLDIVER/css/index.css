@@ -1,6 +1,7 @@
 html {
     font-size: 20pt;
     overflow: hidden;
+    touch-action: manipulation;
 }
 
 #app {
