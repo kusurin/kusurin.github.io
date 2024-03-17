@@ -174,16 +174,39 @@ html {
 #simpad .option {
     grid-area: a;
     margin-bottom: 1rem;
+    margin-right: 0.15rem;
+    display: flex;
+    justify-content: right;
+}
+
+#simpad .option[display="false"] .container {
+    display: none;
+}
+
+#simpad .option .switch-opa {
+    width: 1rem;
+    height: 1rem;
+}
+
+#config-container {
+    width: fit-content;
     display: grid;
     grid-template:
         "a b c"
         "d e f" / 1fr 1fr 1fr;
     gap: 0.5rem;
-    transform: scale(0.8);
+    border: #ccc 0.2rem solid;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
-#simpad .option .v-input__details {
+#config-container .v-input__details {
     display: none;
+}
+
+#config-container .v-field__input {
+    width: 3rem;
 }
 
 #simpad .start-key {
