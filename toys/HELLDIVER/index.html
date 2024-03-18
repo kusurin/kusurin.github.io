@@ -27,7 +27,7 @@
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent" :open-on-focus="true" :open-on-hover="true" location="end">{{ball.name}}
+                        <v-tooltip activator="parent" :open-on-click="true"  :open-on-hover="true" location="end">{{ball.name}}
                             <span v-bind="{class:'time_avg'}" v-if="ball.time != undefined">{{avg(ball.time)}}s</span>
                             <div class="commandsplay"><span v-for="command in Array.from(ball.commands)"
                                     v-bind="{command:command}">{{command}}</span></div>
