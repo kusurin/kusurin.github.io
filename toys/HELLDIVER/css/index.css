@@ -362,7 +362,7 @@ body {
     filter: drop-shadow(0 0 var(--glow-width) var(--glow-color));
 }
 
-#simpad span[command]:active {
+#simpad span[command]:focus:active {
     filter: brightness(50%);
 }
 
