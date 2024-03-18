@@ -66,12 +66,16 @@
                     <v-menu :close-on-content-click="false" location="top" activator="parent">
                         <div id="config-container">
                             <v-tooltip activator="parent" location="top">选择设置项后，按下要设置的按键</v-tooltip>
-                            <v-text-field label="Start" v-model="inputSet.Start" @keydown="setInput($event)"></v-text-field>
+                            <v-text-field label="Start" v-model="inputSet.Start"
+                                @keydown="setInput($event)"></v-text-field>
                             <v-text-field label="Up" v-model="inputSet.Up" @keydown="setInput($event)"></v-text-field>
                             <v-text-field label="U" style="opacity:0;"></v-text-field>
-                            <v-text-field label="Left" v-model="inputSet.Left" @keydown="setInput($event)"></v-text-field>
-                            <v-text-field label="Down" v-model="inputSet.Down" @keydown="setInput($event)"></v-text-field>
-                            <v-text-field label="Right" v-model="inputSet.Right" @keydown="setInput($event)"></v-text-field>
+                            <v-text-field label="Left" v-model="inputSet.Left"
+                                @keydown="setInput($event)"></v-text-field>
+                            <v-text-field label="Down" v-model="inputSet.Down"
+                                @keydown="setInput($event)"></v-text-field>
+                            <v-text-field label="Right" v-model="inputSet.Right"
+                                @keydown="setInput($event)"></v-text-field>
                         </div>
                     </v-menu>
                 </v-btn>
@@ -146,7 +150,7 @@
                 this.playingCommands = commands
             },
             setPlayBalls() {
-                let availableBalls = this.balls.filter(ball => ball.available == true)
+                let availableBalls = Array.from(this.balls.filter(ball => ball.available == true))
                 if (availableBalls.length == 0)
                     return
                 availableBalls.forEach(ball => {
