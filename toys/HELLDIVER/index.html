@@ -27,7 +27,8 @@
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent" :open-on-click="true"  :open-on-hover="true" location="end">{{ball.name}}
+                        <v-tooltip activator="parent" :open-on-click="true" :open-on-hover="true"
+                            location="end">{{ball.name}}
                             <span v-bind="{class:'time_avg'}" v-if="ball.time != undefined">{{avg(ball.time)}}s</span>
                             <div class="commandsplay"><span v-for="command in Array.from(ball.commands)"
                                     v-bind="{command:command}">{{command}}</span></div>
@@ -46,7 +47,7 @@
                     </v-img>
                 </div>
             </div>
-            <div id="playingball" v-if="playBalls[0] != undifined">{{playBalls.filter(ball => ball.playing ==
+            <div id="playingball" v-if="playBalls[0] != undefined">{{playBalls.filter(ball => ball.playing ==
                 true).length == 0?'完成': playBalls.filter(ball => ball.playing == true)[0].name}}
             </div>
             <div class="commandsplay">
@@ -199,12 +200,12 @@
                     default: return;
                 }
 
-                if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
-                    this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
+                if (this.playBalls.filter(ball => ball.playing == true)[0] != undefined) {
+                    if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
+                        this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
 
-                let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
+                    let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
 
-                if (!(this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true)) {
                     if (input == playingcommand.command) {
                         playingcommand.finished = true
                     }
@@ -227,7 +228,7 @@
                     }
                 }
 
-                if (this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) { //input when game finishes
+                if (this.playBalls.slice(-1)[0] != undefined && this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) { //input when game finishes
                     this.playBalls.forEach(playBall => {
                         if (playBall.time == undefined)
                             playBall.time = []
