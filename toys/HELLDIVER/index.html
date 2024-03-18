@@ -19,7 +19,7 @@
     <div id="app">
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
-                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)">#{{ballClass}}</v-btn>
+                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }">#{{ballClass}}</v-btn>
                 <div v-bind="{class:'balls'}">
                     <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)"
                         v-for="ball in ballFilterByClass(ballClass)"
@@ -27,7 +27,7 @@
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
                         </v-img>
-                        <v-tooltip activator="parent" location="end">{{ball.name}}{{ball.available==true?'√':'×'}}
+                        <v-tooltip activator="parent" :open-on-focus="true" :open-on-hover="true" location="end">{{ball.name}}
                             <span v-bind="{class:'time_avg'}" v-if="ball.time != undefined">{{avg(ball.time)}}s</span>
                             <div class="commandsplay"><span v-for="command in Array.from(ball.commands)"
                                     v-bind="{command:command}">{{command}}</span></div>
@@ -46,20 +46,20 @@
                     </v-img>
                 </div>
             </div>
-            <div id="playingball" v-if="playBalls[0] != undifined">{{playBalls.filter(ball => ball.playing == true).length == 0?'完成': playBalls.filter(ball => ball.playing == true)[0].name}}
+            <div id="playingball" v-if="playBalls[0] != undifined">{{playBalls.filter(ball => ball.playing ==
+                true).length == 0?'完成': playBalls.filter(ball => ball.playing == true)[0].name}}
             </div>
             <div class="commandsplay">
                 <span v-for="command in playingCommands"
                     v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
-            <div v-bind="{id:'kps'}"
-                v-if=" playBalls[0] != null && playingCommands.slice(-1)[0].finished == true">
+            <div v-bind="{id:'kps'}" v-if=" playBalls[0] != null && playingCommands.slice(-1)[0].finished == true">
                 {{kps.toFixed(2)}} key/s</div>
         </div>
 
         <div id="simpad" class="commandsplay">
             <div class="option" display="false">
-                <v-btn variant="tonal" @click="switchOpacity($event)">
+                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)" @click="switchOpacity($event)">
                     <div class="switch-opa">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:'./img/gear-solid.svg'}">
                         </v-img>

@@ -1,9 +1,9 @@
 :root {
-    --globel-background-color: hsl(0 0% 17.6%);
+    --globel-background-color: hsl(0, 0%, 17.6%);
     --background-color-lighter-1: hsl(0, 0%, 40%);
     --background-color-darker-1: hsl(0, 0%, 10%);
     --block-color: #f2f2d2;
-    --glow-width: 14px;
+    --glow-width: 12px;
     --glow-color: rgb(255, 220, 100);
 }
 
@@ -15,15 +15,12 @@ html {
 
 body {
     background: var(--globel-background-color);
+    padding: 2vh 2vw;
 }
 
 #app {
     display: flex;
     flex-direction: row;
-}
-
-.v-btn__content {
-    text-transform: none;
 }
 
 #banlist {
@@ -46,7 +43,20 @@ body {
 
 #banlist>div>button {
     color: var(--block-color) !important;
-    text-shadow: 0 0 var(--glow-width) var(--glow-color);
+    background: transparent !important;
+    box-shadow: none !important;
+    border: var(--block-color) 0.1rem solid;
+    border-radius: 0.1rem;
+    margin-left: 0.1rem;
+    filter: drop-shadow(0 0 4px var(--glow-color));
+}
+
+#banlist>div>button .v-btn__overlay {
+    display: none;
+}
+
+#banlist>div>button .v-btn__underlay {
+    display: none;
 }
 
 #banlist .balls {
@@ -61,6 +71,7 @@ body {
     height: 50px;
     margin: 5px;
     min-width: unset;
+    filter: drop-shadow(0 0 4px var(--glow-color));
 }
 
 #banlist .ball:not([available="true"]) {
@@ -82,6 +93,13 @@ body {
 .ball-icon {
     width: 100%;
     height: 100%;
+}
+
+.v-overlay__content:not([style*="transform-origin: right bottom"]) {
+    background: hsl(0, 0%, 40%, 0.4) !important;
+    backdrop-filter: blur(4px);
+    color: var(--block-color);
+    filter: drop-shadow(10px 10px 5px #000);
 }
 
 #playground {
@@ -153,7 +171,7 @@ body {
     text-align: center;
     color: var(--background-color-darker-1);
     background: var(--block-color);
-    box-shadow: 0 0 var(--glow-width) var(--glow-color),0 0 var(--glow-width) var(--glow-color);
+    box-shadow: 0 0 var(--glow-width) var(--glow-color), 0 0 var(--glow-width) var(--glow-color);
 
     width: fit-content;
     min-width: calc(100% - 10rem);
@@ -241,6 +259,22 @@ body {
     justify-content: right;
 }
 
+#simpad .option button {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: var(--block-color) 0.1rem solid;
+    border-radius: 0.1rem;
+    filter: drop-shadow(0 0 4px var(--glow-color));
+}
+
+#simpad .option button .v-btn__overlay {
+    display: none;
+}
+
+#simpad .option button .v-btn__underlay {
+    display: none;
+}
+
 #simpad .option[display="false"] .container {
     display: none;
 }
@@ -257,10 +291,28 @@ body {
         "a b c"
         "d e f" / 1fr 1fr 1fr;
     gap: 0.5rem;
-    border: #ccc 0.2rem solid;
-    border-radius: 0.5rem;
+    position: relative;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 4px var(--glow-color));
+}
+
+#config-container * {
+    background: transparent;
+    color: var(--block-color);
+}
+
+#config-container::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.2rem;
+    border: var(--block-color) 0.2rem solid;
+    z-index: -1;
 }
 
 #config-container .v-input__details {
@@ -279,9 +331,10 @@ body {
 }
 
 #simpad .start-key span {
-    color: #fff;
+    color: var(--block-color);
     font-size: 1rem;
     line-height: 2.6rem;
+    filter: drop-shadow(0 0 var(--glow-width) var(--glow-color));
 }
 
 #simpad .start-key span::before {
@@ -300,9 +353,9 @@ body {
     width: 3rem;
     height: 3rem;
     --border-width: 0.2rem;
-    border: #333 var(--border-width) solid;
-    background: #808080;
+    border: var(--block-color) var(--border-width) solid;
     border-radius: var(--border-width);
+    filter: drop-shadow(0 0 var(--glow-width) var(--glow-color));
 }
 
 #simpad span[command]:active {
