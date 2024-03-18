@@ -1,10 +1,10 @@
 :root {
     --globel-background-color: hsl(0 0% 17.6%);
-    --lighter-1-background-color: hsl(0, 0%, 40%);
-    --darker-1-background-color: hsl(0, 0%, 10%);
-    --block-color: rgb(242, 242, 210);
-    --glow-width: 10px;
-    --glow-color: rgb(255, 255, 0);
+    --background-color-lighter-1: hsl(0, 0%, 40%);
+    --background-color-darker-1: hsl(0, 0%, 10%);
+    --block-color: #f2f2d2;
+    --glow-width: 14px;
+    --glow-color: rgb(255, 220, 100);
 }
 
 html {
@@ -28,7 +28,7 @@ body {
 
 #banlist {
     width: min-content;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: auto;
 
 }
@@ -36,11 +36,11 @@ body {
 #banlist::-webkit-scrollbar {
     --width: 12px;
     width: calc(var(--width) + 2 * var(--glow-width));
-    background: linear-gradient(var(--lighter-1-background-color) 0 0) center center / calc(100% - 2 * var(--glow-width)) calc(100% - 2 * var(--glow-width)) no-repeat;
+    background: linear-gradient(var(--background-color-lighter-1) 0 0) center center / calc(100% - 2 * var(--glow-width)) calc(100% - 2 * var(--glow-width)) no-repeat;
 }
 
 #banlist::-webkit-scrollbar-thumb {
-    --shadow-color: rgba(255, 255, 80, 0.4);
+    --shadow-color: rgba(255, 220, 100, 0.5);
     background: linear-gradient(var(--block-color) 0 0) center center / calc(100% - var(--glow-width) * 2) calc(100% - var(--glow-width) * 2) no-repeat, linear-gradient(0deg, var(--shadow-color), transparent) center top / calc(100% - var(--glow-width) * 2) var(--glow-width) no-repeat, linear-gradient(180deg, var(--shadow-color), transparent) center bottom / calc(100% - var(--glow-width) * 2) var(--glow-width) no-repeat, linear-gradient(270deg, var(--shadow-color), transparent) left center / var(--glow-width) calc(100% - var(--glow-width) * 2) no-repeat, linear-gradient(90deg, var(--shadow-color), transparent) right center / var(--glow-width) calc(100% - var(--glow-width) * 2) no-repeat, radial-gradient(farthest-side circle at 100% 100%, var(--shadow-color), transparent) left top / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 100% 0, var(--shadow-color), transparent) left bottom / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 0 100%, var(--shadow-color), transparent) right top / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 0 0, var(--shadow-color), transparent) right bottom / var(--glow-width) var(--glow-width) no-repeat;
 }
 
@@ -89,7 +89,6 @@ body {
     height: fit-content;
     padding: 1rem;
     border-radius: 1rem;
-    background: #ccc;
     position: relative
 }
 
@@ -101,15 +100,21 @@ body {
 }
 
 #ballplay .ball-container {
-    width: 50px;
-    height: 50px;
+    width: 66px;
+    height: 66px;
     position: relative;
     margin: 5px;
+    transition: 0.1s ease-in-out;
+}
+
+#ballplay .ball-container[playing="true"] {
+    margin: 5px 22px;
 }
 
 #ballplay .ball-container .timer {
     font-size: 0.7rem;
-    color: green;
+    color: var(--block-color);
+    text-shadow: 0 0 var(--glow-width) var(--glow-color);
     text-align: center;
     position: absolute;
     top: -1rem;
@@ -118,18 +123,43 @@ body {
 
 #ballplay .ball-container .ball-icon {
     transition: 0.1s ease-in-out;
+    position: relative;
+    overflow: visible;
 }
 
 #ballplay .ball-container[playing="true"] .ball-icon {
-    outline: #ff6600 4px dashed;
-    outline-offset: -4px;
-    transform: scale(1.1);
+    padding: 5px;
+    transform: scale(1.5);
+}
+
+#ballplay .ball-container[playing="true"] .ball-icon::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 1px;
+    border: var(--block-color) 2px solid;
+    filter: drop-shadow(0 0 4px var(--glow-color));
+}
+
+#ballplay .ball-container[playing="true"] .ball-icon img {
+    position: relative;
 }
 
 #playingball {
-    width: fit-content;
-    margin: auto;
     text-align: center;
+    color: var(--background-color-darker-1);
+    background: var(--block-color);
+    box-shadow: 0 0 var(--glow-width) var(--glow-color),0 0 var(--glow-width) var(--glow-color);
+
+    width: fit-content;
+    min-width: calc(100% - 10rem);
+    padding: 0 1rem;
+    margin: 1rem auto;
+    border-radius: 3px;
 }
 
 .commandsplay {
@@ -158,25 +188,25 @@ body {
     display: block;
     width: 100%;
     height: 100%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 2 8 L 6 8 L 6 5.33 L 8 5.33 L 4 0 L 0 5.33 L 2 5.33 Z' fill='%23e6e6df'/%3E%3C/svg%3E") left top / 100% 100%;
-    filter: drop-shadow(0.1rem 0.1rem 0.1rem #000a);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 2 8 L 6 8 L 6 5.33 L 8 5.33 L 4 0 L 0 5.33 L 2 5.33 Z' fill='%23f2f2d2'/%3E%3C/svg%3E") left top / 100% 100%;
+    filter: grayscale(1);
     z-index: -1;
 }
 
 .commandsplay span[command][finished="true"]::before {
-    filter: brightness(60%) drop-shadow(0.1rem 0.1rem 0.1rem #000a);
+    filter: drop-shadow(0 0 6px var(--glow-color));
 }
 
 .commandsplay span[command="r"]::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 0 2 L 0 6 L 2.67 6 L 2.67 8 L 8 4 L 2.67 0 L 2.67 2 Z' fill='%23e6e6df'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 0 2 L 0 6 L 2.67 6 L 2.67 8 L 8 4 L 2.67 0 L 2.67 2 Z' fill='%23f2f2d2'/%3E%3C/svg%3E");
 }
 
 .commandsplay span[command="d"]::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 6 -0 L 2 0 L 2 2.67 L 0 2.67 L 4 8 L 8 2.67 L 6 2.67 Z' fill='%23e6e6df'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 6 -0 L 2 0 L 2 2.67 L 0 2.67 L 4 8 L 8 2.67 L 6 2.67 Z' fill='%23f2f2d2'/%3E%3C/svg%3E");
 }
 
 .commandsplay span[command="l"]::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 8 6 L 8 2 L 5.33 2 L 5.33 -0 L 0 4 L 5.33 8 L 5.33 6 Z' fill='%23e6e6df'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M 8 6 L 8 2 L 5.33 2 L 5.33 -0 L 0 4 L 5.33 8 L 5.33 6 Z' fill='%23f2f2d2'/%3E%3C/svg%3E");
 }
 
 .commandsplay span[command=""]::before {
@@ -185,7 +215,8 @@ body {
 
 #kps {
     font-size: 0.7rem;
-    color: green;
+    color: var(--block-color);
+    text-shadow: 0 0 var(--glow-width) var(--glow-color);
     position: absolute;
     right: 1rem;
     bottom: 1rem;

@@ -46,14 +46,14 @@
                     </v-img>
                 </div>
             </div>
-            <div id="playingball">{{playBalls.length ==0?'': playBalls.filter(ball => ball.playing == true)[0].name}}
+            <div id="playingball" v-if="playBalls[0] != undifined">{{playBalls.filter(ball => ball.playing == true).length == 0?'完成': playBalls.filter(ball => ball.playing == true)[0].name}}
             </div>
             <div class="commandsplay">
                 <span v-for="command in playingCommands"
                     v-bind="{command:command.command,finished:command.finished}">{{command.command}}</span>
             </div>
             <div v-bind="{id:'kps'}"
-                v-if=" playBalls[0] != null && playBalls.slice(-1)[0].playing == true && playingCommands.slice(-1)[0].finished == true">
+                v-if=" playBalls[0] != null && playingCommands.slice(-1)[0].finished == true">
                 {{kps.toFixed(2)}} key/s</div>
         </div>
 
@@ -234,6 +234,7 @@
                         playBall.time.push(playBall.time_end - playBall.time_start)
                         this.balls.filter(ball => ball.name == playBall.name)[0].time = playBall.time
                     })
+                    this.playBalls.slice(-1)[0].playing = false
                     return
                 }
             },
