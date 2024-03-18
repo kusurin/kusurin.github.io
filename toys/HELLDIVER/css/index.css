@@ -1,7 +1,20 @@
+:root {
+    --globel-background-color: hsl(0 0% 17.6%);
+    --lighter-1-background-color: hsl(0, 0%, 40%);
+    --darker-1-background-color: hsl(0, 0%, 10%);
+    --block-color: rgb(242, 242, 210);
+    --glow-width: 10px;
+    --glow-color: rgb(255, 255, 0);
+}
+
 html {
     font-size: 20pt;
     overflow: hidden;
     touch-action: manipulation;
+}
+
+body {
+    background: var(--globel-background-color);
 }
 
 #app {
@@ -16,11 +29,29 @@ html {
 #banlist {
     width: min-content;
     max-height: 90vh;
-    overflow: auto
+    overflow: auto;
+
+}
+
+#banlist::-webkit-scrollbar {
+    --width: 12px;
+    width: calc(var(--width) + 2 * var(--glow-width));
+    background: linear-gradient(var(--lighter-1-background-color) 0 0) center center / calc(100% - 2 * var(--glow-width)) calc(100% - 2 * var(--glow-width)) no-repeat;
+}
+
+#banlist::-webkit-scrollbar-thumb {
+    --shadow-color: rgba(255, 255, 80, 0.4);
+    background: linear-gradient(var(--block-color) 0 0) center center / calc(100% - var(--glow-width) * 2) calc(100% - var(--glow-width) * 2) no-repeat, linear-gradient(0deg, var(--shadow-color), transparent) center top / calc(100% - var(--glow-width) * 2) var(--glow-width) no-repeat, linear-gradient(180deg, var(--shadow-color), transparent) center bottom / calc(100% - var(--glow-width) * 2) var(--glow-width) no-repeat, linear-gradient(270deg, var(--shadow-color), transparent) left center / var(--glow-width) calc(100% - var(--glow-width) * 2) no-repeat, linear-gradient(90deg, var(--shadow-color), transparent) right center / var(--glow-width) calc(100% - var(--glow-width) * 2) no-repeat, radial-gradient(farthest-side circle at 100% 100%, var(--shadow-color), transparent) left top / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 100% 0, var(--shadow-color), transparent) left bottom / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 0 100%, var(--shadow-color), transparent) right top / var(--glow-width) var(--glow-width) no-repeat, radial-gradient(farthest-side circle at 0 0, var(--shadow-color), transparent) right bottom / var(--glow-width) var(--glow-width) no-repeat;
+}
+
+#banlist>div>button {
+    color: var(--block-color) !important;
+    text-shadow: 0 0 var(--glow-width) var(--glow-color);
 }
 
 #banlist .balls {
-    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 #banlist .ball {

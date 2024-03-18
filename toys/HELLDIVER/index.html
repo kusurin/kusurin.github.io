@@ -19,9 +19,10 @@
     <div id="app">
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
-                <v-btn variant="tonal">{{ballClass}}</v-btn>
+                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)">#{{ballClass}}</v-btn>
                 <div v-bind="{class:'balls'}">
-                    <v-btn variant="tonal" v-for="ball in ballFilterByClass(ballClass)"
+                    <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)"
+                        v-for="ball in ballFilterByClass(ballClass)"
                         v-bind="{name:ball.name,class:'ball',available:ball.available}"
                         @click="switchAvailableBalls($event)">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
