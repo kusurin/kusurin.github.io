@@ -83,15 +83,22 @@
                 </v-btn>
             </div>
             <div class="start-key" @click="setPlayBalls">
-                <span command="start" @click="simpadClick($event,inputSet.Start)" tabindex="0">start</span>
+                <button v-bind="{class:'key-container'}">
+                    <span command="start" @click="simpadClick($event,inputSet.Start)" tabindex="0">start</span></button>
             </div>
             <div class="key-play">
-                <span command=""></span>
-                <span command="u" @click="simpadClick($event,'ArrowUp')" tabindex="1">u</span>
-                <span command=""></span>
-                <span command="l" @click="simpadClick($event,'ArrowLeft')" tabindex="2">l</span>
-                <span command="d" @click="simpadClick($event,'ArrowDown')" tabindex="3">d</span>
-                <span command="r" @click="simpadClick($event,'ArrowRight')" tabindex="4">r</span>
+                <button v-bind="{class:'key-container'}">
+                    <span command=""></span></button>
+                <button v-bind="{class:'key-container'}">
+                    <span command="u" @click="simpadClick($event,'ArrowUp')" tabindex="1">u</span></button>
+                <button v-bind="{class:'key-container'}">
+                    <span command=""></span></button>
+                <button v-bind="{class:'key-container'}">
+                    <span command="l" @click="simpadClick($event,'ArrowLeft')" tabindex="2">l</span></button>
+                <button v-bind="{class:'key-container'}">
+                    <span command="d" @click="simpadClick($event,'ArrowDown')" tabindex="3">d</span></button>
+                <button v-bind="{class:'key-container'}">
+                    <span command="r" @click="simpadClick($event,'ArrowRight')" tabindex="4">r</span></button>
             </div>
         </div>
     </div>
