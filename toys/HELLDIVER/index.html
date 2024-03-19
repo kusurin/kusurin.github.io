@@ -19,7 +19,7 @@
     <div id="app">
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
-                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }">#{{ballClass}}</v-btn>
+                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }">{{ballClass}}</v-btn>
                 <div v-bind="{class:'balls'}">
                     <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)"
                         v-for="ball in ballFilterByClass(ballClass)"

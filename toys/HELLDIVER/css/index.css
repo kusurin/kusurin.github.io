@@ -27,7 +27,7 @@ body {
     width: min-content;
     max-height: 95vh;
     overflow: auto;
-
+    min-width: fit-content;
 }
 
 #banlist::-webkit-scrollbar {
@@ -47,6 +47,8 @@ body {
     box-shadow: none !important;
     border: var(--block-color) 0.1rem solid;
     border-radius: 0.1rem;
+    height: unset;
+    padding: 0;
     margin-left: 0.1rem;
     filter: drop-shadow(0 0 4px var(--glow-color));
 }
@@ -57,6 +59,14 @@ body {
 
 #banlist>div>button .v-btn__underlay {
     display: none;
+}
+
+#banlist>div>button .v-btn__content {
+    margin-top: -3px;
+}
+
+#banlist>div>button .v-btn__content::before {
+    content: "#";
 }
 
 #banlist .balls {
@@ -104,6 +114,8 @@ body {
 
 #playground {
     flex-grow: 2;
+    flex-shrink: 2;
+    overflow: hidden;
     height: fit-content;
     padding: 1rem;
     border-radius: 1rem;
@@ -173,11 +185,13 @@ body {
     background: var(--block-color);
     box-shadow: 0 0 var(--glow-width) var(--glow-color), 0 0 var(--glow-width) var(--glow-color);
 
-    width: fit-content;
     min-width: calc(100% - 10rem);
     padding: 0 1rem;
     margin: 1rem auto;
     border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .commandsplay {
@@ -376,4 +390,33 @@ body {
     width: calc(100% - 2 * var(--border-width));
     height: calc(100% - 2 * var(--border-width));
     filter: none;
+}
+
+/* mobile */
+@media screen and (max-height: 600px) {
+    #banlist>div>button>span {
+        font-size: 0.75rem !important;
+        margin-top: -1px;
+    }
+
+    #banlist>div>button .v-btn__content::before {
+        display: none;
+    }
+
+    #banlist .balls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #playground {
+        padding: 0 100px 0 var(--glow-width);
+    }
+
+    #playingball {
+        margin: 0.7rem auto;
+    }
+
+    #simpad {
+        right: 0;
+        bottom: 0;
+    }
 }
