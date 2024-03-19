@@ -270,6 +270,7 @@
             playSound(event) {
                 if (!this.mute) {
                     let soundNow = this.sounds.filter(sound => sound.name == event && sound.playing == false)[0] //one dom can't play twice at a time
+                    if (soundNow == undefined) return
                     soundNow.playing = true
                     soundNow.dom.play()
                     setTimeout(function () { soundNow.playing = false }, soundNow.time + 20)
