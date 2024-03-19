@@ -269,8 +269,10 @@
             },
             playSound(event) {
                 if (!this.mute) {
-                    let soundNew = this.sounds[event].cloneNode(true)
-                    soundNew.play()
+                    let soundNow = this.sounds.filter(sound => sound.name == event && sound.playing == false)[0] //one dom can't play twice at a time
+                    soundNow.playing = true
+                    soundNow.dom.play()
+                    setTimeout(function () { soundNow.playing = false }, soundNow.time + 20)
                 }
             }
         },
