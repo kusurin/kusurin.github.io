@@ -191,6 +191,7 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
+                this.playSound("button")
                 if (event.target != undefined && event.target.tagName == "INPUT")
                     return
                 let input = ''
@@ -261,6 +262,12 @@
             },
             switchOpacity(event) {
                 console.log(event.target)
+            },
+            playSound(event) {
+                const sounds = {button:new Audio('./others/button.mp3')}
+                switch(event){
+                    case "button" : sounds.button.play();
+                }
             }
         },
         mounted() {
