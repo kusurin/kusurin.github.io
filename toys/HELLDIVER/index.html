@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.5.9/vuetify.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.5.9/vuetify.min.js"></script>
     <script src="./js/balls.js"></script>
+    <script src="./js/sounds.js"></script>
     <link rel="stylesheet" href="./css/index.css">
 </head>
 
@@ -116,7 +117,9 @@
                 balls: JSON.parse(JSON.stringify(balls_colle)), //fuck
                 playBalls: [],
                 playingCommands: [],
-                inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" }
+                inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" },
+                sounds: sounds_colle,
+                mute: false
             }
         },
         computed: {
@@ -191,7 +194,6 @@
                 this.playBalls = playballs
             },
             commandInput(event) {
-                this.playSound("button")
                 if (event.target != undefined && event.target.tagName == "INPUT")
                     return
                 let input = ''
@@ -208,8 +210,10 @@
                     default: return;
                 }
 
+                this.playSound("button")
+
                 if (this.playBalls.filter(ball => ball.playing == true)[0] != undefined) {
-                    if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer
+                    if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer for only first ball
                         this.playBalls.filter(ball => ball.playing == true)[0].time_start = (new Date()).getTime() / 1000.0
 
                     let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
@@ -264,9 +268,9 @@
                 console.log(event.target)
             },
             playSound(event) {
-                const sounds = {button:new Audio('./others/button.mp3')}
-                switch(event){
-                    case "button" : sounds.button.play();
+                if (!this.mute) {
+                    let soundNew = this.sounds[event].cloneNode(true)
+                    soundNew.play()
                 }
             }
         },

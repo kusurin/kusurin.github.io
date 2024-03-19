@@ -1,0 +1,1 @@
+let sounds_colle = {button:new Audio('./others/button.mp3')}
