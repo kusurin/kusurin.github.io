@@ -49,8 +49,8 @@ body {
     border-radius: 0.1rem;
     height: unset;
     padding: 0;
-    margin-left: 0.1rem;
-    filter: drop-shadow(0 0 4px var(--glow-color));
+    margin-left: 5px;
+    filter: drop-shadow(0 0 3px var(--glow-color));
 }
 
 #banlist>div>button .v-btn__overlay {
