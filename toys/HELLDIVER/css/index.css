@@ -341,6 +341,52 @@ body {
     width: 3rem;
 }
 
+#config-container .mute-options {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: self-end;
+}
+
+#config-container .mute-options button {
+    display: block !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: var(--block-color) 0.1rem solid;
+    width: min-content;
+    height: min-content;
+    margin: 0 auto;
+    padding: 0.1rem 0.7rem;
+}
+
+#config-container .mute-options .v-btn__overlay {
+    display: none;
+}
+
+#config-container .mute-options .v-btn__underlay {
+    display: none;
+}
+
+#config-container .mute-options .mute-option {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+#config-container .mute-options .sound .mute-option {
+    background: url(../img/volume-max-svgrepo-com.svg) center center / 120% 120%;
+}
+
+#config-container .mute-options .sound[mute="true"] .mute-option {
+    background: url(../img/volume-xmark-svgrepo-com.svg) center center / 120% 120%;
+}
+
+#config-container .mute-options .music .mute-option {
+    background: url(../img/music-note-svgrepo-com.svg) center center / 120% 120%;
+}
+
+#config-container .mute-options .music[mute="true"] .mute-option {
+    background: url(../img/music-note-slash-svgrepo-com.svg) center center / 120% 120%;
+}
+
 #simpad .start-key {
     grid-area: b;
     margin-right: 1rem;

@@ -61,7 +61,7 @@
 
         <div id="simpad" class="commandsplay">
             <div class="option" display="false">
-                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)" @click="playSound('button_blank')">
+                <v-btn @click="playSound('button_blank')">
                     <div class="switch-opa">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:'./img/gear-solid.svg'}">
                         </v-img>
@@ -72,7 +72,14 @@
                             <v-text-field label="Start" v-model="inputSet.Start"
                                 @keydown="setInput($event)"></v-text-field>
                             <v-text-field label="Up" v-model="inputSet.Up" @keydown="setInput($event)"></v-text-field>
-                            <v-text-field label="U" style="opacity:0;"></v-text-field>
+                            <div class="mute-options">
+                                <v-btn v-bind="{class:'sound',mute:muteAll}" @click="function() {muteAll = muteAll? false:true}">
+                                    <div class="mute-option"></div>
+                                </v-btn>
+                                <v-btn v-bind="{class:'music',mute:muteMusic}" @click="function() {muteMusic = muteMusic? false:true}">
+                                    <div class="mute-option"></div>
+                                </v-btn>
+                            </div>
                             <v-text-field label="Left" v-model="inputSet.Left"
                                 @keydown="setInput($event)"></v-text-field>
                             <v-text-field label="Down" v-model="inputSet.Down"
@@ -120,7 +127,8 @@
                 inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" },
                 sounds: sounds_colle,
                 bcPlayedTimes: 0,
-                muteAll: false
+                muteAll: false,
+                muteMusic: false
             }
         },
         computed: {
