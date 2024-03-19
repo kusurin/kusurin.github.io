@@ -61,7 +61,7 @@
 
         <div id="simpad" class="commandsplay">
             <div class="option" display="false">
-                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)" @click="switchOpacity($event)">
+                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)" @click="playSound('button_blank')">
                     <div class="switch-opa">
                         <v-img :aspect-ratio="1/1" cover v-bind="{src:'./img/gear-solid.svg'}">
                         </v-img>
@@ -83,7 +83,7 @@
                     </v-menu>
                 </v-btn>
             </div>
-            <div class="start-key" @click="setPlayBalls">
+            <div class="start-key">
                 <button v-bind="{class:'key-container'}" @click="simpadClick($event,inputSet.Start)">
                     <span command="start">start</span></button>
             </div>
@@ -119,7 +119,8 @@
                 playingCommands: [],
                 inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" },
                 sounds: sounds_colle,
-                mute: false
+                bcPlayedTimes: 0,
+                muteAll: false
             }
         },
         computed: {
@@ -147,6 +148,7 @@
         },
         methods: {
             switchAvailableBalls(event) {
+                this.playSound("button_blank")
                 this.balls.filter(ball => ball.name == event.target.parentNode.parentNode.parentNode.getAttribute("name")).forEach(ball => {
                     ball.available = ball.available == true ? false : true
                 })
@@ -162,9 +164,11 @@
                 this.playingCommands = commands
             },
             setPlayBalls() {
-                let availableBalls = Array.from(this.balls.filter(ball => ball.available == true)) // ?
-                if (availableBalls.length == 0)
+                let availableBalls = Array.from(this.balls.filter(ball => ball.available == true)) // why is this deep clone
+                if (availableBalls.length == 0) {
                     return
+                }
+                this.playSound("start")
                 availableBalls.forEach(ball => {
                     ball.playing = false
 
@@ -206,11 +210,9 @@
                     case this.inputSet.Right: input = 'r'; break;
                     case this.inputSet.Down: input = 'd'; break;
                     case this.inputSet.Left: input = 'l'; break;
-                    case this.inputSet.Start: this.setPlayBalls(); return;
-                    default: return;
+                    case this.inputSet.Start: this.setPlayBalls(); input = "s"; break;
+                    default: this.playSound("button_blank"); return;
                 }
-
-                this.playSound("button")
 
                 if (this.playBalls.filter(ball => ball.playing == true)[0] != undefined) {
                     if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer for only first ball
@@ -219,17 +221,22 @@
                     let playingcommand = this.playingCommands.filter(command => command.finished == false)[0]
 
                     if (input == playingcommand.command) {
+                        this.playSound("button")
                         playingcommand.finished = true
                     }
-                    else this.playingCommands.forEach(command => {
-                        command.finished = false
-                    })
+                    else if (input != "s") {
+                        this.playSound("wrong")
+                        this.playingCommands.forEach(command => {
+                            command.finished = false
+                        })
+                    }
                     if (this.playingCommands.filter(command => command.finished == false).length == 0) {
 
                         this.playBalls.filter(ball => ball.playing == true)[0].time_end = (new Date()).getTime() / 1000.0 //timer
 
                         for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
                             if (this.playBalls[index].playing == true) {
+                                this.playSound("ballCompleted")
                                 this.playBalls[index].playing = false
                                 this.playBalls[index + 1].playing = true
                                 this.playBalls[index + 1].time_start = (new Date()).getTime() / 1000.0
@@ -241,6 +248,15 @@
                 }
 
                 if (this.playBalls.slice(-1)[0] != undefined && this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) { //input when game finishes
+
+                    //randomize end sound effect
+                    switch (this.bcPlayedTimes % 3) {
+                        case 0: this.playSound("balls_completed_type1"); break;
+                        case 1: this.playSound("balls_completed_type2"); break;
+                        case 2: this.playSound("balls_completed_type3"); break;
+                    }
+                    this.bcPlayedTimes += 1
+
                     this.playBalls.forEach(playBall => {
                         if (playBall.time == undefined)
                             playBall.time = []
@@ -249,6 +265,27 @@
                     })
                     this.playBalls.slice(-1)[0].playing = false
                     return
+                }
+
+                if (this.playingCommands.filter(command => command.finished == false)[0] == undefined) {
+                    switch (event.code) {
+                        case 'ArrowUp':
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                        case 'ArrowLeft':
+                        case this.inputSet.Up:
+                        case this.inputSet.Right:
+                        case this.inputSet.Down:
+                        case this.inputSet.Left:
+                        case this.inputSet.Start: {
+                            this.playSound("button")
+                            return
+                        }
+                        default: {
+                            this.playSound("button_blank")
+                            return
+                        }
+                    }
                 }
             },
             simpadClick(event, key) {
@@ -264,13 +301,11 @@
                     return ante + post
                 }) / arr.length).toFixed(2)
             },
-            switchOpacity(event) {
-                console.log(event.target)
-            },
             playSound(event) {
-                if (!this.mute) {
+                if (!this.muteAll) {
                     let soundNow = this.sounds.filter(sound => sound.name == event && sound.playing == false)[0] //one dom can't play twice at a time
                     if (soundNow == undefined) return
+                    soundNow.dom.volume = soundNow.volume
                     soundNow.playing = true
                     soundNow.dom.play()
                     setTimeout(function () { soundNow.playing = false }, soundNow.time + 100)
