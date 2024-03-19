@@ -113,7 +113,7 @@
     const app = createApp({
         data() {
             return {
-                balls: balls_colle,
+                balls: JSON.parse(JSON.stringify(balls_colle)), //fuck
                 playBalls: [],
                 playingCommands: [],
                 inputSet: { Up: "KeyW", Left: "KeyA", Down: "KeyS", Right: "KeyD", Start: "Enter" }
@@ -159,7 +159,7 @@
                 this.playingCommands = commands
             },
             setPlayBalls() {
-                let availableBalls = Array.from(this.balls.filter(ball => ball.available == true))
+                let availableBalls = Array.from(this.balls.filter(ball => ball.available == true)) // ?
                 if (availableBalls.length == 0)
                     return
                 availableBalls.forEach(ball => {
