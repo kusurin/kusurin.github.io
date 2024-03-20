@@ -20,7 +20,11 @@
     <div id="app">
         <div id="banlist">
             <div v-for="ballClass in getBallClasses" v-bind="{id:ballClass}">
-                <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }">{{ballClass}}</v-btn>
+                <v-tooltip text="全选/全不选">
+                    <template v-slot:activator="{ props }">
+                        <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" v-bind="props"
+                            @click="switchAvailableClass(ballClass)">{{ballClass}}</v-btn></template>
+                </v-tooltip>
                 <div v-bind="{class:'balls'}">
                     <v-btn :ripple="{ color: 'hsl(0, 0%, 40%)' }" color="hsl(0, 0%, 5%)"
                         v-for="ball in ballFilterByClass(ballClass)"
@@ -73,10 +77,12 @@
                                 @keydown="setInput($event)"></v-text-field>
                             <v-text-field label="Up" v-model="inputSet.Up" @keydown="setInput($event)"></v-text-field>
                             <div class="mute-options">
-                                <v-btn v-bind="{class:'sound',mute:muteAll}" @click="function() {muteAll = muteAll? false:true}">
+                                <v-btn v-bind="{class:'sound',mute:muteAll}"
+                                    @click="function() {muteAll = muteAll? false:true}">
                                     <div class="mute-option"></div>
                                 </v-btn>
-                                <v-btn v-bind="{class:'music',mute:muteMusic}" @click="function() {muteMusic = muteMusic? false:true}">
+                                <v-btn v-bind="{class:'music',mute:muteMusic}"
+                                    @click="function() {muteMusic = muteMusic? false:true}">
                                     <div class="mute-option"></div>
                                 </v-btn>
                             </div>
@@ -160,6 +166,14 @@
                 this.balls.filter(ball => ball.name == event.target.parentNode.parentNode.parentNode.getAttribute("name")).forEach(ball => {
                     ball.available = ball.available == true ? false : true
                 })
+            },
+            switchAvailableClass(className) {
+                this.playSound("button_blank")
+                let classBalls = this.ballFilterByClass(className)
+                if (classBalls.filter(ball => ball.available == false)[0] == undefined)
+                    classBalls.forEach(ball => { ball.available = false })
+                else
+                    classBalls.forEach(ball => { ball.available = true })
             },
             setPlayingCommands(ball) {
                 if (ball == null)
@@ -321,6 +335,9 @@
         },
         mounted() {
             window.addEventListener('keydown', this.commandInput)
+            this.balls.forEach(ball => {
+                ball.available = false
+            })
         }
     })
     app.use(vuetify).mount('#app')
