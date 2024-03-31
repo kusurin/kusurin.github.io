@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迷路了！</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .cd {
+            color: rgb(243, 97, 162);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>404 NOT FOUND</h1>
+    <p>您可以返回<a href="https://kusurin.icu">首页</a></p>
+    <p>You could return <a href="https://kusurin.icu">home page</a></p>
+    <p>(auto in <span class="cd">5</span>s)</p>
+    <script>
+        let cd = document.getElementsByClassName("cd")[0]
+        let cd_num = parseInt(cd.innerText)
+        let handle = setInterval(function () {
+            cd_num--
+            cd.innerText = cd_num
+            if (cd_num == 0) {
+                clearInterval(handle)
+                window.location.href = 'https://kusurin.icu'
+            }
+        }, 1000)
+    </script>
+</body>
+
+</html>
