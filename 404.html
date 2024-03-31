@@ -37,16 +37,18 @@
     <h1>404 NOT FOUND</h1>
     <p>您可以返回<a href="https://kusurin.icu">首页</a></p>
     <p>You could return <a href="https://kusurin.icu">home page</a></p>
-    <p>(auto in <span class="cd">5</span>s)</p>
+    <p>(auto in <span class="cd">10</span>s)</p>
     <script>
         let cd = document.getElementsByClassName("cd")[0]
         let cd_num = parseInt(cd.innerText)
         let handle = setInterval(function () {
-            cd_num--
-            cd.innerText = cd_num
             if (cd_num == 0) {
                 clearInterval(handle)
                 window.location.href = 'https://kusurin.icu'
+            }
+            else {
+                cd_num--
+                cd.innerText = cd_num
             }
         }, 1000)
     </script>
