@@ -68,7 +68,7 @@ var balls_colle = [
     { name: "RS-422 磁轨炮", commands: "drdulr", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Railgun.svg" },
     { name: "FAF-14 飞矛", commands: "ddudd", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Spear.svg" },
     { name: "LAS-98 激光大炮", commands: "dldul", class: "武器装备", icon: "./img/icons/Engineering Bay/Laser Cannon.svg" },
-    { name: "LAS-99 类星体加农炮", commands: "uldur", class: "武器装备", icon: "./img/icons/Engineering Bay/Quasar Cannon.svg" },
+    { name: "LAS-99 类星体加农炮", commands: "ddulr", class: "武器装备", icon: "./img/icons/Engineering Bay/Quasar Cannon.svg" },
     { name: "ARC-3 电弧发射器", commands: "drdull", class: "武器装备", icon: "./img/icons/Engineering Bay/Arc Thrower.svg" },
 
     { name: "B-1 补给背包", commands: "dlduud", class: "支援装备", icon: "./img/icons/Engineering Bay/Supply Pack.svg" },
