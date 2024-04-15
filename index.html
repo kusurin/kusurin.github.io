@@ -27,7 +27,7 @@
 
                         <li class="top-submenu-container">
                             <a class="top-submenu-title">Tools</a>
-                            <ul class="top-submenu hidden">
+                            <ul class="top-submenu">
                                 <li class="top-submenu-item-container">
                                     <a href="./tools/kaopiDIY/" class="top-submenu-item">
                                         <div class="top-submenu-content-container">
@@ -74,7 +74,7 @@
                         
                         <li class="top-submenu-container">
                             <a class="top-submenu-title">Toys</a>
-                            <ul class="top-submenu hidden">
+                            <ul class="top-submenu">
                                 <li class="top-submenu-item-container">
                                     <a href="./toys/HELLDIVER/" class="top-submenu-item">
                                         <div class="top-submenu-content-container">
@@ -88,7 +88,7 @@
 
                         <li class="top-submenu-container">
                             <a class="top-submenu-title">Blog</a>
-                            <ul class="top-submenu hidden">
+                            <ul class="top-submenu">
                                 <li class="top-submenu-item-container">
                                     <a href="/blog/" class="top-submenu-item">
                                         <div class="top-submenu-content-container">
@@ -118,7 +118,7 @@
 
                         <li class="top-submenu-container">
                             <a class="top-submenu-title">About</a>
-                            <ul class="top-submenu hidden">
+                            <ul class="top-submenu">
                                 <li class="top-submenu-item-container">
                                     <a href="#" class="top-submenu-item">
                                         <div class="top-submenu-content-container">
@@ -211,16 +211,26 @@
         return width;
     }
 
-    function submenu_fill() {
+    function styleDynamic() {
         let style = document.getElementById("top-style-mobile");
         var max_width = 0;
         Array.from(document.getElementsByClassName("top-submenu")).forEach(element => {
             max_width = Math.max(get_width(element) + element.parentNode.offsetLeft + 2 * Number(window.getComputedStyle(document.documentElement).getPropertyValue('--body-margin-lr').slice(0, -2)) + window.innerWidth - document.documentElement.clientWidth, max_width); //submenu.width + submenu.left from body + body.margin l&r + scroll bar
         });
         style.innerHTML = '@media (max-width:' + max_width + 'px) {.top-submenu-container {position: static !important;}.top-submenu {width: 100% !important;}}';
+
+        //set transition delay for each top-submenu-item-container of top-submenu
+        let topSubmenus = document.getElementsByClassName('top-submenu');
+        Array.from(topSubmenus).forEach(element => {
+            let delay = 0;
+            Array.from(element.children).forEach(child => {
+                child.style.transitionDelay = delay + 's';
+                delay += 0.09;
+            });
+        })
     }
 
-    document.getElementsByTagName('header')[0].onload = submenu_fill();
+    document.getElementsByTagName('header')[0].onload = styleDynamic();
 
     $.when(getTemperature()).done(function (temperature) {
         Array.from(document.getElementsByClassName('quote')).forEach(element => {
