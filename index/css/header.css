@@ -41,7 +41,7 @@
 
     background: url("https://pic1.zhimg.com/v2-0f468e8462a4b99f94773d6554567a21_r.jpg?source=172ae18b") bottom -180pt left 65% / 1000px auto no-repeat;
 
-    z-index: 0;
+    z-index: 99;
 }
 
 .header-background-icon {
