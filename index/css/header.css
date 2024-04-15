@@ -203,7 +203,7 @@
     position: relative;
     height: 0;
     overflow: hidden;
-    transition: 0.25s ease-in-out;
+    transition: 0.18s ease-in-out;
 }
 
 .top-submenu-container:hover .top-submenu-item-container {
