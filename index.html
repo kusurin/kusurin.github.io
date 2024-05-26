@@ -221,6 +221,12 @@
     </div>
 </body>
 <script>
+    Array.from(document.getElementsByTagName("a")).forEach(element => {
+        element.onclick = function () {
+            window.stop;
+        }
+    });
+
     function get_width(element) {
         element.style.display = 'block';
         element.style.visibility = 'hidden';
