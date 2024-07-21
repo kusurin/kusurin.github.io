@@ -211,8 +211,10 @@
             }
         </script>
         <button onclick="navigator.clipboard.writeText(editor.getValue())">copy</button>
-        <button
-            onclick="editor.setValue(document.getElementById('default-style').getAttribute('value'))">import</button>
+        <button onclick="editor.setValue(document.getElementById('default-style').getAttribute('value'))">import default
+            style</button>
+        <button onclick="editor.setValue(document.getElementById('relative-style').getAttribute('value'))">import relative
+            style</button>
         <textarea autocomplete="off" rows="20" class="el-textarea__inner"></textarea>
         <script>
             function highlight_textarea() {
@@ -273,8 +275,7 @@
 
     </div>
 </body>
-<input id="default-style" style="display: none;" value="
-@font-face {
+<input id="default-style" style="display: none;" value="@font-face {
     font-family: '';
     font-weight: bold;
     src: url('');
@@ -361,27 +362,30 @@ yt-live-chat-ticker-renderer {
 
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content::before {
     position: absolute;
-    bottom: 0px;
     right: 0px;
+    bottom: 0px;
     content: &quot;&quot;;
     display: block;
-    height: 37px;
     width: 44px;
-    background:rgba(0,0,0,0.5) no-repeat;
+    height: 37px;
+    background:rgb(0,0,0,0.5) no-repeat;
     z-index: 1000;
 }
 
 /* 普通--昵称总体 */
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) yt-live-chat-author-chip {
     position: absolute;
-    top: 0px;
     left: 0px;
+    top: 0px;
 
-    max-width: calc(100% - 40px) !important;
+    padding: 0 0px 0 0px !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: left;
 
     border: 0px !important;
     border-radius: 0px !important;
-    background: rgba(255,0,0,0.5) !important;
+    background: rgb(255,0,0,0.5) !important;
 }
 
 /* 普通--昵称 */
@@ -390,28 +394,17 @@ yt-live-chat-ticker-renderer {
     line-height:1em;
     color: #fff !important;
 
-    padding: 4px 10px 6px 30px !important;
+    height: 40px;
+    padding: 4px 10px 0 30px !important;
 
     background: transparent !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
     width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
 
     z-index: 2000;
-}
-
-:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name::before {
-    display: inline-block !important;
-    position: absolute !important;
-    top: 11px;
-    left: 7px;
-    content: &quot;&quot;;
-    height: 16px;
-    width: 20px;
-    background:rgba(255,0,0,0.5);
-    z-index: 101;
 }
 
 /* 普通-弹幕外层 */
@@ -426,36 +419,36 @@ yt-live-chat-text-message-renderer #image-and-message, yt-live-chat-interact-mes
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #message {
     color: #323870 !important;
     font-size:35px;
-    line-height:1.1em;
 }
 
 /* 普通--头像总体 */
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo {
     position: absolute !important;
-    top: 0px !important;
     left: 0px !important;
-    height: 100px !important;
+    top: 0px !important;
     width: 100px !important;
+    height: 100px !important;
     overflow: visible !important;
     z-index: 3000;
 }
 
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo::before {
     position: absolute;
-    top: -5px;
     left: -5px;
+    top: -5px;
     content: &quot;&quot;;
-    height: 110px;
     width: 110px;
-    background: rgba(0,0,255,0.5);
+    height: 110px;
+    background: rgb(0,0,255,0.5);
     z-index: 100;
 }
 
 /* 普通--头像img */
 :is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo img {
-    height: 100% !important;
     width: 100% !important;
+    height: 100% !important;
     border-radius: 11px !important;
+    overflow: hidden !important;
 }
 /* 普通 end */
 
@@ -473,19 +466,20 @@ yt-live-chat-membership-item-renderer #card {
 
     border: 0px !important;
     border-radius: 0px !important;
+
     height: 100px;
 
-    background: rgba(255,255,255,0.5) !important;
+    background: rgb(255,255,255,0.5) !important;
 }
 
 yt-live-chat-membership-item-renderer #card::before {
     position: absolute;
-    top: 0px;
     left: 0px;
+    top: 0px;
     content: &quot;&quot;;
-    height: 50px;
     width: 100px;
-    background: rgba(0,0,0,0.5);
+    height: 50px;
+    background: rgb(0,0,0,0.5);
     z-index: 80;
 }
 
@@ -501,10 +495,10 @@ yt-live-chat-membership-item-renderer #header {
 /* 上舰-头像框总体 */
 yt-live-chat-membership-item-renderer #author-photo {
     position: absolute !important;
-    bottom: 4px !important;
     right: 15px !important;
-    height: 100px !important;
+    top: 4px !important;
     width: 100px !important;
+    height: 100px !important;
     overflow: visible !important;
 
     margin: 0px !important;
@@ -514,42 +508,40 @@ yt-live-chat-membership-item-renderer #author-photo {
 
 yt-live-chat-membership-item-renderer #author-photo::before {
     position: absolute;
-    top: -5px;
     left: -5px;
+    top: -5px;
     content: &quot;&quot;;
-    height: 110px;
     width: 110px;
-    background:rgba(0,0,255,0.5);
+    height: 110px;
+    background:rgb(0,0,255,0.5);
     z-index: 120;
 }
 
 
 /* 上舰-头像框总体----img标签 */
 yt-live-chat-membership-item-renderer #author-photo img {
-    height: 100% !important;
     width: 100% !important;
+    height: 100% !important;
     border-radius: 10px !important;
+    overflow: hidden !important;
 }
 
 yt-live-chat-membership-item-renderer #header-content {
     width: 100% !important;
     display: block !important;
-
-    height: 100px;
-    overflow: hidden;
 }
 
 yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
-    width: calc(100% - 270px) !important;
+    width: calc(100% - 0px) !important;
     position: relative;
-    top: 9px;
-    left: 150px;
+    left: 0px;
+    top: 0px;
 
-    padding: 3px 0px 5px 0px;
+    padding: 0 0px 0 0px;
 
     border: 0px !important;
     border-radius: 0px !important;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(255, 255, 255, 0.2);
 
     display: flex !important;
     justify-content: center !important;
@@ -560,10 +552,8 @@ yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
 /* 上舰-昵称 */
 yt-live-chat-membership-item-renderer #author-name {
     font-size:37px;
-    line-height:1em;
     color: #fff !important;
 
-    max-width: calc(100% - 190px) !important;
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
@@ -593,13 +583,13 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #card {
 yt-live-chat-paid-message-renderer:not([show-only-header]) #header {
     margin: 0px !important;
 
-    height: 45px !important;
+    height: unset !important;
 
     width: 100% !important;
     border-width: 0px !important;
     border-radius: 0px;
 
-    background: rgba(255,0,0,0.5) !important;
+    background: rgb(255,0,0,0.5) !important;
 
     padding: 0px !important;
 }
@@ -607,28 +597,28 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #header {
 /* 礼物-头像总体 */
 yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo {
     position: absolute !important;
-    top: 5px !important;
     left: 22px !important;
-    height: 100px !important;
+    top: 5px !important;
     width: 100px !important;
+    height: 100px !important;
     overflow: visible !important;
     z-index: 110;
 }
 
 yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo::before {
     position: absolute;
-    top: -5px;
     left: -5px;
+    top: -5px;
     content: &quot;&quot;;
-    height: 110px;
     width: 110px;
-    background: rgba(0,0,255,0.5);
+    height: 110px;
+    background: rgb(0,0,255,0.5);
     z-index: 120;
 }
 
 yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo img {
-    height: 100% !important;
     width: 100% !important;
+    height: 100% !important;
     border-radius: 12px !important;
     overflow: hidden !important;
 }
@@ -655,7 +645,6 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
     position: relative !important;
 
     font-size:26px;
-    line-height:1em;
     color: #fff !important;
 
     white-space: nowrap !important;
@@ -666,23 +655,12 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
     z-index: 200 !important;
 }
 
-yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name::before {
-    position: absolute !important;
-    left: 5px;
-    top: 3px;
-    content: &quot;&quot;;
-    background: rgba(255,0,0,0.5);
-    width: 27px;
-    height: 27px;
-}
-
 /* 礼物-钱 */
 yt-live-chat-paid-message-renderer:not([show-only-header]) #purchase-amount {
     position: relative !important;
     top: 5px !important;
 
     font-size:15px;
-    line-height:1.2em;
     color: #fff !important;
 }
 
@@ -701,19 +679,18 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #content {
 
 yt-live-chat-paid-message-renderer:not([show-only-header]) #content::before {
     position: absolute;
-    bottom: 10px;
     right: 10px;
+    bottom: 10px;
     content: &quot;&quot;;
-    height: 34px;
     width: 42px;
-    background: rgba(0,0,0,0.5);
+    height: 34px;
+    background: rgb(0,0,0,0.5);
     z-index: 120;
 }
 
 /* 礼物-下半部分-文字 */
 yt-live-chat-paid-message-renderer:not([show-only-header]) #message {
     font-size:36px;
-    line-height:1.1em;
     color: #000 !important;
 
     padding: 0px 10px 0px 20px !important;
@@ -729,6 +706,444 @@ yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
 /* 其他样式-start */
 
 #example-container {
-    width: 800px
+    width: 800px;
 }">
+
+<input id="relative-style" style="display: none;" value="@font-face {
+    font-family: '';
+    font-weight: bold;
+    src: url('');
+}
+
+#items * {
+    font-family: '' !important;
+    font-weight: bold !important;
+    line-height: 1.1em !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* b站表情包 */
+yt-live-chat-text-message-renderer #image-and-message .emoji {
+    display: inline-block !important;
+    width: 100px !important;
+    height: auto !important;
+}
+/* 自定义表情包 */
+yt-live-chat-text-message-renderer #image-and-message .image {
+    display: inline-block !important;
+    margin: 0px 5px !important;
+}
+
+/* 其他样式-start */
+/* 背景为透明 */
+body,
+yt-live-chat-renderer {
+    background: transparent !important;
+}
+
+/*隐藏滚轮*/
+yt-live-chat-renderer ::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* super chat背景透明 */
+yt-live-chat-ticker-renderer {
+    background: transparent !important;
+}
+
+/* 去掉昵称旁的勋章文字 */
+yt-live-chat-author-medal-renderer:not([is-fan-group]),
+#chip-badges {
+    display: none !important;
+}
+
+/* 去掉昵称旁的勋章图标 */
+#chat-medal,
+#chat-badges {
+    display: none !important;
+}
+
+yt-live-chat-ticker-renderer {
+    display: none !important;
+}
+
+/* 普通 start */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) {
+    margin: 25px 30px !important;
+    padding: 0px 0px 0px 150px !important;
+    overflow: visible !important;
+}
+
+/* 普通-card */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #card {
+    max-width: 100% !important;
+    min-width: 30%;
+}
+
+/* 普通--昵称+文字 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content {
+    position: relative !important;
+    width: 100% !important;
+
+    border: 0px !important;
+    border-radius: 0px;
+
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px 0px 0px 0px !important;
+
+    background: #fff !important;
+}
+
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #content::before {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    content: &quot;&quot;;
+    display: block;
+    width: 44px;
+    height: 37px;
+    background:rgb(0,0,0,0.5) no-repeat;
+    z-index: 1000;
+}
+
+/* 普通--昵称总体 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) yt-live-chat-author-chip {
+    position: relative;
+    top: 0px;
+    left: 0px;
+
+    width: calc(100% + 0px);
+    height: unset;
+    padding: 0 50px 0 0px;
+    margin: 0 0 0px 0 !important;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+    background: transparent !important;
+}
+
+/* 普通--昵称 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-name {
+    font-size:26px;
+    line-height:1em;
+    color: #fff !important;
+
+    height: 40px;
+    padding: 4px 10px 0 30px !important;
+
+    background: rgb(255,0,0,0.5) !important;
+
+    overflow: hidden !important;
+    width: fit-content;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    z-index: 2000;
+}
+
+/* 普通-弹幕外层 */
+yt-live-chat-text-message-renderer #image-and-message, yt-live-chat-interact-message-renderer #message {
+    display: block;
+    overflow: visible !important;
+    position: relative;
+    z-index: 1000;
+
+    padding: 0px 45px 16px 20px !important;
+}
+
+/* 普通--文字 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #message {
+    color: #323870 !important;
+    font-size:35px;
+}
+
+/* 普通--头像总体 */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo {
+    position: absolute !important;
+    left: 0px !important;
+    top: 0px !important;
+    width: 100px !important;
+    height: 100px !important;
+    overflow: visible !important;
+    z-index: 3000;
+}
+
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo::before {
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    content: &quot;&quot;;
+    width: 110px;
+    height: 110px;
+    background: rgb(0,0,255,0.5);
+    z-index: 100;
+}
+
+/* 普通--头像img */
+:is(yt-live-chat-text-message-renderer, yt-live-chat-interact-message-renderer) #author-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+}
+/* 普通 end */
+
+
+/*上舰-总体最外层*/
+yt-live-chat-membership-item-renderer {
+    margin: 25px 30px !important;
+    overflow: visible !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+/*上舰-总体最外层-内一层*/
+yt-live-chat-membership-item-renderer #card {
+    overflow: visible !important;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+
+    height: 100px;
+
+    background: rgb(255,255,255,0.5) !important;
+}
+
+yt-live-chat-membership-item-renderer #card::before {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    content: &quot;&quot;;
+    width: 100px;
+    height: 50px;
+    background: rgb(0,0,0,0.5);
+    z-index: 80;
+}
+
+/*上舰-总体最外层-内二层,这是包着头像和（昵称+new member）的那一层*/
+yt-live-chat-membership-item-renderer #header {
+    background: transparent !important;
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    padding: 0px !important;
+}
+
+/* 上舰-头像框总体 */
+yt-live-chat-membership-item-renderer #author-photo {
+    position: absolute !important;
+    right: 15px !important;
+    top: 4px !important;
+    width: 100px !important;
+    height: 100px !important;
+    overflow: visible !important;
+
+    margin: 0px !important;
+
+    z-index: 110;
+}
+
+yt-live-chat-membership-item-renderer #author-photo::before {
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    content: &quot;&quot;;
+    width: 110px;
+    height: 110px;
+    background:rgb(0,0,255,0.5);
+    z-index: 120;
+}
+
+
+/* 上舰-头像框总体----img标签 */
+yt-live-chat-membership-item-renderer #author-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+yt-live-chat-membership-item-renderer #header-content {
+    width: 100% !important;
+    display: block !important;
+}
+
+yt-live-chat-membership-item-renderer yt-live-chat-author-chip {
+    width: calc(100% - 0px) !important;
+    position: relative;
+    left: 0px;
+    top: 0px;
+
+    padding: 0 0px 0 0px;
+
+    border: 0px !important;
+    border-radius: 0px !important;
+    background: rgb(255, 255, 255, 0.2);
+
+    display: flex !important;
+    justify-content: center !important;
+
+    white-space: nowrap !important;
+}
+
+/* 上舰-昵称 */
+yt-live-chat-membership-item-renderer #author-name {
+    font-size:37px;
+    color: #fff !important;
+
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+
+    z-index: 120;
+}
+
+yt-live-chat-membership-item-renderer #header-subtext {
+    display: none;
+}
+/* 上舰-end */
+
+
+/* 礼物 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) {
+    margin: 25px 30px !important;
+    overflow: visible !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #card {
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+/* 礼物-上半部分 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header {
+    margin: 0px !important;
+
+    height: unset !important;
+
+    width: 100% !important;
+    border-width: 0px !important;
+    border-radius: 0px;
+
+    background: rgb(255,0,0,0.5) !important;
+
+    padding: 0px !important;
+}
+
+/* 礼物-头像总体 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo {
+    position: absolute !important;
+    left: 22px !important;
+    top: 5px !important;
+    width: 100px !important;
+    height: 100px !important;
+    overflow: visible !important;
+    z-index: 110;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo::before {
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    content: &quot;&quot;;
+    width: 110px;
+    height: 110px;
+    background: rgb(0,0,255,0.5);
+    z-index: 120;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+/* 礼物-昵称+钱 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header-content {
+    width: 100% !important;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #header-content-primary-column {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-direction: row !important;
+
+    max-width: calc(100% - 200px) !important;
+
+    margin: 0px 20px 0px 170px !important;
+    z-index: 10;
+}
+
+/* 礼物-昵称 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #author-name {
+    position: relative !important;
+
+    font-size:26px;
+    color: #fff !important;
+
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    padding: 3px 7px 2px 35px !important;
+    z-index: 200 !important;
+}
+
+/* 礼物-钱 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #purchase-amount {
+    position: relative !important;
+    top: 5px !important;
+
+    font-size:15px;
+    color: #fff !important;
+}
+
+/* 礼物-下半部分 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #content {
+    padding: 10px 50px 10px 150px;
+    position: relative !important;
+
+    border-radius: 0px !important;
+    border: 0px !important;
+
+    background: #fff;
+
+    z-index: -100;
+}
+
+yt-live-chat-paid-message-renderer:not([show-only-header]) #content::before {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    content: &quot;&quot;;
+    width: 42px;
+    height: 34px;
+    background: rgb(0,0,0,0.5);
+    z-index: 120;
+}
+
+/* 礼物-下半部分-文字 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #message {
+    font-size:36px;
+    color: #000 !important;
+
+    padding: 0px 10px 0px 20px !important;
+}
+
+/* 当留言为空时,不要隐藏 */
+yt-live-chat-paid-message-renderer:not([show-only-header]) #message:empty {
+    display: block !important;
+    min-height: 40px !important;
+}
+/* 礼物-end */
+
+/* 其他样式-start */
+
+#example-container {
+    width: 800px;
+}">
+
 </html>
