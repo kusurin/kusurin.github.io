@@ -37,6 +37,7 @@ var balls_colle = [
     { name: "轨道380MM高爆弹火力网", commands: "rduuldd", class: "轨道轰炸", icon: "./img/icons/Orbital Cannons/Orbital 380MM HE Barrage.svg" },
     { name: "轨道游走火力网", commands: "rdrdrd", class: "轨道轰炸", icon: "./img/icons/Orbital Cannons/Orbital Walking Barrage.svg" },
     { name: "轨道激光炮", commands: "rdurd", class: "轨道轰炸", icon: "./img/icons/Orbital Cannons/Orbital Laser.svg" },
+    { name: "轨道凝固汽油弹火力网", commands: "rrdlru", class: "轨道轰炸", icon: "./img/icons/Orbital Cannons/Orbital Napalm Barrage.svg" },
 
     { name: "MD-6 反步兵雷区", commands: "dlur", class: "自动防御塔", icon: "./img/icons/Engineering Bay/Anti-Personnel Minefield.svg" },
     { name: "MD-14 燃烧地雷", commands: "dlld", class: "自动防御塔", icon: "./img/icons/Engineering Bay/Incendiary Mines.svg" },
