@@ -2,8 +2,8 @@ var balls_colle = [
     { name: "SOS", commands: "udru", class: "固定战略", icon: "./img/icons/General Stratagems/SOS Beacon.svg" },
     { name: "支援", commands: "udrlu", class: "固定战略", icon: "./img/icons/General Stratagems/Reinforce.svg" },
     { name: "重新补给", commands: "ddur", class: "固定战略", icon: "./img/icons/General Stratagems/Resupply.svg" },
-    { name: "额外补给", commands: "ddur", class: "固定战略", icon: "./img/no-resource.svg" },
-    { name: "医疗架", commands: "ddul", class: "固定战略", icon: "./img/no-resource.svg" },
+    { name: "额外补给", commands: "ddur", class: "固定战略", icon: "" },
+    { name: "医疗架", commands: "ddul", class: "固定战略", icon: "" },
     { name: "飞鹰重新武装", commands: "uulur", class: "固定战略", icon: "./img/icons/Hangar/Eagle Rearm.svg" },
     { name: "地狱火炸弹", commands: "duldurdu", class: "固定战略", icon: "./img/icons/General Stratagems/Hellbomb.svg" },
     { name: "超级地球大炮", commands: "ruud", class: "固定战略", icon: "./img/icons/General Stratagems/SEAF Artillery.svg" },
@@ -22,9 +22,9 @@ var balls_colle = [
     { name: "飞鹰凝固汽油弹空袭", commands: "urdu", class: "飞鹰系列", icon: "./img/icons/Hangar/Eagle Napalm Airstrike.svg" },
     { name: "飞鹰110MM火箭巢", commands: "urul", class: "飞鹰系列", icon: "./img/icons/Hangar/Eagle 110MM Rocket Pods.svg" },
     { name: "飞鹰500KG炸弹", commands: "urddd", class: "飞鹰系列", icon: "./img/icons/Hangar/Eagle 500KG Bomb.svg" },
-    { name: "飞鹰空对空导弹", commands: "uruu", class: "飞鹰系列", icon: "./img/no-resource.svg" },
-    { name: "地毯式轰炸", commands: "ururur", class: "飞鹰系列", icon: "./img/no-resource.svg" },
-    { name: "撕裂者核弹", commands: "rulrdud", class: "飞鹰系列", icon: "./img/no-resource.svg" },
+    { name: "飞鹰空对空导弹", commands: "uruu", class: "飞鹰系列", icon: "" },
+    { name: "地毯式轰炸", commands: "ururur", class: "飞鹰系列", icon: "" },
+    { name: "撕裂者核弹", commands: "rulrdud", class: "飞鹰系列", icon: "" },
 
     { name: "轨道毒气攻击", commands: "rrdr", class: "轨道轰炸", icon: "./img/icons/Bridge/Orbital Gas Strike.svg" },
     { name: "轨道电磁冲击波攻击", commands: "rrld", class: "轨道轰炸", icon: "./img/icons/Bridge/Orbital EMS Strike.svg" },
@@ -51,16 +51,16 @@ var balls_colle = [
     { name: "A/M-23 电磁冲击波迫击哨戒炮", commands: "durdr", class: "自动防御塔", icon: "./img/icons/Robotics Workshop/EMS Mortar Sentry.svg" },
 
     { name: "FX-12 防护罩生成中继器", commands: "ddlrlr", class: "建筑及载具", icon: "./img/icons/Bridge/Shield Generator Relay.svg" },
-    { name: "E/M-105 防御墙", commands: "drr", class: "建筑及载具", icon: "./img/no-resource.svg" },
-    { name: "E/GL-6 战壕墙", commands: "dru", class: "建筑及载具", icon: "./img/no-resource.svg" },
+    { name: "E/M-105 防御墙", commands: "drr", class: "建筑及载具", icon: "" },
+    { name: "E/GL-6 战壕墙", commands: "dru", class: "建筑及载具", icon: "" },
     { name: "E/MG-101 重机枪部署支架", commands: "durru", class: "建筑及载具", icon: "./img/icons/Bridge/HMG Emplacement.svg" },
-    // { name: "Flamethrower Emplacement", commands: "", class: "建筑及载具", icon: "./img/no-resource.svg" },
-    { name: "MS-220导弹发射井", commands: "durdd", class: "建筑及载具", icon: "./img/no-resource.svg" },
-    { name: "侦察车", commands: "ldrdr", class: "建筑及载具", icon: "./img/no-resource.svg" },
-    { name: "轻型装甲车（M5 APC）", commands: "ldrdllr", class: "建筑及载具", icon: "./img/no-resource.svg" },
+    // { name: "Flamethrower Emplacement", commands: "", class: "建筑及载具", icon: "" },
+    { name: "MS-220导弹发射井", commands: "durdd", class: "建筑及载具", icon: "" },
+    { name: "侦察车", commands: "ldrdr", class: "建筑及载具", icon: "" },
+    { name: "轻型装甲车（M5 APC）", commands: "ldrdllr", class: "建筑及载具", icon: "" },
     { name: "爱国者外骨骼机甲（EXO44踏步者）", commands: "ldruldd", class: "建筑及载具", icon: "./img/icons/Robotics Workshop/Patriot Exosuit.svg" },
     { name: "解放者外骨骼机甲（EXO48黑曜石）", commands: "ldruldu", class: "建筑及载具", icon: "./img/icons/Robotics Workshop/Emancipator Exosuit.svg" },
-    { name: "超级地球部队支援", commands: "ldrrdu", class: "建筑及载具", icon: "./img/no-resource.svg" },
+    { name: "超级地球部队支援", commands: "ldrrdu", class: "建筑及载具", icon: "" },
 
     { name: "M-105 盟友", commands: "dlduul", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Stalwart.svg" },
     { name: "MG-43 机枪", commands: "dldur", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Machine Gun.svg" },
@@ -68,12 +68,12 @@ var balls_colle = [
     { name: "FLAM-40 火焰喷射器", commands: "dludu", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Flamethrower.svg" },
     { name: "APW-1 反器材步枪", commands: "dlrud", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Anti-Materiel Rifle.svg" },
     { name: "EAT-17 消耗性反坦克武器", commands: "ddlur", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Expendable Anti-Tank.svg" },
-    { name: "毒刺", commands: "ddluu", class: "武器装备", icon: "./img/no-resource.svg" },
+    { name: "毒刺", commands: "ddluu", class: "武器装备", icon: "" },
     { name: "MLS-4X 突击兵", commands: "dldul", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Commando.svg" },
     { name: "RL-77 空爆火箭发射器", commands: "duulr", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Airburst Rocket Launcher.svg" },
     { name: "GR-8 无后坐力炮", commands: "dlrrl", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Recoilless Rifle.svg" },
     { name: "GL-21 榴弹发射器", commands: "dluld", class: "武器装备", icon: "./img/icons/Engineering Bay/Grenade Launcher.svg" },
-    { name: "GL-21 燃烧榴弹发射器", commands: "duluu", class: "武器装备", icon: "./img/no-resource.svg" },
+    { name: "GL-21 燃烧榴弹发射器", commands: "duluu", class: "武器装备", icon: "" },
     { name: "AC-8 机炮", commands: "dlduur", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Autocannon.svg" },
     { name: "RS-422 磁轨炮", commands: "drdulr", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Railgun.svg" },
     { name: "FAF-14 飞矛", commands: "ddudd", class: "武器装备", icon: "./img/icons/Patriotic Administration Center/Spear.svg" },
@@ -86,7 +86,13 @@ var balls_colle = [
     { name: "SH-20 防弹护盾背包", commands: "dlddul", class: "支援装备", icon: "./img/icons/Engineering Bay/Ballistic Shield Backpack.svg" },
     { name: "SH-32 防护罩生成包", commands: "dulrlr", class: "支援装备", icon: "./img/icons/Engineering Bay/Shield Generator Pack.svg" },
     { name: "LIFT-850 喷射背包", commands: "duudu", class: "支援装备", icon: "./img/icons/Hangar/Jump Pack.svg" },
-    { name: "医疗背包", commands: "druld", class: "支援装备", icon: "./img/no-resource.svg" },
-    { name: "位移背包", commands: "dlrdlr", class: "支援装备", icon: "./img/no-resource.svg" },
+    { name: "医疗背包", commands: "druld", class: "支援装备", icon: "" },
+    { name: "位移背包", commands: "dlrdlr", class: "支援装备", icon: "" },
     { name: "AX/AR-3 保护犬", commands: "dulurd", class: "支援装备", icon: "./img/icons/Robotics Workshop/Guard Dog.svg" },
     { name: "AX/LAS-5 护卫犬漫游车", commands: "dulurr", class: "支援装备", icon: "./img/icons/Engineering Bay/Guard Dog Rover.svg" }]
+
+balls_colle.forEach(function (ball) {
+    if (ball.icon == "") {
+        ball.icon = "./img/no-resource.svg";
+    }
+})
