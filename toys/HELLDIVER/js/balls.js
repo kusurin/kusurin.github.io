@@ -11,7 +11,7 @@ var balls_colle = [
     { name: "暗流体容器", commands: "ulrduu", class: "固定战略", icon: "./img/icons/General Stratagems/Dark Fluid Vessel.svg" },
     { name: "虫巢破坏钻机", commands: "ludrdd", class: "固定战略", icon: "./img/icons/General Stratagems/Hive Breaker Drill.svg" },
     { name: "勘探钻机", commands: "ddlrdd", class: "固定战略", icon: "./img/icons/General Stratagems/Hive Breaker Drill.svg" },
-    { name: "上传数据", commands: "左右上上上", class: "固定战略", icon: "./img/icons/General Stratagems/Upload Data.svg" },
+    { name: "上传数据", commands: "lruuu", class: "固定战略", icon: "./img/icons/General Stratagems/Upload Data.svg" },
     { name: "额外补给", commands: "ddur", class: "固定战略", icon: "" },
     { name: "医疗补给", commands: "ldul", class: "固定战略", icon: "" },
 
@@ -27,7 +27,7 @@ var balls_colle = [
     { name: "MLS-4X 突击兵", commands: "dldul", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Commando.svg" },
     { name: "RS-422 磁轨炮", commands: "drdulr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Railgun.svg" },
     { name: "FAF-14 飞矛", commands: "ddudd", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Spear.svg" },
-    { name: "StA-X3 W.A.S.P.发射器", commands: "下下上下右", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/StA-X3 W.A.S.P. Launcher.svg" },
+    { name: "StA-X3 W.A.S.P.发射器", commands: "ddudr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/StA-X3 W.A.S.P. Launcher.svg" },
     { name: "毒刺", commands: "ddluu", class: "爱国行政中心", icon: "" },
     { name: "GL-21 燃烧榴弹发射器", commands: "duluu", class: "爱国行政中心", icon: "" },
 
@@ -85,11 +85,11 @@ var balls_colle = [
     { name: "解放者外骨骼机甲（EXO48黑曜石）", commands: "ldruldu", class: "机械工坊", icon: "./img/icons/Robotics Workshop/Emancipator Exosuit.svg" },
     
     { name: "TX-41 灭菌器", commands: "dludl", class: "化学专家", icon: "./img/icons/Chemical Agents/Sterilizer.svg" },
-    { name: "AX/TX-13 “护卫犬”腐息", commands: "下上左上右上", class: "化学专家", icon: "./img/icons/Chemical Agents/Guard Dog Breath.svg" },
+    { name: "AX/TX-13 “护卫犬”腐息", commands: "duluru", class: "化学专家", icon: "./img/icons/Chemical Agents/Guard Dog Breath.svg" },
     
     { name: "SH-51 定向护盾", commands: "dludl", class: "都市传奇", icon: "./img/icons/Urban Legends/Directional Shield.svg" },
-    { name: "A/FLAM-40 火焰喷射哨戒炮", commands: "下上左上右上", class: "都市传奇", icon: "./img/icons/Urban Legends/Flame Sentry.svg" },
-    { name: "E/AT-12 反坦克炮台", commands: "下上左上右上", class: "都市传奇", icon: "./img/icons/Urban Legends/Anti-Tank Emplacement.svg" },
+    { name: "A/FLAM-40 火焰喷射哨戒炮", commands: "duluru", class: "都市传奇", icon: "./img/icons/Urban Legends/Flame Sentry.svg" },
+    { name: "E/AT-12 反坦克炮台", commands: "duluru", class: "都市传奇", icon: "./img/icons/Urban Legends/Anti-Tank Emplacement.svg" },
 
     { name: "撕裂者核弹", commands: "rulrdud", class: "其它未上线战备", icon: "" },
     { name: "E/M-105 防御墙", commands: "drr", class: "其它未上线战备", icon: "" },
