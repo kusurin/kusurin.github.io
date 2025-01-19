@@ -40,7 +40,7 @@
                         v-for="ball in ballFilterByClass(ballClass)"
                         v-bind="{name:ball.name,class:'ball',available:ball.available}"
                         @click="switchAvailableBalls($event)">
-                        <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}">
+                        <v-img :aspect-ratio="1/1" cover v-bind="{src:ball.icon,class:'ball-icon'}" v-on:error="ball.icon='./img/no-resource.svg'">
                         </v-img>
                         <v-tooltip activator="parent" :open-on-click="true" :open-on-hover="true"
                             location="end">{{ball.name}}
