@@ -1,6 +1,4 @@
 [submodule "toys/HELLDIVER/img/icons"]
 	path = toys/HELLDIVER/img/icons
 	url = https://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg.git
-[submodule "toys/HELLDIVER/js/joystick"]
-	path = toys/HELLDIVER/js/joystick
-	url = https://github.com/Vamoss/p5.joystick.git
+    
