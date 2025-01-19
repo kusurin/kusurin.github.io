@@ -97,7 +97,7 @@ var balls_colle = [
     // { name: "Flamethrower Emplacement", commands: "", class: "其它未上线战备", icon: "" },
     { name: "MS-220 导弹发射井", commands: "durdd", class: "其它未上线战备", icon: "" },
     { name: "侦察车", commands: "ldrdr", class: "其它未上线战备", icon: "" },
-    { name: "轻型装甲车（M5 APC）", commands: "ldrdllr", class: "其它未上线战备", icon: "" },
+    { name: "M5 APC 轻型装甲车", commands: "ldrdllr", class: "其它未上线战备", icon: "" },
     { name: "超级地球部队支援", commands: "ldrrdu", class: "其它未上线战备", icon: "" },
     // { name: "meteor-launcher", commands: "", class: "其它未上线战备", icon: "" },
     { name: "医疗背包", commands: "druld", class: "其它未上线战备", icon: "" },
