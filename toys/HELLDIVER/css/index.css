@@ -92,6 +92,10 @@ body {
     display: block;
 }
 
+.v-img__img {
+    display: block !important;
+}
+
 .time_avg {
     color: green;
 }
