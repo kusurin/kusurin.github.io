@@ -89,7 +89,11 @@ var balls_colle = [
     
     { name: "SH-51 定向护盾", commands: "dludl", class: "都市传奇", icon: "./img/icons/Urban Legends/Directional Shield.svg" },
     { name: "A/FLAM-40 火焰喷射哨戒炮", commands: "duluru", class: "都市传奇", icon: "./img/icons/Urban Legends/Flame Sentry.svg" },
-    { name: "E/AT-12 反坦克炮台", commands: "duluru", class: "都市传奇", icon: "./img/icons/Urban Legends/Anti-Tank Emplacement.svg" },
+    { name: "E/AT-12 反坦克炮台", commands: "dulrrr", class: "都市传奇", icon: "./img/icons/Urban Legends/Anti-Tank Emplacement.svg" },
+
+    { name: "B-100 便携式地狱火炸弹", commands: "druuu", class: "自由公仆", icon: "./img/icons/Servants of Freedom/Hellbomb Portable.svg" },
+
+    { name: "LIFT-860 悬浮背包", commands: "duudlr", class: "边境正义", icon: "./img/icons/Borderline Justice/Hover Pack.svg" },
 
     { name: "撕裂者核弹", commands: "rulrdud", class: "其它未上线战备", icon: "" },
     { name: "E/M-105 防御墙", commands: "drr", class: "其它未上线战备", icon: "" },
