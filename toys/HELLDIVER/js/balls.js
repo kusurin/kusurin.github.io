@@ -24,7 +24,7 @@ var balls_colle = [
     { name: "AC-8 机炮", commands: "dlduur", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Autocannon.svg" },
     { name: "重机枪", commands: "dludd", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Heavy Machine Gun.svg" },
     { name: "RL-77 空爆火箭发射器", commands: "duulr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Airburst Rocket Launcher.svg" },
-    { name: "MLS-4X 突击兵", commands: "dldul", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Commando.svg" },
+    { name: "MLS-4X 突击兵", commands: "dludr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Commando.svg" },
     { name: "RS-422 磁轨炮", commands: "drdulr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Railgun.svg" },
     { name: "FAF-14 飞矛", commands: "ddudd", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/Spear.svg" },
     { name: "StA-X3 W.A.S.P.发射器", commands: "ddudr", class: "爱国行政中心", icon: "./img/icons/Patriotic Administration Center/StA-X3 W.A.S.P. Launcher.svg" },
