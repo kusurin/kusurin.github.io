@@ -87,8 +87,8 @@ var balls_colle = [
     { name: "TX-41 灭菌器", commands: "dludl", class: "化学专家", icon: "./img/icons/Chemical Agents/Sterilizer.svg" },
     { name: "AX/TX-13 “护卫犬”腐息", commands: "duluru", class: "化学专家", icon: "./img/icons/Chemical Agents/Guard Dog Breath.svg" },
     
-    { name: "SH-51 定向护盾", commands: "dludl", class: "都市传奇", icon: "./img/icons/Urban Legends/Directional Shield.svg" },
-    { name: "A/FLAM-40 火焰喷射哨戒炮", commands: "duluru", class: "都市传奇", icon: "./img/icons/Urban Legends/Flame Sentry.svg" },
+    { name: "SH-51 定向护盾", commands: "dulruu", class: "都市传奇", icon: "./img/icons/Urban Legends/Directional Shield.svg" },
+    { name: "A/FLAM-40 火焰喷射哨戒炮", commands: "durduu", class: "都市传奇", icon: "./img/icons/Urban Legends/Flame Sentry.svg" },
     { name: "E/AT-12 反坦克炮台", commands: "dulrrr", class: "都市传奇", icon: "./img/icons/Urban Legends/Anti-Tank Emplacement.svg" },
 
     { name: "B-100 便携式地狱火炸弹", commands: "druuu", class: "自由公仆", icon: "./img/icons/Servants of Freedom/Hellbomb Portable.svg" },
