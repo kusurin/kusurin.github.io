@@ -72,6 +72,7 @@ var balls_colle = [
     { name: "ARC-3 电弧发射器", commands: "drdull", class: "工程港", icon: "./img/icons/Engineering Bay/Arc Thrower.svg" },
     { name: "LAS-99 类星体加农炮", commands: "ddulr", class: "工程港", icon: "./img/icons/Engineering Bay/Quasar Cannon.svg" },
     { name: "SH-32 防护罩生成包", commands: "dulrlr", class: "工程港", icon: "./img/icons/Engineering Bay/Shield Generator Pack.svg" },
+    { name: "MD-8 毒气地雷", commands: "dllr", class: "工程港", icon: "./img/icons/Engineering Bay/Gas Mine.svg" },
     
 
     { name: "A/MG-43 哨戒机枪", commands: "durru", class: "机械工坊", icon: "./img/icons/Robotics Workshop/Machine Gun Sentry.svg" },
@@ -94,6 +95,8 @@ var balls_colle = [
     { name: "B-100 便携式地狱火炸弹", commands: "druuu", class: "自由公仆", icon: "./img/icons/Servants of Freedom/Hellbomb Portable.svg" },
 
     { name: "LIFT-860 悬浮背包", commands: "duudlr", class: "边境正义", icon: "./img/icons/Borderline Justice/Hover Pack.svg" },
+
+    { name: "E/GL-21 掷弹兵防卫墙", commands: "drdlr", class: "试用战备", icon: "" },
 
     { name: "撕裂者核弹", commands: "rulrdud", class: "其它未上线战备", icon: "" },
     { name: "E/M-105 防御墙", commands: "drr", class: "其它未上线战备", icon: "" },
