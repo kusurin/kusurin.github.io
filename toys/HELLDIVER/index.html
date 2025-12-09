@@ -218,7 +218,7 @@
                 }
                 let commands = Array.from(ball.commands)
                 commands.forEach((command, index) => {
-                    commandObj = { command: command, finished: false }
+                    let commandObj = { command: command, finished: false }
                     commands[index] = commandObj
                 })
                 this.playingCommands = commands
@@ -292,7 +292,7 @@
                         this.playingBall.time_start = (new Date()).getTime() / 1000.0
 
                     // 使用缓存的 unfinishedCommand
-                    if (input == this.unfinishedCommand.command) {
+                    if (this.unfinishedCommand != null && input == this.unfinishedCommand.command) {
                         this.playSound("button")
                         this.unfinishedCommand.finished = true
                         
