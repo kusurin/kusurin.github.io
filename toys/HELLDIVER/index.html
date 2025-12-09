@@ -241,13 +241,14 @@
                 this.playSound("start")
                 availableBalls.forEach(ball => {
                     ball.playing = false
-                    ball.time_start = null
+
+                    ball.time_start = null  //for timer
                     ball.time_end = null
                     
                     let times = [2]
                     times.forEach(time => {
                         if (Math.random() * time > 1) {
-                            let ballcopy = Object.assign({}, ball)
+                            let ballcopy = Object.assign({}, ball) //深拷贝
                             availableBalls.push(ballcopy)
                         }
                     })
@@ -288,7 +289,7 @@
 
                 // 使用缓存的 playingBall
                 if (this.playingBall != null) {
-                    if (this.playBalls[0] && this.playingCommands[0] && this.playBalls[0].playing == true && this.playingCommands[0].finished == false)
+                    if (this.playBalls[0] && this.playingCommands[0] && this.playBalls[0].playing == true && this.playingCommands[0].finished == false) //timer for only first ball
                         this.playingBall.time_start = (new Date()).getTime() / 1000.0
 
                     // 使用缓存的 unfinishedCommand
@@ -309,7 +310,7 @@
                     }
                     
                     if (this.unfinishedCommand == null) {
-                        this.playingBall.time_end = (new Date()).getTime() / 1000.0
+                        this.playingBall.time_end = (new Date()).getTime() / 1000.0 //timer
 
                         for (let index = 0; index < this.playBalls.length - 1; index = index + 1) {
                             if (this.playBalls[index].playing == true) {
@@ -325,7 +326,9 @@
                     }
                 }
 
-                if (this.playBalls.slice(-1)[0] != undefined && this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) {
+                if (this.playBalls.slice(-1)[0] != undefined && this.playBalls.slice(-1)[0].playing == true && this.playingCommands.slice(-1)[0].finished == true) { //input when game finishes
+
+                    //randomize end sound effect
                     switch (this.bcPlayedTimes % 3) {
                         case 0: this.playSound("balls_completed_type1"); break;
                         case 1: this.playSound("balls_completed_type2"); break;
