@@ -288,7 +288,7 @@
 
                 // 使用缓存的 playingBall
                 if (this.playingBall != null) {
-                    if (this.playBalls[0].playing == true && this.playingCommands[0].finished == false)
+                    if (this.playBalls[0] && this.playingCommands[0] && this.playBalls[0].playing == true && this.playingCommands[0].finished == false)
                         this.playingBall.time_start = (new Date()).getTime() / 1000.0
 
                     // 使用缓存的 unfinishedCommand
@@ -305,7 +305,7 @@
                         for (let i = 0; i < this.playingCommands.length; i++) {
                             this.playingCommands[i].finished = false
                         }
-                        this.unfinishedCommand = this.playingCommands[0]
+                        this.unfinishedCommand = this.playingCommands[0] || null
                     }
                     
                     if (this.unfinishedCommand == null) {
