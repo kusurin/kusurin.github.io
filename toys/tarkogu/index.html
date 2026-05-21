@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="./tarkogu.js"></script>
+        <link rel="stylesheet" href="./tarkogu.css" />
+		<title>Tarkogu</title>
+        <style>
+:root {
+    --bg: #000;
+    --bg-halo: #5f5c4e;
+
+    --widget-border: #404346;
+    --widget-border-hover: #585d60;
+    --focus: #f8c538;
+
+    --font-color: #d6dfde;
+
+    font-size: 7pt !important;
+}
+
+body {
+    background: radial-gradient(closest-side, var(--bg-halo) 0%, transparent 100%) no-repeat left 10vw top -30vh fixed;
+    background-size: 100% 50vh;
+    background-color: var(--bg);
+
+    margin: 0;
+}
+
+input {
+    font-size: 1rem;
+    background-color: var(--bg);
+    border: 2px solid var(--widget-border);
+    padding: 0.5rem;
+    color: var(--font-color);
+    border-radius: 0px;
+}
+
+input:hover {
+    border-color: var(--widget-border-hover);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--focus);
+}
+
+#search-tool {
+    position: sticky;
+    top: 0;
+    width: 100%;
+
+    z-index: 1;
+}
+
+#search-input {
+    margin: 20px;
+}
+
+.frosted {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-color: color(var(--bg) a(0.5)); 
+    
+    backdrop-filter: blur(10px);
+    
+    -webkit-backdrop-filter: blur(10px);
+
+    z-index: -1;
+}
+
+#content {
+
+    color: var(--font-color);
+}
+
+
+        </style>
+	</head>
+	<body>
+        <div id="main-container">
+            <div id="search-tool">
+                <input type="text" id="search-input" placeholder="过滤物品" />
+                <div class="frosted"></div>
+            </div>
+            <div id="content">
+                
+            </div>
+        </div>
+	</body>
+    <script>
+        const api_url = 'http://139.196.171.192:10999/rankings';
+        let data = null;
+        let resizeObserver = null;
+        let lastContentWidth = 0;
+        let renderScheduled = false;
+        let lastRenderAt = 0;
+        let renderThrottleTimer = null;
+
+        function schedule_render() {
+            if (!data) return;
+
+            const now = Date.now();
+            const elapsed = now - lastRenderAt;
+
+            if (elapsed >= 1000) {
+                if (renderScheduled) return;
+                if (renderThrottleTimer) {
+                    clearTimeout(renderThrottleTimer);
+                    renderThrottleTimer = null;
+                }
+                renderScheduled = true;
+                requestAnimationFrame(() => {
+                    renderScheduled = false;
+                    lastRenderAt = Date.now();
+                    render();
+                });
+                return;
+            }
+
+            if (renderThrottleTimer) return;
+            renderThrottleTimer = setTimeout(() => {
+                renderThrottleTimer = null;
+                schedule_render();
+            }, 1000 - elapsed);
+        }
+
+        function setup_resize_observer() {
+            const content = document.getElementById('content');
+            if (!content || resizeObserver) return;
+
+            lastContentWidth = Math.round(content.clientWidth);
+            resizeObserver = new ResizeObserver(entries => {
+                for (const entry of entries) {
+                    const width = Math.round(entry.contentRect.width);
+                    if (!width || width === lastContentWidth) continue;
+                    lastContentWidth = width;
+                    schedule_render();
+                }
+            });
+            resizeObserver.observe(content);
+            window.addEventListener('resize', schedule_render);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch(api_url)
+                .then(response => response.json())
+                .then(json => {
+                    data = json;
+                    render();
+                    setup_resize_observer();
+                });
+        });
+    </script>
+
+    <script>
+        function render() {
+            if (!data || !data['items']) return;
+            const content = document.getElementById('content');
+            if (!content) return;
+            content.innerHTML = '';
+            for (let i = 0; i < data['items'].length; i++) {
+                const item_container = document.createElement('div');
+                
+                const item_title = document.createElement('h2');
+                item_title.textContent = data['items'][i]['name_zh'];
+                item_container.appendChild(item_title);
+
+                const item_image = document.createElement('img');
+                item_image.src = data['items'][i]['icon_link'];
+                item_image.style.width = '2rem';
+                item_container.appendChild(item_image);
+
+                const item_plot_container = document.createElement('div');
+                item_plot_container.style.width = '80%';
+
+                content.appendChild(item_container);
+                item_container.appendChild(item_plot_container);
+
+                const item = data['items'][i];
+                const historical_series = item['historical_price_series'] || [];
+                const yhat_series = item['price_yhat_series'] || [];
+                const reference_series = yhat_series.length > 0 ? yhat_series : historical_series;
+
+                const plot_context = create_plot_context([
+                    { data: historical_series, timeKey: 'time', valueKey: 'y' },
+                    { data: yhat_series, timeKey: 'time', valueKey: 'price_yhat' }
+                ], item_plot_container);
+
+                if (plot_context) {
+                    plot_price_series(
+                        historical_series,
+                        '#ffffff',
+                        item_plot_container,
+                        {
+                            timeKey: 'time',
+                            valueKey: 'y',
+                            shared: plot_context
+                        }
+                    );
+
+                    plot_price_series(
+                        yhat_series,
+                        '#4aa3ff',
+                        item_plot_container,
+                        {
+                            timeKey: 'time',
+                            valueKey: 'price_yhat',
+                            shared: plot_context
+                        }
+                    );
+
+                    const buy_series = build_time_mark_series(
+                        item['buy_time'] || [],
+                        reference_series,
+                        plot_context.yMin
+                    );
+
+                    const sell_series = build_time_mark_series(
+                        item['sell_time'] || [],
+                        reference_series,
+                        plot_context.yMax
+                    );
+
+                    plot_price_series(
+                        sell_series,
+                        'transparent',
+                        item_plot_container,
+                        {
+                            timeKey: 'time',
+                            valueKey: 'price_yhat',
+                            pointColor: '#53d672',
+                            shared: plot_context
+                        }
+                    );
+
+                    plot_price_series(
+                        buy_series,
+                        'transparent',
+                        item_plot_container,
+                        {
+                            timeKey: 'time',
+                            valueKey: 'price_yhat',
+                            pointColor: '#ff5c5c',
+                            shared: plot_context
+                        }
+                    );
+                }
+
+                const item_rmse = document.createElement('div');
+                item_rmse.textContent = `RMSE: ${Math.round(item['rmse'])}`;
+                item_container.appendChild(item_rmse);
+
+                const item_offer = document.createElement('div');
+                item_offer.textContent = `offer: ${Math.round(item['offer_yhat_mean_24h'])}`;
+                item_container.appendChild(item_offer);
+
+                const item_buy_range = document.createElement('div');
+                item_buy_range.textContent = `buy range: ${Math.round(item['buy_range'])}`;
+                item_container.appendChild(item_buy_range);
+
+                const item_sell_range = document.createElement('div');
+                item_sell_range.textContent = `sell range: ${Math.round(item['sell_range'])}`;
+                item_container.appendChild(item_sell_range);
+            }
+        }
+
+        function format_time_label(ts_ms) {
+            const d = new Date(ts_ms);
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            const hh = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            return `${mm}-${dd} ${hh}:${min}`;
+        }
+
+        function format_price_label(value) {
+            return Math.round(value).toLocaleString('zh-CN');
+        }
+
+        function get_tick_count(width) {
+            const base = Math.round(width / 200) + 3;
+            return Math.max(4, Math.min(6, base));
+        }
+
+        function draw_axes(plot_context) {
+            const { svg, xScale, yScale, xMin, xMax, yMin, yMax, width, height, padding } = plot_context;
+            const axisColor = '#5b6466';
+            const labelColor = '#9aa4a6';
+
+            const xAxisY = height - padding.bottom;
+            const yAxisX = padding.left;
+
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', xAxisY);
+            xAxis.setAttribute('x2', width - padding.right);
+            xAxis.setAttribute('y2', xAxisY);
+            xAxis.setAttribute('stroke', axisColor);
+            xAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', yAxisX);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', yAxisX);
+            yAxis.setAttribute('y2', height - padding.bottom);
+            yAxis.setAttribute('stroke', axisColor);
+            yAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(yAxis);
+
+            const tickCount = get_tick_count(width);
+            for (let i = 0; i < tickCount; i++) {
+                const ratio = tickCount === 1 ? 0 : i / (tickCount - 1);
+                const t = xMin + (xMax - xMin) * ratio;
+                const x = xScale(t);
+
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tick.setAttribute('x1', x);
+                tick.setAttribute('y1', xAxisY);
+                tick.setAttribute('x2', x);
+                tick.setAttribute('y2', xAxisY + 4);
+                tick.setAttribute('stroke', axisColor);
+                tick.setAttribute('stroke-width', '1');
+                svg.appendChild(tick);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x);
+                label.setAttribute('y', xAxisY + 14);
+                label.setAttribute('fill', labelColor);
+                label.setAttribute('font-size', '9');
+                label.setAttribute('text-anchor', 'middle');
+                label.textContent = format_time_label(t);
+                svg.appendChild(label);
+            }
+
+            for (let i = 0; i < tickCount; i++) {
+                const ratio = tickCount === 1 ? 0 : i / (tickCount - 1);
+                const v = yMin + (yMax - yMin) * (1 - ratio);
+                const y = yScale(v);
+
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tick.setAttribute('x1', yAxisX - 4);
+                tick.setAttribute('y1', y);
+                tick.setAttribute('x2', yAxisX);
+                tick.setAttribute('y2', y);
+                tick.setAttribute('stroke', axisColor);
+                tick.setAttribute('stroke-width', '1');
+                svg.appendChild(tick);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', yAxisX - 6);
+                label.setAttribute('y', y + 3);
+                label.setAttribute('fill', labelColor);
+                label.setAttribute('font-size', '9');
+                label.setAttribute('text-anchor', 'end');
+                label.textContent = format_price_label(v);
+                svg.appendChild(label);
+            }
+        }
+
+        function ensure_tooltip(plot_context) {
+            if (plot_context.tooltip) return plot_context.tooltip;
+
+            const { svg } = plot_context;
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            group.style.display = 'none';
+            group.setAttribute('pointer-events', 'none');
+
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('fill', 'rgba(0, 0, 0, 0.8)');
+            rect.setAttribute('stroke', '#7d7d7d');
+            rect.setAttribute('stroke-width', '1');
+            rect.setAttribute('rx', '3');
+            rect.setAttribute('ry', '3');
+
+            const textGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+            const timeText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            timeText.setAttribute('x', '0');
+            timeText.setAttribute('y', '12');
+            timeText.setAttribute('fill', '#f5f5f5');
+            timeText.setAttribute('font-size', '10');
+
+            const priceText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            priceText.setAttribute('x', '0');
+            priceText.setAttribute('y', '26');
+            priceText.setAttribute('fill', '#f5f5f5');
+            priceText.setAttribute('font-size', '10');
+
+            textGroup.appendChild(timeText);
+            textGroup.appendChild(priceText);
+
+            group.appendChild(rect);
+            group.appendChild(textGroup);
+            plot_context.tooltip = { group, rect, textGroup, timeText, priceText };
+            return plot_context.tooltip;
+        }
+
+        function update_tooltip(plot_context, x, y, timeValue, priceValue) {
+            const { svg, width, height, padding } = plot_context;
+            const tooltip = ensure_tooltip(plot_context);
+
+            tooltip.timeText.textContent = format_time_label(timeValue);
+            tooltip.priceText.textContent = `${format_price_label(priceValue)}`;
+            tooltip.group.style.display = 'block';
+
+            const paddingX = 6;
+            const paddingY = 4;
+            const bbox = tooltip.textGroup.getBBox();
+            const tooltipWidth = bbox.width + paddingX * 2;
+            const tooltipHeight = bbox.height + paddingY * 2;
+
+            let tx = x - tooltipWidth / 2;
+            let ty = y - 8 - tooltipHeight;
+
+            tx = Math.min(Math.max(tx, padding.left), width - padding.right - tooltipWidth);
+            ty = Math.min(Math.max(ty, padding.top), height - padding.bottom - tooltipHeight);
+
+            if (tooltip.group.parentNode !== svg) {
+                svg.appendChild(tooltip.group);
+            }
+            tooltip.group.setAttribute('transform', `translate(${tx}, ${ty})`);
+            tooltip.rect.setAttribute('x', bbox.x - paddingX);
+            tooltip.rect.setAttribute('y', bbox.y - paddingY);
+            tooltip.rect.setAttribute('width', tooltipWidth);
+            tooltip.rect.setAttribute('height', tooltipHeight);
+        }
+
+        function hide_tooltip(plot_context) {
+            if (plot_context.tooltip) {
+                plot_context.tooltip.group.style.display = 'none';
+            }
+        }
+
+        function create_plot_context(series_defs, container) {
+            const height = 240;
+            const padding = { top: 10, right: 10, bottom: 22, left: 44 };
+            const containerWidth = container ? container.offsetWidth : 0;
+            const width = Math.max(200, Math.round(containerWidth || 360));
+
+            const all_points = [];
+
+            for (const def of series_defs) {
+                if (!def || !def.data || def.data.length === 0) continue;
+                const timeKey = def.timeKey || 'time';
+                const valueKey = def.valueKey || 'price_yhat';
+
+                for (const p of def.data) {
+                    const t = Date.parse(p[timeKey]);
+                    const v = p[valueKey];
+                    if (!Number.isFinite(t) || typeof v !== 'number') continue;
+                    all_points.push({ t, v });
+                }
+            }
+
+            if (all_points.length === 0) return null;
+
+            const xMin = Math.min(...all_points.map(p => p.t));
+            const xMax = Math.max(...all_points.map(p => p.t));
+            const yMin = Math.min(...all_points.map(p => p.v));
+            const yMax = Math.max(...all_points.map(p => p.v));
+
+            const xScale = t => {
+                if (xMax === xMin) return padding.left;
+                return padding.left + (t - xMin) * (width - padding.left - padding.right) / (xMax - xMin);
+            };
+            const yScale = v => {
+                if (yMax === yMin) return height - padding.bottom;
+                return height - padding.bottom - (v - yMin) * (height - padding.top - padding.bottom) / (yMax - yMin);
+            };
+
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', width);
+            svg.setAttribute('height', height);
+            svg.style.display = 'block';
+            svg.style.width = `${width}px`;
+            svg.style.height = `${height}px`;
+
+            return {
+                svg,
+                xScale,
+                yScale,
+                xMin,
+                xMax,
+                yMin,
+                yMax,
+                width,
+                height,
+                padding,
+                appended: false,
+                decorated: false,
+                tooltip: null
+            };
+        }
+
+        function build_time_mark_series(times, reference_series, marker_value) {
+            if (!times || times.length === 0 || !reference_series || reference_series.length === 0) {
+                return [];
+            }
+
+            const ref_points = reference_series
+                .map(p => ({
+                    time: p.time,
+                    t: Date.parse(p.time)
+                }))
+                .filter(p => Number.isFinite(p.t));
+
+            if (ref_points.length === 0) return [];
+
+            return times.map(time_str => {
+                const t = Date.parse(time_str);
+                if (!Number.isFinite(t)) return null;
+
+                let nearest = null;
+                for (const ref of ref_points) {
+                    const diff = Math.abs(ref.t - t);
+                    if (!nearest || diff < nearest.diff) {
+                        nearest = { time: ref.time, diff };
+                    }
+                }
+
+                if (!nearest) return null;
+
+                return {
+                    time: nearest.time,
+                    price_yhat: marker_value
+                };
+            }).filter(Boolean);
+        }
+
+        function plot_price_series(plot_data, line_color, container, options = {}) {
+            if (!plot_data || plot_data.length === 0) return;
+
+            const timeKey = options.timeKey || 'time';
+            const valueKey = options.valueKey || 'price_yhat';
+            const drawPoints = options.drawPoints !== false;
+            const pointColor = options.pointColor || '#ffffff';
+            const pointRadius = options.pointRadius || 5;
+
+            let svg;
+            let xScale;
+            let yScale;
+            let width;
+            let height;
+            let padding;
+
+            if (options.shared) {
+                svg = options.shared.svg;
+                xScale = options.shared.xScale;
+                yScale = options.shared.yScale;
+                width = options.shared.width;
+                height = options.shared.height;
+                padding = options.shared.padding;
+
+                if (!options.shared.appended) {
+                    container.appendChild(svg);
+                    options.shared.appended = true;
+                }
+                if (!options.shared.decorated) {
+                    draw_axes(options.shared);
+                    ensure_tooltip(options.shared);
+                    options.shared.decorated = true;
+                }
+            } else {
+                const containerWidth = container ? container.getBoundingClientRect().width : 0;
+                width = Math.max(200, Math.round(containerWidth || 360));
+                height = 120;
+                padding = { top: 10, right: 10, bottom: 22, left: 44 };
+
+                const points = plot_data
+                    .map(p => ({ t: Date.parse(p[timeKey]), v: p[valueKey] }))
+                    .filter(p => Number.isFinite(p.t) && typeof p.v === 'number');
+
+                if (points.length === 0) return;
+
+                const xs = points.map(p => p.t);
+                const ys = points.map(p => p.v);
+
+                const xMin = Math.min(...xs);
+                const xMax = Math.max(...xs);
+                const yMin = Math.min(...ys);
+                const yMax = Math.max(...ys);
+
+                xScale = t => {
+                    if (xMax === xMin) return padding.left;
+                    return padding.left + (t - xMin) * (width - padding.left - padding.right) / (xMax - xMin);
+                };
+                yScale = v => {
+                    if (yMax === yMin) return height - padding.bottom;
+                    return height - padding.bottom - (v - yMin) * (height - padding.top - padding.bottom) / (yMax - yMin);
+                };
+
+                svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', width);
+                svg.setAttribute('height', height);
+                svg.style.display = 'block';
+                svg.style.width = `${width}px`;
+                svg.style.height = `${height}px`;
+                container.appendChild(svg);
+                draw_axes({ svg, xScale, yScale, xMin, xMax, yMin, yMax, width, height, padding, tooltip: null });
+            }
+
+            const points = plot_data
+                .map(p => ({ t: Date.parse(p[timeKey]), v: p[valueKey] }))
+                .filter(p => Number.isFinite(p.t) && typeof p.v === 'number');
+
+            if (points.length === 0) return;
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const d = points.map((p, i) => {
+                const x = xScale(p.t);
+                const y = yScale(p.v);
+                return (i === 0 ? 'M' : 'L') + x + ' ' + y;
+            }).join(' ');
+            path.setAttribute('d', d);
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', line_color || '#9ac2b6');
+            path.setAttribute('stroke-width', '1.5');
+            if (line_color === 'transparent') {
+                path.setAttribute('stroke-opacity', '0');
+            }
+            svg.appendChild(path);
+
+            const focusColor = getComputedStyle(document.documentElement).getPropertyValue('--focus').trim() || '#f8c538';
+
+            if (drawPoints) {
+                for (let i = 0; i < points.length; i++) {
+                    const p = points[i];
+                    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    const cx = xScale(p.t);
+                    const cy = yScale(p.v);
+                    c.setAttribute('cx', cx);
+                    c.setAttribute('cy', cy);
+                    c.setAttribute('r', pointRadius);
+                    c.setAttribute('fill', pointColor);
+                    c.addEventListener('mouseenter', () => {
+                        c.setAttribute('fill', focusColor);
+                        if (options.shared) {
+                            update_tooltip(options.shared, cx, cy, p.t, p.v);
+                        }
+                    });
+                    c.addEventListener('mouseleave', () => {
+                        c.setAttribute('fill', pointColor);
+                        if (options.shared) hide_tooltip(options.shared);
+                    });
+                    svg.appendChild(c);
+                }
+            }
+        }
+    </script>
+</html>
