@@ -79,6 +79,48 @@ input:focus {
     color: var(--font-color);
 }
 
+.item-card {
+    margin: 12px 20px;
+    padding: 10px 12px;
+    border: 1px solid var(--widget-border);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.item-card:hover {
+    border-color: var(--widget-border-hover);
+}
+
+.item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-title {
+    margin: 0;
+    font-size: 1.4rem;
+    flex: 1;
+}
+
+.pin-button {
+    background: transparent;
+    border: 1px solid var(--widget-border);
+    color: var(--font-color);
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.pin-button:hover {
+    border-color: var(--widget-border-hover);
+    color: var(--focus);
+}
+
+.pin-button[data-pinned="true"] {
+    border-color: var(--focus);
+    color: var(--focus);
+}
+
 
         </style>
 	</head>
@@ -101,6 +143,85 @@ input:focus {
         let renderScheduled = false;
         let lastRenderAt = 0;
         let renderThrottleTimer = null;
+        const pinnedStorageKey = 'tarkogu_pinned_items';
+        let pinnedItemKeys = new Set();
+        let filterText = '';
+
+        function normalize_text(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        function get_item_english_name(item) {
+            if (!item || typeof item !== 'object') return '';
+            return item['name_en'] || item['name_en_us'] || item['name_en_gb'] || item['name'] || '';
+        }
+
+        function get_item_key(item) {
+            if (!item || typeof item !== 'object') return '';
+            const id = item['id'] ?? item['item_id'] ?? item['itemId'];
+            if (id !== undefined && id !== null && id !== '') return `id:${id}`;
+            const nameZh = String(item['name_zh'] || '').trim();
+            const nameEn = String(get_item_english_name(item) || '').trim();
+            if (!nameZh && !nameEn) return '';
+            return `name:${nameZh}|${nameEn}`;
+        }
+
+        function get_item_match_text(item) {
+            const nameZh = item ? item['name_zh'] || '' : '';
+            const nameEn = get_item_english_name(item);
+            return normalize_text(`${nameZh} ${nameEn}`);
+        }
+
+        function matches_filter(item, normalizedFilter) {
+            if (!normalizedFilter) return true;
+            const matchText = get_item_match_text(item);
+            return matchText.includes(normalizedFilter);
+        }
+
+        function load_pins() {
+            try {
+                const raw = localStorage.getItem(pinnedStorageKey);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) {
+                    pinnedItemKeys = new Set(parsed.filter(Boolean));
+                }
+            } catch (err) {
+                pinnedItemKeys = new Set();
+            }
+        }
+
+        function save_pins() {
+            try {
+                localStorage.setItem(pinnedStorageKey, JSON.stringify(Array.from(pinnedItemKeys)));
+            } catch (err) {
+                // Ignore storage errors (private mode or quota).
+            }
+        }
+
+        function toggle_pin(key) {
+            if (!key) return;
+            if (pinnedItemKeys.has(key)) {
+                pinnedItemKeys.delete(key);
+            } else {
+                pinnedItemKeys.add(key);
+            }
+            save_pins();
+        }
+
+        function order_items(items) {
+            const pinned = [];
+            const unpinned = [];
+            for (const item of items) {
+                const key = get_item_key(item);
+                if (pinnedItemKeys.has(key)) {
+                    pinned.push(item);
+                } else {
+                    unpinned.push(item);
+                }
+            }
+            return pinned.concat(unpinned);
+        }
 
         function schedule_render() {
             if (!data) return;
@@ -148,6 +269,16 @@ input:focus {
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                filterText = searchInput.value || '';
+                searchInput.addEventListener('input', () => {
+                    filterText = searchInput.value || '';
+                    schedule_render();
+                });
+            }
+
+            load_pins();
             fetch(api_url)
                 .then(response => response.json())
                 .then(json => {
@@ -164,17 +295,49 @@ input:focus {
             const content = document.getElementById('content');
             if (!content) return;
             content.innerHTML = '';
-            for (let i = 0; i < data['items'].length; i++) {
+            const items = Array.isArray(data['items']) ? data['items'] : [];
+            const normalizedFilter = normalize_text(filterText);
+            const orderedItems = order_items(items);
+            for (let i = 0; i < orderedItems.length; i++) {
+                const item = orderedItems[i];
+                const matches = matches_filter(item, normalizedFilter);
+                const itemKey = get_item_key(item);
+                const isPinned = itemKey && pinnedItemKeys.has(itemKey);
                 const item_container = document.createElement('div');
+                item_container.className = 'item-card';
+                item_container.style.display = matches ? '' : 'none';
+
+                const item_header = document.createElement('div');
+                item_header.className = 'item-header';
                 
                 const item_title = document.createElement('h2');
-                item_title.textContent = data['items'][i]['name_zh'];
-                item_container.appendChild(item_title);
+                item_title.className = 'item-title';
+                item_title.textContent = (item && item['name_zh']) ? item['name_zh'] : '';
+                item_header.appendChild(item_title);
 
-                const item_image = document.createElement('img');
-                item_image.src = data['items'][i]['icon_link'];
-                item_image.style.width = '2rem';
-                item_container.appendChild(item_image);
+                const pin_button = document.createElement('button');
+                pin_button.type = 'button';
+                pin_button.className = 'pin-button';
+                pin_button.textContent = isPinned ? '取消' : '置顶';
+                pin_button.dataset.pinned = isPinned ? 'true' : 'false';
+                pin_button.disabled = !itemKey;
+                pin_button.addEventListener('click', event => {
+                    event.preventDefault();
+                    toggle_pin(itemKey);
+                    schedule_render();
+                });
+                item_header.appendChild(pin_button);
+
+                item_container.appendChild(item_header);
+
+                const iconLink = item ? item['icon_link'] : '';
+                if (iconLink) {
+                    const item_image = document.createElement('img');
+                    item_image.src = iconLink;
+                    item_image.style.width = '2rem';
+                    item_image.alt = item_title.textContent;
+                    item_container.appendChild(item_image);
+                }
 
                 const item_plot_container = document.createElement('div');
                 item_plot_container.style.width = '80%';
@@ -182,7 +345,6 @@ input:focus {
                 content.appendChild(item_container);
                 item_container.appendChild(item_plot_container);
 
-                const item = data['items'][i];
                 const historical_series = item['historical_price_series'] || [];
                 const yhat_series = item['price_yhat_series'] || [];
                 const reference_series = yhat_series.length > 0 ? yhat_series : historical_series;
